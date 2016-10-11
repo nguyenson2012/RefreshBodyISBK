@@ -33,8 +33,11 @@
 
     <fragment
         android:id="@+id/fragment_navigation_drawer"
-        android:layout_width="@dimen/_120sdp"
+        class="com.example.asus.refreshbody.fragment.FragmentDrawer"
+        android:layout_width="@dimen/_240sdp"
         android:layout_height="match_parent"
-        android:layout_gravity="start" />
+        android:layout_gravity="start"
+        app:layout="@layout/fragment_navigation_drawer"
+        tools:layout="@layout/fragment_navigation_drawer" />
 
 </android.support.v4.widget.DrawerLayout>
