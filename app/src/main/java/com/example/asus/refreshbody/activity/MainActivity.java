@@ -1,5 +1,6 @@
 package com.example.asus.refreshbody.activity;
 
+import android.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +11,9 @@ import android.widget.Toast;
 
 import com.example.asus.refreshbody.R;
 import com.example.asus.refreshbody.fragment.FragmentDrawer;
+import com.example.asus.refreshbody.fragment.FragmentDrinkWater;
 import com.example.asus.refreshbody.intef.FragmentDrawerListener;
+import com.example.asus.refreshbody.utils.ScreenManager;
 
 import java.util.ArrayList;
 
@@ -19,11 +22,25 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
     private Toolbar mToolbar;
     private FragmentDrawer drawerFragment;
 
+    private ScreenManager screenManager;
+
+    private FragmentDrinkWater fragmentDrinkWater;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setUpView();
+        intiliazeFragment();
+        addFragmentDrinkWater();
+    }
+
+    private void addFragmentDrinkWater() {
+        screenManager.openFragment(getSupportFragmentManager(),R.id.frame_container,fragmentDrinkWater,false);
+    }
+
+    private void intiliazeFragment() {
+        fragmentDrinkWater=new FragmentDrinkWater();
     }
 
     private void setUpView() {
@@ -37,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
                 getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
         drawerFragment.setDrawerListener(this);
+
+        screenManager=ScreenManager.getInst();
     }
 
     @Override
@@ -44,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
         switch (position){
             case 0://Drink water
                 Toast.makeText(this,"Drink Water",Toast.LENGTH_SHORT).show();
+                screenManager.openFragment(getSupportFragmentManager(),R.id.frame_container,fragmentDrinkWater,false);
                 break;
             case 1://Drink log
                 Toast.makeText(this,"Drink Log",Toast.LENGTH_SHORT).show();
