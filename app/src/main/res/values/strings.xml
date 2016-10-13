@@ -4,4 +4,10 @@
     <string name="drawer_close">Close</string>
     <string name="navigation_item">Navigation Item</string>
     <string name="drink_intake">INTAKE:0 ml</string>
+    <string name="name_drink">Drink:</string>
+    <string name="amount">Amount</string>
+    <string name="ml">ml</string>
+    <string name="cancel">CANCEL</string>
+    <string name="ok">OK</string>
+    <string name="custom_cup">Custom Cup</string>
 </resources>

@@ -8,6 +8,8 @@ public class DrinkIntakeItem {
     private int symbol;
     private String nameDrink;
     private int amountDrink;
+    private int hourDrink;
+    private int minuteDrink;
 
     public DrinkIntakeItem(){}
 
@@ -15,6 +17,14 @@ public class DrinkIntakeItem {
         this.symbol = symbol;
         this.nameDrink = nameDrink;
         this.amountDrink = amountDrink;
+    }
+
+    public DrinkIntakeItem(int symbol, String nameDrink, int amountDrink, int hourDrink, int minuteDrink) {
+        this.symbol = symbol;
+        this.nameDrink = nameDrink;
+        this.amountDrink = amountDrink;
+        this.hourDrink = hourDrink;
+        this.minuteDrink = minuteDrink;
     }
 
     public int getSymbol() {
@@ -39,5 +49,21 @@ public class DrinkIntakeItem {
 
     public void setAmountDrink(int amountDrink) {
         this.amountDrink = amountDrink;
+    }
+
+    public int getHourDrink() {
+        return hourDrink;
+    }
+
+    public void setHourDrink(int hourDrink) {
+        this.hourDrink = hourDrink;
+    }
+
+    public int getMinuteDrink() {
+        return minuteDrink;
+    }
+
+    public void setMinuteDrink(int minuteDrink) {
+        this.minuteDrink = minuteDrink;
     }
 }

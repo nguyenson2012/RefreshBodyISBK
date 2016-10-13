@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.asus.refreshbody.R;
+import com.example.asus.refreshbody.activity.MainActivity;
 import com.github.lzyzsd.circleprogress.CircleProgress;
 
 /**
@@ -50,6 +51,7 @@ public class FragmentDrinkWater extends Fragment implements View.OnClickListener
         switch (v.getId()){
             case R.id.tv_add_drink_intake:
                 Toast.makeText(getActivity(),"Add drink intake",Toast.LENGTH_SHORT).show();
+                ((MainActivity)getActivity()).replaceFragmentCupChoose();
                 break;
         }
     }

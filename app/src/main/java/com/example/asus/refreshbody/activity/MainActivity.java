@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.asus.refreshbody.R;
+import com.example.asus.refreshbody.fragment.FragmentChooseCup;
 import com.example.asus.refreshbody.fragment.FragmentDrawer;
 import com.example.asus.refreshbody.fragment.FragmentDrinkWater;
 import com.example.asus.refreshbody.intef.FragmentDrawerListener;
@@ -20,12 +21,13 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements FragmentDrawerListener{
 
     private Toolbar mToolbar;
-    private FragmentDrawer drawerFragment;
+
 
     private ScreenManager screenManager;
 
     private FragmentDrinkWater fragmentDrinkWater;
-
+    private FragmentDrawer drawerFragment;
+    private FragmentChooseCup fragmentChooseCup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
 
     private void intiliazeFragment() {
         fragmentDrinkWater=new FragmentDrinkWater();
+        fragmentChooseCup=new FragmentChooseCup();
     }
 
     private void setUpView() {
@@ -76,5 +79,9 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
                 break;
 
         }
+    }
+
+    public void replaceFragmentCupChoose() {
+        screenManager.openFragment(getSupportFragmentManager(),R.id.frame_container,fragmentChooseCup,true);
     }
 }

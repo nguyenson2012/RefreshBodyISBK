@@ -22,10 +22,10 @@ public class DrinkIntakeAdapter extends RecyclerView.Adapter<DrinkIntakeAdapter.
     private LayoutInflater inflater;
     private Context context;
 
-    public DrinkIntakeAdapter(ArrayList<DrinkIntakeItem> data, LayoutInflater inflater, Context context) {
+    public DrinkIntakeAdapter(ArrayList<DrinkIntakeItem> data,Context context) {
         this.drinkIntakeItemArrayList = data;
-        this.inflater = inflater;
         this.context = context;
+        inflater=LayoutInflater.from(this.context);
     }
 
     @Override
@@ -41,6 +41,8 @@ public class DrinkIntakeAdapter extends RecyclerView.Adapter<DrinkIntakeAdapter.
         holder.imgDrink.setImageResource(drinkIntakeItem.getSymbol());
         holder.tvNameDrink.setText(drinkIntakeItem.getNameDrink());
         holder.tvDrinkAmount.setText(drinkIntakeItem.getAmountDrink()+" ml");
+        holder.tvTimeDrinkWater.setText(drinkIntakeItem.getHourDrink()+":"+drinkIntakeItem.getMinuteDrink());
+
 
     }
 
@@ -54,12 +56,12 @@ public class DrinkIntakeAdapter extends RecyclerView.Adapter<DrinkIntakeAdapter.
         TextView tvNameDrink;
         TextView tvDrinkAmount;
         ImageView imgDrink;
-        ImageView imgClearDrink;
+        TextView tvTimeDrinkWater;
         public MyViewHolder(View itemView) {
             super(itemView);
             tvNameDrink=(TextView)itemView.findViewById(R.id.tv_name_drink_item);
             imgDrink=(ImageView)itemView.findViewById(R.id.img_drink_intake_item);
-            imgClearDrink=(ImageView)itemView.findViewById(R.id.img_clear_drink_item);
+            tvTimeDrinkWater=(TextView) itemView.findViewById(R.id.tv_time_drink_water);
             tvDrinkAmount=(TextView)itemView.findViewById(R.id.tv_drink_amount_item);
         }
     }

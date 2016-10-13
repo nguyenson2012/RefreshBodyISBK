@@ -27,12 +27,13 @@
         android:text="100ml"
         android:layout_toRightOf="@id/tv_name_drink_item"
         android:layout_centerVertical="true"/>
-    <ImageView
-        android:id="@+id/img_clear_drink_item"
-        android:layout_width="@dimen/_30sdp"
-        android:layout_height="@dimen/_30sdp"
-        android:src="@drawable/ic_close_blue"
-        android:layout_centerVertical="true"
+    <TextView
+        android:id="@+id/tv_time_drink_water"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/_20sdp"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/_15sdp"/>
+        android:layout_marginRight="@dimen/_15sdp"
+        android:textColor="@color/colorPrimary"
+        android:layout_centerVertical="true"/>
 </RelativeLayout>
