@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.asus.refreshbody.R;
+import com.example.asus.refreshbody.database.DBContext;
+import com.example.asus.refreshbody.database.DefaultData;
 import com.example.asus.refreshbody.fragment.FragmentChooseCup;
 import com.example.asus.refreshbody.fragment.FragmentDrawer;
 import com.example.asus.refreshbody.fragment.FragmentDrinkWater;
@@ -28,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
     private FragmentDrinkWater fragmentDrinkWater;
     private FragmentDrawer drawerFragment;
     private FragmentChooseCup fragmentChooseCup;
+
+    private DBContext dbContext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +39,13 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
         setUpView();
         intiliazeFragment();
         addFragmentDrinkWater();
+        setDefaultCupChoose();
+    }
+
+    private void setDefaultCupChoose() {
+        dbContext=DBContext.getInst();
+        if(dbContext.getAllCupChooseItem().size()==0)
+            DefaultData.getInst(dbContext).setDefaultCupChooseItem();
     }
 
     private void addFragmentDrinkWater() {

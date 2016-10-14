@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.asus.refreshbody.R;
-import com.example.asus.refreshbody.model.DrinkIntakeItem;
+import com.example.asus.refreshbody.database.model.DrinkIntakeItem;
+import com.example.asus.refreshbody.intef.ClickListener;
+import com.example.asus.refreshbody.model.CupImage;
 
 import java.util.ArrayList;
 
@@ -17,14 +19,21 @@ import java.util.ArrayList;
  */
 
 public class CupImageAdapter extends RecyclerView.Adapter<CupImageAdapter.MyViewHolder> {
-    ArrayList<DrinkIntakeItem> cupChooseItemArrayList = new ArrayList<DrinkIntakeItem>();
+    private ArrayList<CupImage> CupImageArrayList = new ArrayList<CupImage>();
+
     private LayoutInflater inflater;
     private Context context;
 
-    public CupImageAdapter(ArrayList<DrinkIntakeItem> cupChooseItemArrayList, Context context) {
-        this.cupChooseItemArrayList = cupChooseItemArrayList;
+    private ClickListener listener;
+
+    public CupImageAdapter(ArrayList<CupImage> CupImageArrayList, Context context) {
+        this.CupImageArrayList = CupImageArrayList;
         this.context = context;
         this.inflater=LayoutInflater.from(this.context);
+    }
+
+    public void setListener(ClickListener listener){
+        this.listener=listener;
     }
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -35,21 +44,31 @@ public class CupImageAdapter extends RecyclerView.Adapter<CupImageAdapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        DrinkIntakeItem cupChooseItem=cupChooseItemArrayList.get(position);
-        holder.imgCup.setImageResource(cupChooseItem.getSymbol());
+        CupImage CupImage=CupImageArrayList.get(position);
+        holder.imgCup.setImageResource(CupImage.getImgRes());
+        if(CupImage.isChoose())
+            holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.gray_light));
+        else
+            holder.itemView.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
 
     }
 
     @Override
     public int getItemCount() {
-        return cupChooseItemArrayList.size();
+        return CupImageArrayList.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private ImageView imgCup;
-        public MyViewHolder(View itemView) {
+        public MyViewHolder(final View itemView) {
             super(itemView);
             imgCup=(ImageView)itemView.findViewById(R.id.cup_image_item);
+            imgCup.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onClick(v,getAdapterPosition());
+                }
+            });
         }
     }
 }

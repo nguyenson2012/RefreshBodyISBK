@@ -1,15 +1,21 @@
-package com.example.asus.refreshbody.model;
+package com.example.asus.refreshbody.database.model;
+
+import java.sql.Time;
+
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Asus on 10/12/2016.
  */
 
-public class DrinkIntakeItem {
+public class DrinkIntakeItem extends RealmObject{
+    public static final String USER_ID = "idDrink";
+    private String idDrink;
     private int symbol;
     private String nameDrink;
     private int amountDrink;
-    private int hourDrink;
-    private int minuteDrink;
+    private TimeDrink timeDrink;
 
     public DrinkIntakeItem(){}
 
@@ -19,12 +25,11 @@ public class DrinkIntakeItem {
         this.amountDrink = amountDrink;
     }
 
-    public DrinkIntakeItem(int symbol, String nameDrink, int amountDrink, int hourDrink, int minuteDrink) {
+    public DrinkIntakeItem(int symbol, String nameDrink, int amountDrink, TimeDrink timeDrink) {
         this.symbol = symbol;
         this.nameDrink = nameDrink;
         this.amountDrink = amountDrink;
-        this.hourDrink = hourDrink;
-        this.minuteDrink = minuteDrink;
+        this.timeDrink = timeDrink;
     }
 
     public int getSymbol() {
@@ -51,19 +56,19 @@ public class DrinkIntakeItem {
         this.amountDrink = amountDrink;
     }
 
-    public int getHourDrink() {
-        return hourDrink;
+    public TimeDrink getTimeDrink() {
+        return timeDrink;
     }
 
-    public void setHourDrink(int hourDrink) {
-        this.hourDrink = hourDrink;
+    public void setTimeDrink(TimeDrink timeDrink) {
+        this.timeDrink = timeDrink;
     }
 
-    public int getMinuteDrink() {
-        return minuteDrink;
+    public String getIdDrink() {
+        return idDrink;
     }
 
-    public void setMinuteDrink(int minuteDrink) {
-        this.minuteDrink = minuteDrink;
+    public void setIdDrink(String idDrink) {
+        this.idDrink = idDrink;
     }
 }

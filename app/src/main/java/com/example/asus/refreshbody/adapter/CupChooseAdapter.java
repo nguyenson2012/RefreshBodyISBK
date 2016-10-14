@@ -9,8 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.asus.refreshbody.R;
+import com.example.asus.refreshbody.database.model.CupChooseItem;
 import com.example.asus.refreshbody.intef.CupChooseListener;
-import com.example.asus.refreshbody.model.DrinkIntakeItem;
+import com.example.asus.refreshbody.database.model.DrinkIntakeItem;
 
 import java.util.ArrayList;
 
@@ -19,13 +20,13 @@ import java.util.ArrayList;
  */
 
 public class CupChooseAdapter extends RecyclerView.Adapter<CupChooseAdapter.MyViewHolder> {
-    ArrayList<DrinkIntakeItem> cupChooseItemArrayList = new ArrayList<DrinkIntakeItem>();
+    ArrayList<CupChooseItem> cupChooseItemArrayList = new ArrayList<CupChooseItem>();
     private LayoutInflater inflater;
     private Context context;
 
     private CupChooseListener listener;
 
-    public CupChooseAdapter(ArrayList<DrinkIntakeItem> cupChooseItemArrayList, Context context) {
+    public CupChooseAdapter(ArrayList<CupChooseItem> cupChooseItemArrayList, Context context) {
         this.cupChooseItemArrayList = cupChooseItemArrayList;
         this.context = context;
         this.inflater=LayoutInflater.from(this.context);
@@ -44,10 +45,10 @@ public class CupChooseAdapter extends RecyclerView.Adapter<CupChooseAdapter.MyVi
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        DrinkIntakeItem cupChooseItem=cupChooseItemArrayList.get(position);
+        CupChooseItem cupChooseItem=cupChooseItemArrayList.get(position);
         holder.imgDrink.setImageResource(cupChooseItem.getSymbol());
-        holder.tvNameDrink.setText(cupChooseItem.getNameDrink());
-        holder.tvDrinkAmount.setText(cupChooseItem.getAmountDrink()+" ml");
+        holder.tvNameDrink.setText(cupChooseItem.getNameCup());
+        holder.tvDrinkAmount.setText(cupChooseItem.getAmountCup()+" ml");
     }
 
     @Override

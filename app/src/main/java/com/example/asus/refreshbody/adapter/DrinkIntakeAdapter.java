@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.asus.refreshbody.R;
-import com.example.asus.refreshbody.model.DrinkIntakeItem;
+import com.example.asus.refreshbody.database.model.DrinkIntakeItem;
 
 import java.util.ArrayList;
 
@@ -41,7 +41,7 @@ public class DrinkIntakeAdapter extends RecyclerView.Adapter<DrinkIntakeAdapter.
         holder.imgDrink.setImageResource(drinkIntakeItem.getSymbol());
         holder.tvNameDrink.setText(drinkIntakeItem.getNameDrink());
         holder.tvDrinkAmount.setText(drinkIntakeItem.getAmountDrink()+" ml");
-        holder.tvTimeDrinkWater.setText(drinkIntakeItem.getHourDrink()+":"+drinkIntakeItem.getMinuteDrink());
+        holder.tvTimeDrinkWater.setText(drinkIntakeItem.getTimeDrink().getHourDrink()+":"+drinkIntakeItem.getTimeDrink().getMinuteDrink());
 
 
     }
