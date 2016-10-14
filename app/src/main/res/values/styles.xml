@@ -29,4 +29,26 @@
         <attr name="circle_suffix_text" format="string"/>
     </declare-styleable>
 
+    <style name="AppTheme.ListItem" parent="AppTheme" />
+
+    <style name="AppTheme.ListItem.SubText">
+        <item name="android:textSize">@dimen/list_item_sub_text_size</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="AppTheme.ListItem.SubText2" parent="AppTheme.ListItem.SubText">
+        <item name="android:textSize">@dimen/list_item_sub_text_size2</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:paddingRight">4dp</item>
+    </style>
+
+    <style name="AppTheme.ListItem.MainText">
+        <item name="android:textSize">@dimen/list_item_main_text_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+
 </resources>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/fragment_reminder_plan_detail"
+    android:orientation="vertical">
+
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/repeat_days"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/touch_target_min_size"
+        android:layout_gravity="top"
+        android:orientation="horizontal" />
+
+    <include layout="@layout/divider" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/touch_target_min_size"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:layout_marginRight="@dimen/_15sdp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/reminder_sound"
+                android:textColor="#000000"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_reminder_sound_state"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="On"
+                android:textColor="#f40707"/>
+
+        </LinearLayout>
+
+        <Switch
+            android:id="@+id/switch_reminder_sound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true" />
+
+
+    </RelativeLayout>
+
+    <include layout="@layout/divider" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/touch_target_min_size"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:layout_marginRight="@dimen/_15sdp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/vibration"
+                android:textColor="#000000"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_vibration_state"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="On"
+                android:textColor="#f40707"/>
+
+        </LinearLayout>
+
+        <Switch
+            android:id="@+id/switch_vibration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true" />
+
+
+    </RelativeLayout>
+
+    <include layout="@layout/divider" />
+</LinearLayout>

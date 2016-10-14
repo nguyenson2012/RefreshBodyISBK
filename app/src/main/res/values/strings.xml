@@ -12,6 +12,40 @@
     <string name="custom_cup">Custom Cup</string>
     <string name="validate_add_cup">The amount should be greater than 0</string>
 
+<<<<<<< HEAD
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+=======
+
+    <string name="Notification">Notification</string>
+    <string name="reminder_plan">Reminder Plan</string>
+    <string name="reminder_sound">Reminder Sound</string>
+    <string name="vibration">Vibration</string>
+
+    <string name="action_cancel">Cancel</string>
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_about">About</string>
+
+    <string name="loading">Loading</string>
+
+    <string name="main_list_empty_msg">Press \'+\' button to create new plan</string>
+
+    <string name="on">On</string>
+    <string name="off">Off</string>
+
+    <string name="every_day">Every Day</string>
+    <string name="once_time">Once Time</string>
+
+    <string-array name="day_name">
+        <item>Su</item>
+        <item>Mo</item>
+        <item>Tu</item>
+        <item>We</item>
+        <item>Th</item>
+        <item>Fr</item>
+        <item>Sa</item>
+    </string-array>
+
+>>>>>>> 649e1753145d9bc442f5c9d56d97b3ace75de339
 </resources>
