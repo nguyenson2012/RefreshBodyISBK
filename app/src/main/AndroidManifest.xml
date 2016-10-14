@@ -18,4 +18,22 @@
         </activity>
     </application>
 
+    <provider
+        android:name=".provider.PlanProvider"
+        android:authorities="com.example.asus.refreshbody.provider"
+        android:exported="false"
+        android:process=":provider" />
+
+    <receiver android:name=".controller.AlarmAlertReceiver" />
+
+    <receiver android:name=".service.AlarmServiceReceiver">
+        <intent-filter>
+            <action android:name="android.intent.action.BOOT_COMPLETED" />
+        </intent-filter>
+    </receiver>
+
+    <service android:name=".service.AlarmService" />
+
+    <service android:name=".controller.SwitchControllerService" />
+
 </manifest>

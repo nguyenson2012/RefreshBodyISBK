@@ -1,11 +1,17 @@
 package com.example.asus.refreshbody.activity;
 
 import android.app.Fragment;
+import android.content.Intent;
+import android.database.ContentObserver;
+import android.net.Uri;
+import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Toast;
 
@@ -15,12 +21,18 @@ import com.example.asus.refreshbody.database.DefaultData;
 import com.example.asus.refreshbody.fragment.FragmentChooseCup;
 import com.example.asus.refreshbody.fragment.FragmentDrawer;
 import com.example.asus.refreshbody.fragment.FragmentDrinkWater;
+import com.example.asus.refreshbody.fragment.FragmentReminder;
+import com.example.asus.refreshbody.fragment.FragmentReminderPlanDetail;
 import com.example.asus.refreshbody.intef.FragmentDrawerListener;
+import com.example.asus.refreshbody.provider.PlanContract;
+import com.example.asus.refreshbody.service.AlarmServiceReceiver;
 import com.example.asus.refreshbody.utils.ScreenManager;
+import com.example.asus.refreshbody.utils.iLog;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements FragmentDrawerListener{
+public class MainActivity extends AppCompatActivity implements FragmentDrawerListener, FragmentReminder.OnListItemSelectedListener{
+    private String TAG = MainActivity.this.getClass().getSimpleName();
 
     private Toolbar mToolbar;
 
@@ -29,13 +41,23 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
 
     private FragmentDrinkWater fragmentDrinkWater;
     private FragmentDrawer drawerFragment;
+    private FragmentReminder fragmentReminder;
     private FragmentChooseCup fragmentChooseCup;
 
     private DBContext dbContext;
+
+    @Override
+    protected void onDestroy() {
+        iLog.d(iLog.LogTag.UI, TAG + " onDestroy()");
+        getContentResolver().unregisterContentObserver(mContentObserver);
+        super.onDestroy();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getContentResolver().registerContentObserver(PlanContract.PlanEntry.CONTENT_URI, true, mContentObserver);
         setUpView();
         intiliazeFragment();
         addFragmentDrinkWater();
@@ -55,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
     private void intiliazeFragment() {
         fragmentDrinkWater=new FragmentDrinkWater();
         fragmentChooseCup=new FragmentChooseCup();
+        fragmentReminder = new FragmentReminder();
     }
 
     private void setUpView() {
@@ -87,10 +110,35 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
                 break;
             case 3://Reminder
                 Toast.makeText(this,"Reminder",Toast.LENGTH_SHORT).show();
+                screenManager.openFragment(getSupportFragmentManager(), R.id.frame_container, fragmentReminder, false);
                 break;
 
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public void onListItemSelected(Uri uri, long id) {
+        FragmentReminderPlanDetail fragment = FragmentReminderPlanDetail.newInstance(id);
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, fragment).addToBackStack(null).commit();
+    }
+
+    private ContentObserver mContentObserver = new ContentObserver(new Handler()) {
+        @Override
+        public void onChange(boolean selfChange) {
+            iLog.d(iLog.LogTag.UI, TAG + " mContentObserver onChange() selfChange : " + selfChange);
+
+            // Re-trigger AlarmServiceReceiver to start AlarmService to update next alarm
+            Intent intent = new Intent(getApplicationContext(), AlarmServiceReceiver.class);
+            sendBroadcast(intent);
+        }
+    };
 
     public void replaceFragmentCupChoose() {
         screenManager.openFragment(getSupportFragmentManager(),R.id.frame_container,fragmentChooseCup,true);

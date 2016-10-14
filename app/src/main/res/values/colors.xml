@@ -4,4 +4,11 @@
     <color name="colorPrimaryDark">#17f9d7</color>
     <color name="colorAccent">#FF4081</color>
     <color name="gray_light">#cccccc</color>
+
+    <color name="black">#252525</color>
+    <color name="blue">@color/colorPrimary</color>
+
+    <color name="ripple_effect">#80deea</color>
+    <color name="ripple_mask">#b2ebf2</color>
+
 </resources>
