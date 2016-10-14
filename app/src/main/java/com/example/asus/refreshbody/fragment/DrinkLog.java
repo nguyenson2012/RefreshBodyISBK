@@ -7,8 +7,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.example.asus.refreshbody.R;
+import com.example.asus.refreshbody.adapter.ListViewAdapter;
+import com.example.asus.refreshbody.database.model.DrinkIntakeItem;
+
+import java.util.ArrayList;
 
 /**
  * created by Thinh
@@ -19,6 +24,10 @@ import com.example.asus.refreshbody.R;
  */
 public class DrinkLog extends Fragment {
 
+    private ArrayList<DrinkIntakeItem> arrDrinkitem;
+    private ListViewAdapter mylvAdapter = null;
+    private ListView lvItemDrink = null;
+
     public DrinkLog() {
         // Required empty public constructor
     }
@@ -28,13 +37,24 @@ public class DrinkLog extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        final View fragmentview = inflater.inflate(R.layout.fragment_drink_log, container, false);
+
+        lvItemDrink = (ListView) fragmentview.findViewById(R.id.lvItemDrink);
+        arrDrinkitem = new ArrayList<DrinkIntakeItem>();
+        arrDrinkitem.add(new DrinkIntakeItem(1,"water",700));
+        arrDrinkitem.add(new DrinkIntakeItem(2,"water",600));
+        mylvAdapter = new ListViewAdapter(this.getActivity(),R.layout.item_cup_l,arrDrinkitem);
+
+        lvItemDrink.setAdapter(mylvAdapter);
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_drink_log, container, false);
+        return fragmentview;
     }
 
 

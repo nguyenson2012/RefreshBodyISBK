@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.example.asus.refreshbody.R;
 import com.example.asus.refreshbody.database.DBContext;
 import com.example.asus.refreshbody.database.DefaultData;
+import com.example.asus.refreshbody.fragment.DrinkLog;
 import com.example.asus.refreshbody.fragment.FragmentChooseCup;
 import com.example.asus.refreshbody.fragment.FragmentDrawer;
 import com.example.asus.refreshbody.fragment.FragmentDrinkWater;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
     private FragmentDrinkWater fragmentDrinkWater;
     private FragmentDrawer drawerFragment;
     private FragmentChooseCup fragmentChooseCup;
+    private DrinkLog fragmentDrinkLog;
 
     private DBContext dbContext;
     @Override
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
     private void intiliazeFragment() {
         fragmentDrinkWater=new FragmentDrinkWater();
         fragmentChooseCup=new FragmentChooseCup();
+        fragmentDrinkLog = new DrinkLog();
     }
 
     private void setUpView() {
@@ -81,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
                 break;
             case 1://Drink log
                 Toast.makeText(this,"Drink Log",Toast.LENGTH_SHORT).show();
+                screenManager.openFragment(getSupportFragmentManager(),R.id.frame_container,fragmentDrinkLog,false);
                 break;
             case 2://Drink record
                 Toast.makeText(this,"Drink Record",Toast.LENGTH_SHORT).show();
