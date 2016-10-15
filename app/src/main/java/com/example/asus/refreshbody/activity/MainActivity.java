@@ -1,13 +1,11 @@
 package com.example.asus.refreshbody.activity;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +24,7 @@ import com.example.asus.refreshbody.fragment.DrinkLog;
 import com.example.asus.refreshbody.fragment.FragmentChooseCup;
 import com.example.asus.refreshbody.fragment.FragmentDrawer;
 import com.example.asus.refreshbody.fragment.FragmentDrinkWater;
+import com.example.asus.refreshbody.fragment.FragmentNewspaper;
 import com.example.asus.refreshbody.fragment.FragmentReminder;
 import com.example.asus.refreshbody.fragment.FragmentReminderPlanDetail;
 import com.example.asus.refreshbody.fragment.FragmentSetWeight;
@@ -37,11 +36,9 @@ import com.example.asus.refreshbody.service.AlarmServiceReceiver;
 import com.example.asus.refreshbody.utils.Constant;
 import com.example.asus.refreshbody.utils.ScreenManager;
 import com.example.asus.refreshbody.utils.iLog;
-import com.mikepenz.materialdrawer.DrawerBuilder;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements FragmentDrawerListener, FragmentReminder.OnListItemSelectedListener{
@@ -58,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
     private FragmentChooseCup fragmentChooseCup;
     private FragmentSetWeight fragmentSetWeight;
     private DrinkLog fragmentDrinkLog;
+    private FragmentNewspaper fragmentNewspaper;
 
     private PlanDBHelper planDBHelper;
     private DefaultDataSqlite defaultDataSqlite;
@@ -113,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
         fragmentDrinkLog = new DrinkLog();
         fragmentReminder = new FragmentReminder();
         fragmentSetWeight=new FragmentSetWeight();
+        fragmentNewspaper = new FragmentNewspaper();
     }
 
     private void setUpView() {
@@ -150,6 +149,10 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
             case 3://Reminder
                 Toast.makeText(this,"Reminder",Toast.LENGTH_SHORT).show();
                 screenManager.openFragment(getSupportFragmentManager(), R.id.frame_container, fragmentReminder, false);
+                break;
+            case 4:
+                Toast.makeText(this,"newspaper",Toast.LENGTH_SHORT).show();
+                screenManager.openFragment(getSupportFragmentManager(), R.id.frame_container, fragmentNewspaper, false);
                 break;
 
         }

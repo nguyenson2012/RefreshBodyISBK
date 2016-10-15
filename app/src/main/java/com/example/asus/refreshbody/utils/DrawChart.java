@@ -3,6 +3,7 @@ package com.example.asus.refreshbody.utils;
 import android.graphics.Color;
 
 import com.example.asus.refreshbody.database.model.DrinkIntakeItem;
+import com.example.asus.refreshbody.database.model.TimeDrink;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -57,6 +58,7 @@ public class DrawChart {
         entries.add(new Entry(5,6));
         entries.add(new Entry(6,7));
         entries.add(new Entry(7,8));
+
         if(entries != null){
 
             dataSet = new LineDataSet(entries, "Report");
@@ -156,4 +158,9 @@ public class DrawChart {
     public void setPieTitle(String pieTitle){
         this.pieTitle = pieTitle;
     }
+
+    /*private class DrinkItem(){
+        TimeDrink timeDrink;
+
+    }*/
 }

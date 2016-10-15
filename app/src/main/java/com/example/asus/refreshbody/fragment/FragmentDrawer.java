@@ -85,6 +85,8 @@ public class FragmentDrawer extends Fragment {
         navigationDrawerItemArrayList.add(drinkReport);
         NavigationDrawerItem reminderItem=new NavigationDrawerItem(R.drawable.icon_menu_notification,"Reminder");
         navigationDrawerItemArrayList.add(reminderItem);
+        NavigationDrawerItem newspaperItem=new NavigationDrawerItem(R.drawable.icon_menu_notification,"newspaper");
+        navigationDrawerItemArrayList.add(newspaperItem);
         NavigationDrawerItem settingItem=new NavigationDrawerItem(R.drawable.icon_menu_setting,"Setting");
         navigationDrawerItemArrayList.add(settingItem);
         adapter=new NavigationDrawerAdapter(getActivity(),navigationDrawerItemArrayList);
