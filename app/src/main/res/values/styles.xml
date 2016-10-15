@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
     <style name="MyMaterialTheme" parent="MyMaterialTheme.Base">
 
     </style>
@@ -18,15 +19,16 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
     <declare-styleable name="CircleProgress">
-        <attr name="circle_progress" format="integer"/>
-        <attr name="circle_max" format="integer"/>
-        <attr name="circle_unfinished_color" format="color"/>
-        <attr name="circle_finished_color" format="color"/>
-        <attr name="circle_text_size" format="dimension"/>
-        <attr name="circle_text_color" format="color"/>
-        <attr name="circle_prefix_text" format="string"/>
-        <attr name="circle_suffix_text" format="string"/>
+        <attr name="circle_progress" format="integer" />
+        <attr name="circle_max" format="integer" />
+        <attr name="circle_unfinished_color" format="color" />
+        <attr name="circle_finished_color" format="color" />
+        <attr name="circle_text_size" format="dimension" />
+        <attr name="circle_text_color" format="color" />
+        <attr name="circle_prefix_text" format="string" />
+        <attr name="circle_suffix_text" format="string" />
     </declare-styleable>
 
     <style name="AppTheme.ListItem" parent="AppTheme" />
@@ -49,6 +51,10 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:singleLine">true</item>
     </style>
+
+    <style name="MyMaterialTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="MyMaterialTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
 </resources>

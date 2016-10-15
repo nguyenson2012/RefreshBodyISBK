@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">RefreshBody</string>
-    <string name="drawer_open">Open</string>
-    <string name="drawer_close">Close</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
     <string name="navigation_item">Navigation Item</string>
     <string name="drink_intake">INTAKE:0 ml</string>
     <string name="name_drink">Drink:</string>
@@ -30,6 +30,7 @@
     <string name="on">On</string>
     <string name="off">Off</string>
 
+
     <string name="every_day">Every Day</string>
     <string name="once_time">Once Time</string>
     <string name="select_cup">Select Cup</string>
@@ -49,4 +50,5 @@
         <item>Fr</item>
         <item>Sa</item>
     </string-array>
+    <string name="title_activity_drink_report">DrinkReportActivity</string>
 </resources>
