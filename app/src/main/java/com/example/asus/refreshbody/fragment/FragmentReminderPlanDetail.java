@@ -5,14 +5,19 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -26,6 +31,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by solei on 13/10/2016.
@@ -45,10 +51,17 @@ public class FragmentReminderPlanDetail extends android.support.v4.app.Fragment 
 
     private TextView reminderSoundTextView, vibrationStateTextView;
     private Switch reminderSoundSwitch, vibrationSwitch;
+    private Spinner mSpinnerMode, mSpinnerWorkingTime;
+    private EditText labelEditText, noteEditText;
+    private LinearLayout layoutLabel, layoutNote, layoutWorkingTime, layoutDateTime;
+
+    private static final int MODE_REMINDER = 0;
+    private static final int MODE_REST = 1;
+    private static final int MODE_OTHER = 2;
 
     protected long id = -1;
 
-    protected Cursor mData = null;
+    private Cursor mData = null;
 
     public static FragmentReminderPlanDetail newInstance(long id) {
         FragmentReminderPlanDetail fragment = new FragmentReminderPlanDetail();
@@ -102,11 +115,29 @@ public class FragmentReminderPlanDetail extends android.support.v4.app.Fragment 
     private void setupView(View root) {
         reminderSoundTextView = (TextView) root.findViewById(R.id.tv_reminder_sound_state);
         vibrationStateTextView = (TextView) root.findViewById(R.id.tv_vibration_state);
+        mSpinnerMode = (Spinner) root.findViewById(R.id.spinnerReminderMode);
+        labelEditText = (EditText) root.findViewById(R.id.reminder_label);
+        noteEditText = (EditText) root.findViewById(R.id.reminder_content);
+        layoutLabel = (LinearLayout) root.findViewById(R.id.layout_label);
+        layoutNote = (LinearLayout) root.findViewById(R.id.layout_note);
+        layoutWorkingTime = (LinearLayout) root.findViewById(R.id.layout_working_time);
+        mSpinnerWorkingTime = (Spinner) root.findViewById(R.id.spinnerWorkingTime);
+        layoutDateTime = (LinearLayout) root.findViewById(R.id.layout_time_day);
 
         reminderSoundSwitch = (Switch) root.findViewById(R.id.switch_reminder_sound);
         vibrationSwitch = (Switch) root.findViewById(R.id.switch_vibration);
         reminderSoundSwitch.setChecked(true);
         vibrationSwitch.setChecked(true);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.reminder_mode, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinnerMode.setAdapter(adapter);
+
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(getActivity(),
+                R.array.working_time, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinnerWorkingTime.setAdapter(adapter2);
 
         mTimePicker = (TimePicker) root.findViewById(R.id.timePicker);
         mTimePicker.setIs24HourView(DateFormat.is24HourFormat(getActivity()));
@@ -120,9 +151,12 @@ public class FragmentReminderPlanDetail extends android.support.v4.app.Fragment 
             dayButtons[i] = dayButton;
         }
 
+        int reminderMode, workingTime;
         if (mData != null && mData.moveToFirst()) {
             mTimePicker.setCurrentHour(mData.getInt(mData.getColumnIndex(PlanContract.PlanEntry.COLUMN_TIME_HOUR)));
             mTimePicker.setCurrentMinute(mData.getInt(mData.getColumnIndex(PlanContract.PlanEntry.COLUMN_TIME_MINUTE)));
+            labelEditText.setText(mData.getString(mData.getColumnIndex(PlanContract.PlanEntry.COLUMN_LABEL)));
+            noteEditText.setText(mData.getString(mData.getColumnIndex(PlanContract.PlanEntry.COLUMN_NOTE)));
 
             byte[] daysByte = mData.getBlob(mData.getColumnIndex(PlanContract.PlanEntry.COLUMN_DAYS));
 
@@ -130,14 +164,46 @@ public class FragmentReminderPlanDetail extends android.support.v4.app.Fragment 
             for (int i = 0; i < daysArrayList.size(); i++) {
                 dayButtons[daysArrayList.get(i)].setChecked(true);
             }
+            reminderMode = mData.getInt(mData.getColumnIndex(PlanContract.PlanEntry.COLUMN_MODE));
+            workingTime = mData.getInt(mData.getColumnIndex(PlanContract.PlanEntry.COLUMN_WORKINGTIME));
+            mSpinnerWorkingTime.setSelection(workingTime);
+            mSpinnerMode.setSelection(reminderMode);
 
             reminderSoundSwitch.setChecked(mData.getInt(mData.getColumnIndex(PlanContract.PlanEntry.COLUMN_SOUND)) == 1);
             vibrationSwitch.setChecked(mData.getInt(mData.getColumnIndex(PlanContract.PlanEntry.COLUMN_VIBRATION)) == 1);
         }
+
+        mSpinnerMode.setOnItemSelectedListener(mOnItemSelectedListener);
     }
 
-    private boolean savePlan() {
+    private Spinner.OnItemSelectedListener mOnItemSelectedListener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            if (position == 0) {
+                layoutDateTime.setVisibility(View.VISIBLE);
+                layoutWorkingTime.setVisibility(View.GONE);
+                layoutLabel.setVisibility(View.GONE);
+                layoutNote.setVisibility(View.GONE);
+            } else if (position == 1){
+                layoutDateTime.setVisibility(View.GONE);
+                layoutWorkingTime.setVisibility(View.VISIBLE);
+                layoutLabel.setVisibility(View.GONE);
+                layoutNote.setVisibility(View.GONE);
+            } else if (position == 2) {
+                layoutDateTime.setVisibility(View.VISIBLE);
+                layoutWorkingTime.setVisibility(View.GONE);
+                layoutNote.setVisibility(View.VISIBLE);
+                layoutLabel.setVisibility(View.VISIBLE);
+            }
+        }
 
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
+
+    private boolean savePlan() {
         ArrayList<Byte> daysByteArrayList = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
             if (dayButtons[i].isChecked()) {
@@ -148,6 +214,14 @@ public class FragmentReminderPlanDetail extends android.support.v4.app.Fragment 
         ContentValues values = new ContentValues();
         values.put(PlanContract.PlanEntry.COLUMN_TIME_HOUR, mTimePicker.getCurrentHour());
         values.put(PlanContract.PlanEntry.COLUMN_TIME_MINUTE, mTimePicker.getCurrentMinute());
+        values.put(PlanContract.PlanEntry.COLUMN_LABEL, labelEditText.getText().toString());
+        values.put(PlanContract.PlanEntry.COLUMN_NOTE, noteEditText.getText().toString());
+
+        int workingTime = mSpinnerWorkingTime.getSelectedItemPosition();
+        values.put(PlanContract.PlanEntry.COLUMN_WORKINGTIME, workingTime);
+
+        int reminderMode = mSpinnerMode.getSelectedItemPosition();
+        values.put(PlanContract.PlanEntry.COLUMN_MODE, reminderMode);
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try {

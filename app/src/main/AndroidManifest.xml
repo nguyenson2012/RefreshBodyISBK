@@ -2,22 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.asus.refreshbody">
 
-    <provider
-        android:name=".provider.PlanProvider"
-        android:authorities="com.example.asus.refreshbody.provider"
-        android:exported="false"
-        android:process=":provider" />
-
-    <receiver android:name=".controller.AlarmAlertReceiver" />
-    <receiver android:name=".service.AlarmServiceReceiver">
-        <intent-filter>
-            <action android:name="android.intent.action.BOOT_COMPLETED" />
-        </intent-filter>
-    </receiver>
-
-    <service android:name=".service.AlarmService" />
-    <service android:name=".controller.SwitchControllerService" />
-
     <application
         android:name=".RefreshBodyApplication"
         android:allowBackup="true"
@@ -40,6 +24,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.asus.refreshbody.activity.MainActivity"/>
         </activity>
+
+        <provider
+            android:name=".provider.PlanProvider"
+            android:authorities="com.example.asus.refreshbody.provider"
+            android:exported="false"
+            android:process=":provider" />
+
+        <receiver android:name=".controller.AlarmAlertReceiver" />
+        <receiver android:name=".service.AlarmServiceReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".service.AlarmService" />
+        <service android:name=".controller.SwitchControllerService" />
 
     </application>
 

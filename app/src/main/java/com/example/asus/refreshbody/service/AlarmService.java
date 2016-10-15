@@ -59,7 +59,7 @@ public class AlarmService extends Service {
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 Alarm alarm = new Alarm();
-                alarm.setConnectionValue(cursor);
+                alarm.setValue(cursor);
                 alarm.reminderPlan = (new ReminderPlan.Builder()).setPlanFromCursor(cursor).build();
                 alarmsQueue.add(alarm);
             }
@@ -119,11 +119,13 @@ public class AlarmService extends Service {
         Calendar calendar;
         ReminderPlan reminderPlan;
 
-        void setConnectionValue(Cursor data) {
+        void setValue(Cursor data) {
             id = data.getLong(data.getColumnIndex(PlanContract.PlanEntry._ID));
             int hour = data.getInt(data.getColumnIndex(PlanContract.PlanEntry.COLUMN_TIME_HOUR));
             int minute = data.getInt(data.getColumnIndex(PlanContract.PlanEntry.COLUMN_TIME_MINUTE));
-
+            int mode = data.getInt(data.getColumnIndex(PlanContract.PlanEntry.COLUMN_MODE));
+            int workingTime = data.getInt(data.getColumnIndex(PlanContract.PlanEntry.COLUMN_WORKINGTIME));
+            if (mode == 1) hour +=  workingTime + 1;
             byte[] daysByte = data.getBlob(data.getColumnIndex(PlanContract.PlanEntry.COLUMN_DAYS));
             ArrayList<Byte> daysArrayList = UiUtils.getDaysArrayList(daysByte);
 

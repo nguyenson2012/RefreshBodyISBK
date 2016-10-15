@@ -32,10 +32,15 @@ public class PlanDBHelper extends SQLiteOpenHelper {
                     PlanContract.PlanEntry.COLUMN_TIME_HOUR + INTEGER_TYPE + COMMA_SEP +
                     PlanContract.PlanEntry.COLUMN_TIME_MINUTE + INTEGER_TYPE + COMMA_SEP +
                     PlanContract.PlanEntry.COLUMN_DAYS + " BLOB NOT NULL" + COMMA_SEP +
+                    PlanContract.PlanEntry.COLUMN_MODE + TEXT_TYPE + COMMA_SEP +
+                    PlanContract.PlanEntry.COLUMN_LABEL + TEXT_TYPE + COMMA_SEP +
+                    PlanContract.PlanEntry.COLUMN_NOTE + TEXT_TYPE + COMMA_SEP +
+                    PlanContract.PlanEntry.COLUMN_WORKINGTIME + INTEGER_TYPE + COMMA_SEP +
                     PlanContract.PlanEntry.COLUMN_SOUND + INTEGER_TYPE + COMMA_SEP +
                     PlanContract.PlanEntry.COLUMN_VIBRATION + INTEGER_TYPE + COMMA_SEP +
                     PlanContract.PlanEntry.COLUMN_ENABLE + INTEGER_TYPE +
                     ")";
+
     private final String SQL_CREATE_CUP_CHOOSE=
             "CREATE TABLE " + CupChooseItem.CUP_CHOOSE_TABLE+ " (" +
                     CupChooseItem.CUP_CHOOSE_ID + " STRING PRIMARY KEY" + COMMA_SEP +

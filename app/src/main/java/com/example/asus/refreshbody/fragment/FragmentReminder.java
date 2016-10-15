@@ -11,12 +11,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Switch;
@@ -25,8 +27,13 @@ import android.widget.Toast;
 import com.example.asus.refreshbody.R;
 import com.example.asus.refreshbody.adapter.ReminderCursorAdapter;
 import com.example.asus.refreshbody.provider.PlanContract;
+import com.example.asus.refreshbody.provider.ReminderPlan;
 import com.example.asus.refreshbody.utils.UiUtils;
 import com.example.asus.refreshbody.utils.iLog;
+
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by solei on 13/10/2016.
@@ -36,13 +43,17 @@ public class FragmentReminder extends Fragment implements View.OnClickListener, 
 
     private String TAG = FragmentReminder.this.getClass().getSimpleName();
 
-    private Switch notificationState;
     private ImageButton addReminderButton;
-    private ListView listReminder;
+    private ListView listReminderDrink;
+    private ListView listRestReminder;
+    private ListView lisOtherReminder;
+
+    private ArrayList<ReminderPlan> arrayListReminder, arrayListRest, arrayListOther;
 
     private static final int LOAD_ALL_DATA = 100;
 
     protected ReminderCursorAdapter mAdapter;
+//    private RemiderWorkAdapter remiderWorkAdapter;
     protected Uri mUri = null;
 
     private String[] mProjection;
@@ -80,13 +91,15 @@ public class FragmentReminder extends Fragment implements View.OnClickListener, 
         View layout = inflater.inflate(R.layout.fragment_reminder, container, false);
         setupView(layout);
         registerEvent();
+        arrayListReminder = new ArrayList<>();
+        arrayListRest = new ArrayList<>();
+        arrayListOther = new ArrayList<>();
+
         return layout;
     }
 
     private void registerEvent() {
         addReminderButton.setOnClickListener(this);
-        notificationState.setOnClickListener(this);
-        notificationState.setChecked(true);
     }
 
     @Override
@@ -95,12 +108,18 @@ public class FragmentReminder extends Fragment implements View.OnClickListener, 
         mUri = getContentUri();
         initializeQueryParams();
         mAdapter = new ReminderCursorAdapter(getActivity(), null, 0);
-        listReminder.setAdapter(mAdapter);
-        getLoaderManager().initLoader(LOAD_ALL_DATA, null, this);
-        listReminder.setSelector(R.drawable.list_selector_ripple_effect);
-        listReminder.setDivider(getListDividerDrawable());
+        listReminderDrink.setAdapter(mAdapter);
 
-        registerForContextMenu(listReminder);
+        getLoaderManager().initLoader(LOAD_ALL_DATA, null, this);
+
+        listReminderDrink.setSelector(R.drawable.list_selector_ripple_effect);
+        listReminderDrink.setDivider(getListDividerDrawable());
+
+//        listRestReminder.setSelector(R.drawable.list_selector_ripple_effect);
+//        listRestReminder.setDivider(getListDividerDrawable());
+
+        registerForContextMenu(listReminderDrink);
+//        registerForContextMenu(listRestReminder);
     }
 
     @Override
@@ -109,7 +128,7 @@ public class FragmentReminder extends Fragment implements View.OnClickListener, 
         getActivity().getMenuInflater().inflate(R.menu.menu_list_item, menu);
 
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-        Cursor plan = (Cursor) listReminder.getItemAtPosition(info.position);
+        Cursor plan = (Cursor) listReminderDrink.getItemAtPosition(info.position);
         int columnHour = plan.getColumnIndex(PlanContract.PlanEntry.COLUMN_TIME_HOUR);
         int timeHour = plan.getInt(columnHour);
         int columnMin = plan.getColumnIndex(PlanContract.PlanEntry.COLUMN_TIME_MINUTE);
@@ -157,19 +176,25 @@ public class FragmentReminder extends Fragment implements View.OnClickListener, 
     }
 
     private void setupView(View layout) {
-        notificationState = (Switch) layout.findViewById(R.id.switch_notification);
         addReminderButton = (ImageButton) layout.findViewById(R.id.bt_add_plan);
-        listReminder = (ListView) layout.findViewById(R.id.list_reminder);
-
-        listReminder.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listReminderDrink = (ListView) layout.findViewById(R.id.list_reminder);
+//        listRestReminder = (ListView) layout.findViewById(R.id.list_rest);
+//        lisOtherReminder = (ListView) layout.findViewById(R.id.list_other_reminder);
+//
+//        listRestReminder.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                onListItemClick((ListView) parent, view, position, id);
+//            }
+//        });
+        listReminderDrink.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mCallback.onListItemSelected(PlanContract.PlanEntry.CONTENT_URI, id);
-
+                onListItemClick((ListView) parent, view, position, id);
             }
         });
 
-        addListViewBottomPadding(listReminder);
+        addListViewBottomPadding(listReminderDrink);
     }
 
     private void addListViewBottomPadding(ListView listView) {
@@ -194,9 +219,6 @@ public class FragmentReminder extends Fragment implements View.OnClickListener, 
                         .addToBackStack(null)
                         .commit();
                 break;
-            case R.id.switch_notification:
-                Toast.makeText(getActivity(), "Switch noti", Toast.LENGTH_SHORT).show();
-                break;
         }
     }
 
@@ -212,6 +234,33 @@ public class FragmentReminder extends Fragment implements View.OnClickListener, 
     public void onLoadFinished(Loader loader, Cursor data) {
         iLog.d(iLog.LogTag.UI, TAG + " onLoadFinished() loader : " + loader + " data : " + data);
         mAdapter.swapCursor(data);
+//        for (int i = 0; i < mAdapter.getCount(); i++) {
+//            ReminderPlan reminderPlan = (new ReminderPlan.Builder()).setPlanFromCursor((Cursor) mAdapter.getItem(i)).build();
+//            Log.e("123", reminderPlan.toString());
+//
+//            if (reminderPlan.getMode() == 0) {
+//                arrayListReminder.add(reminderPlan);
+//            } else if (reminderPlan.getMode() == 1) {
+//                arrayListRest.add(reminderPlan);
+//            } else if (reminderPlan.getMode() == 2) {
+//                arrayListOther.add(reminderPlan);
+//            }
+//        }
+//
+//        if  (arrayListRest != null) {
+//            remiderWorkAdapter = new RemiderWorkAdapter(getActivity(), R.layout.list_reminder_item, arrayListRest);
+//            listRestReminder.setAdapter(remiderWorkAdapter);
+//        }
+//
+//        if  (arrayListReminder != null) {
+//            remiderWorkAdapter = new RemiderWorkAdapter(getActivity(), R.layout.list_reminder_item, arrayListReminder);
+//            listReminderDrink.setAdapter(remiderWorkAdapter);
+//        }
+//
+//        if  (arrayListOther != null) {
+//            remiderWorkAdapter = new RemiderWorkAdapter(getActivity(), R.layout.list_reminder_item, arrayListOther);
+//            lisOtherReminder.setAdapter(remiderWorkAdapter);
+//        }
     }
 
     @Override

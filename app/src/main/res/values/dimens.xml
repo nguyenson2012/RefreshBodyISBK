@@ -9,7 +9,7 @@
     <dimen name="touch_target_min_size">48dip</dimen>
 
     <!-- List -->
-    <dimen name="list_item_height">68dp</dimen>
+    <dimen name="list_item_height">102dp</dimen>
     <dimen name="list_item_padding_vertical">6dp</dimen>
     <dimen name="icon_feature_size">28dp</dimen>
     <dimen name="list_item_main_text_size">26sp</dimen>
@@ -19,5 +19,9 @@
     <dimen name="hight_chart">352dp</dimen>
     <dimen name="hight_chart1">200dp</dimen>
     <dimen name="weight_chart">200dp</dimen>
+
+    <!-- fragment detail -->
+    <dimen name="setting_row_height">68dp</dimen>
+    <dimen name="row_item_padding">8dp</dimen>
 
 </resources>
