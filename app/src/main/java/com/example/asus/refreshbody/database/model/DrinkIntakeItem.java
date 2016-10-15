@@ -2,14 +2,11 @@ package com.example.asus.refreshbody.database.model;
 
 import java.sql.Time;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-
 /**
  * Created by Asus on 10/12/2016.
  */
 
-public class DrinkIntakeItem extends RealmObject{
+public class DrinkIntakeItem{
     public static final String ID_DRINK = "idDrink";
     public static final String  DRINK_INTAKE_IMG_POS= "symbolPosition";
     public static final String NAME_DRINK="nameDrink";

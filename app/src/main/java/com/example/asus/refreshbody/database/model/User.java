@@ -1,12 +1,10 @@
 package com.example.asus.refreshbody.database.model;
 
-import io.realm.RealmObject;
-
 /**
  * Created by Asus on 10/14/2016.
  */
 
-public class User extends RealmObject {
+public class User{
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";
     public static final String USER_TABLE="user_table";

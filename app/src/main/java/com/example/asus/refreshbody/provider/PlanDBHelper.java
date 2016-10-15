@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class PlanDBHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "PlanList.db";
 
     private static final String INTEGER_TYPE = " INTEGER";
@@ -255,6 +255,21 @@ public class PlanDBHelper extends SQLiteOpenHelper {
             return true;
         else
             return false;
+    }
+
+    public ArrayList<User> getAllUser(){
+        ArrayList<User> allUser = new ArrayList<User>();
+        //hp = new HashMap();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from "+User.USER_TABLE, null );
+        res.moveToFirst();
+
+        while(res.isAfterLast() == false){
+            User drinkIntakeItem=new User(res.getString(res.getColumnIndex(User.EMAIL)),res.getString(res.getColumnIndex(User.PASSWORD)));
+            allUser.add(drinkIntakeItem);
+            res.moveToNext();
+        }
+        return allUser;
     }
 
 }

@@ -1,12 +1,11 @@
 package com.example.asus.refreshbody.database.model;
 
-import io.realm.RealmObject;
 
 /**
  * Created by Asus on 10/14/2016.
  */
 
-public class TimeDrink extends RealmObject {
+public class TimeDrink{
     private int yearDrink = 0;
     private int monthDrink = 0;
     private int dayDrink = 0;

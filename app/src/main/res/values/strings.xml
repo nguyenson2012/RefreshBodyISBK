@@ -71,5 +71,9 @@
     <string name="time_job">Working Time</string>
     <string name="rest_plan">Rest Reminder</string>
     <string name="other_reminder">Other Reminder</string>
+    <string name="please_fill_info">Please fill info to get started</string>
+    <string name="set_weight">Set Weight</string>
+    <string name="check_credential">Please check your credential</string>
+    <string name="enter_detail">Please enter your detail information</string>
 
 </resources>

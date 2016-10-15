@@ -1,24 +1,52 @@
 package com.example.asus.refreshbody;
 
 import android.app.Application;
+import android.text.TextUtils;
 
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 
 /**
  * Created by Asus on 10/14/2016.
  */
 
 public class RefreshBodyApplication extends Application {
+    public static final String TAG = RefreshBodyApplication.class.getSimpleName();
+
+    private RequestQueue mRequestQueue;
+
+    private static RefreshBodyApplication mInstance;
     @Override
     public void onCreate() {
         super.onCreate();
+        mInstance=this;
+    }
+    public static synchronized RefreshBodyApplication getInstance() {
+        return mInstance;
     }
 
-    private void initRealm() {
-        RealmConfiguration realmConfig = new RealmConfiguration.Builder(getApplicationContext())
-                .deleteRealmIfMigrationNeeded()
-                .build();
-        Realm.setDefaultConfiguration(realmConfig);
+    public RequestQueue getRequestQueue() {
+        if (mRequestQueue == null) {
+            mRequestQueue = Volley.newRequestQueue(getApplicationContext());
+        }
+
+        return mRequestQueue;
+    }
+
+    public <T> void addToRequestQueue(Request<T> req, String tag) {
+        req.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
+        getRequestQueue().add(req);
+    }
+
+    public <T> void addToRequestQueue(Request<T> req) {
+        req.setTag(TAG);
+        getRequestQueue().add(req);
+    }
+
+    public void cancelPendingRequests(Object tag) {
+        if (mRequestQueue != null) {
+            mRequestQueue.cancelAll(tag);
+        }
     }
 }

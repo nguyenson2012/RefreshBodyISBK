@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +21,26 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.asus.refreshbody.R;
+import com.example.asus.refreshbody.RefreshBodyApplication;
 import com.example.asus.refreshbody.activity.MainActivity;
-import com.example.asus.refreshbody.database.DBContext;
+import com.example.asus.refreshbody.database.model.User;
+import com.example.asus.refreshbody.provider.PlanDBHelper;
 import com.example.asus.refreshbody.utils.Constant;
 import com.example.asus.refreshbody.utils.ScreenManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Asus on 10/14/2016.
@@ -52,12 +67,11 @@ public class FragmentLogin extends Fragment implements View.OnClickListener {
     //
     private FragmentSignUp fragmentSignUp;
 
+    private PlanDBHelper planDBHelper;
+
     //animation
     private Animation animationIn;
     private Animation animationOut;
-
-    //database
-    private DBContext dbContext;
 
 
     @Nullable
@@ -75,7 +89,7 @@ public class FragmentLogin extends Fragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
         //
-        checkUserLoggedIn();
+        //checkUserLoggedIn();
     }
 
     @Override
@@ -83,6 +97,12 @@ public class FragmentLogin extends Fragment implements View.OnClickListener {
         super.onStop();
         //
         snackbar.dismiss();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        planDBHelper=PlanDBHelper.getInstance(getActivity());
     }
 
     private void addListener() {
@@ -128,9 +148,6 @@ public class FragmentLogin extends Fragment implements View.OnClickListener {
         //animation
         animationIn = AnimationUtils.loadAnimation(context, R.anim.zoom_in);
         animationOut = AnimationUtils.loadAnimation(context, R.anim.zoom_out);
-
-        //database
-        dbContext = DBContext.getInst();
     }
 
     @Override
@@ -184,20 +201,97 @@ public class FragmentLogin extends Fragment implements View.OnClickListener {
         //
         String userEmail = editTextEmail.getText().toString();
         String password = editTextPassword.getText().toString();
-        if (dbContext.getUserByUsernameAndPassword(userEmail, password) != null) {
-            //
-            snackbar.show();
-            //
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString(Constant.LOGGED_IN_USER_EMAIL, userEmail);
-            editor.putBoolean(Constant.CHECK_USER_LOGGED_IN, true);
-            editor.commit();
-
-            //
-            doActivityAfterLogin();
+        // Check for empty data in the form
+        if (!userEmail.isEmpty() && !password.isEmpty()) {
+            // login user
+            checkLogin(userEmail, password);
         } else {
-            txtWrongAcc.setVisibility(View.VISIBLE);
+            // Prompt user to enter credentials
+            Toast.makeText(getActivity(),
+                    getResources().getString(R.string.check_credential), Toast.LENGTH_LONG)
+                    .show();
         }
+    }
+
+    private void checkLogin(final String userEmail, final String password) {
+        // Tag used to cancel the request
+        String tag_string_req = "req_login";
+
+        StringRequest strReq = new StringRequest(Request.Method.GET,
+                Constant.URL_LOGIN+"/"+userEmail+"/"+password, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d("login response", "Login Response: " + response.toString());
+
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    String name = jObj.getString(Constant.USERNAME);
+                    String email = jObj.getString(Constant.EMAIL);
+                    String password=jObj.getString(Constant.PASSWORD);
+                    String idUser=jObj.getString(Constant.ID_USER);
+                    saveIdUser(idUser);
+
+                    // Inserting row in users table
+                    planDBHelper.insertUser(new User(name, email));
+
+                    // Launch main activity
+                    doActivityAfterLogin();
+
+                } catch (JSONException e) {
+                    // JSON error
+                    e.printStackTrace();
+                    Toast.makeText(getActivity(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Error login", "Login Error: " + error.getMessage());
+                Toast.makeText(getActivity(),
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting parameters to login url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put(Constant.EMAIL, userEmail);
+                params.put(Constant.PASSWORD, password);
+
+                return params;
+            }
+
+        };
+
+        // Adding request to request queue
+        RefreshBodyApplication.getInstance().addToRequestQueue(strReq, tag_string_req);
+
+    }
+
+    private void saveIdUser(String idUser) {
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putString(Constant.ID_USER,idUser);
+        editor.commit();
+    }
+
+    private void setLoginSession() {
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putBoolean(Constant.IS_LOGGED_IN,true);
+        editor.commit();
+    }
+
+    private boolean checkUserExist(String userEmail, String password) {
+        ArrayList<User> userArrayList=planDBHelper.getAllUser();
+        boolean isUserExist=false;
+        for(User user:userArrayList){
+            if(user.getEmail().equals(userEmail)&&user.getPassword().equals(password))
+                isUserExist=true;
+        }
+        return isUserExist;
     }
 }
 

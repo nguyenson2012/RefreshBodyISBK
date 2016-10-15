@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.asus.refreshbody">
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:name=".RefreshBodyApplication"
@@ -24,6 +25,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.asus.refreshbody.activity.MainActivity"/>
         </activity>
+        <activity android:name=".activity.LoginOrSignUpActivity"/>
 
         <provider
             android:name=".provider.PlanProvider"

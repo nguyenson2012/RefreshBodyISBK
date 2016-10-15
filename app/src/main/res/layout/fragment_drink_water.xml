@@ -79,7 +79,7 @@
             android:layout_marginRight="@dimen/_15sdp"
             android:text="@string/drink_intake"
             android:textStyle="bold"
-            android:textSize="@dimen/_20sdp"
+            android:textSize="@dimen/_12sdp"
             android:textColor="@color/colorPrimary"
             android:padding="@dimen/_5sdp"
             android:gravity="center"
@@ -117,7 +117,7 @@
             android:layout_marginRight="@dimen/_15sdp"
             android:background="@drawable/button_add_intake"
             android:text="Add"
-            android:textSize="@dimen/_20sdp"
+            android:textSize="@dimen/_12sdp"
             android:textColor="@color/colorPrimary"
             android:layout_below="@id/divider_drink_intake_add"/>
     </RelativeLayout>

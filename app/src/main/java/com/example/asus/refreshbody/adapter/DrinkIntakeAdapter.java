@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.asus.refreshbody.R;
 import com.example.asus.refreshbody.database.model.DrinkIntakeItem;
+import com.example.asus.refreshbody.intef.ClickListener;
 
 import java.util.ArrayList;
 
@@ -22,6 +23,8 @@ public class DrinkIntakeAdapter extends RecyclerView.Adapter<DrinkIntakeAdapter.
     private LayoutInflater inflater;
     private Context context;
 
+    private ClickListener listener;
+
     public DrinkIntakeAdapter(ArrayList<DrinkIntakeItem> data,Context context) {
         this.drinkIntakeItemArrayList = data;
         this.context = context;
@@ -33,6 +36,10 @@ public class DrinkIntakeAdapter extends RecyclerView.Adapter<DrinkIntakeAdapter.
         View view = inflater.inflate(R.layout.drink_intake_item,parent, false);
         MyViewHolder holder = new MyViewHolder(view);
         return holder;
+    }
+
+    public void setListener(ClickListener listener) {
+        this.listener = listener;
     }
 
     @Override
@@ -51,6 +58,7 @@ public class DrinkIntakeAdapter extends RecyclerView.Adapter<DrinkIntakeAdapter.
             holder.tvNameDrink.setVisibility(View.GONE);
             holder.tvDrinkAmount.setVisibility(View.GONE);
             holder.tvTimeDrinkWater.setVisibility(View.GONE);
+            holder.imgDeleteDrinkIntake.setVisibility(View.GONE);
             holder.tvTotalDrink.setVisibility(View.VISIBLE);
             holder.tvDay.setVisibility(View.VISIBLE);
         }
@@ -76,6 +84,7 @@ public class DrinkIntakeAdapter extends RecyclerView.Adapter<DrinkIntakeAdapter.
         TextView tvTimeDrinkWater;
         TextView tvDay;
         TextView tvTotalDrink;
+        ImageView imgDeleteDrinkIntake;
         public MyViewHolder(View itemView) {
             super(itemView);
             tvNameDrink=(TextView)itemView.findViewById(R.id.tv_name_drink_item);
@@ -84,6 +93,13 @@ public class DrinkIntakeAdapter extends RecyclerView.Adapter<DrinkIntakeAdapter.
             tvDrinkAmount=(TextView)itemView.findViewById(R.id.tv_drink_amount_item);
             tvDay=(TextView)itemView.findViewById(R.id.tv_day_drink_intake_item);
             tvTotalDrink=(TextView)itemView.findViewById(R.id.tv_total_drink);
+            imgDeleteDrinkIntake=(ImageView)itemView.findViewById(R.id.img_delete_drink_intake);
+            imgDeleteDrinkIntake.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onClick(v,getAdapterPosition());
+                }
+            });
         }
     }
 }
