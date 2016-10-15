@@ -9,7 +9,7 @@ import io.realm.RealmObject;
 public class CupChooseItem extends RealmObject {
     public static final String  CUP_CHOOSE_ID= "idCupChoose";
     private String idCupChoose;
-    private int symbol;
+    private int symbolPosition;
     private String nameCup;
     private int amountCup;
 
@@ -17,7 +17,7 @@ public class CupChooseItem extends RealmObject {
 
     public CupChooseItem(String idCupChoose, int symbol, String nameCup, int amountCup) {
         this.idCupChoose = idCupChoose;
-        this.symbol = symbol;
+        this.symbolPosition = symbol;
         this.nameCup = nameCup;
         this.amountCup = amountCup;
     }
@@ -29,12 +29,12 @@ public class CupChooseItem extends RealmObject {
         this.idCupChoose = idCupChoose;
     }
 
-    public int getSymbol() {
-        return symbol;
+    public int getSymbolPosition() {
+        return symbolPosition;
     }
 
-    public void setSymbol(int symbol) {
-        this.symbol = symbol;
+    public void setSymbolPosition(int symbolPosition) {
+        this.symbolPosition = symbolPosition;
     }
 
     public String getNameCup() {

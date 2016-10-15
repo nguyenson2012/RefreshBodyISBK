@@ -12,7 +12,7 @@ import io.realm.annotations.PrimaryKey;
 public class DrinkIntakeItem extends RealmObject{
     public static final String USER_ID = "idDrink";
     private String idDrink;
-    private int symbol;
+    private int symbolPosition;
     private String nameDrink;
     private int amountDrink;
     private TimeDrink timeDrink;
@@ -20,24 +20,24 @@ public class DrinkIntakeItem extends RealmObject{
     public DrinkIntakeItem(){}
 
     public DrinkIntakeItem(int symbol, String nameDrink, int amountDrink) {
-        this.symbol = symbol;
+        this.symbolPosition = symbol;
         this.nameDrink = nameDrink;
         this.amountDrink = amountDrink;
     }
 
     public DrinkIntakeItem(int symbol, String nameDrink, int amountDrink, TimeDrink timeDrink) {
-        this.symbol = symbol;
+        this.symbolPosition = symbol;
         this.nameDrink = nameDrink;
         this.amountDrink = amountDrink;
         this.timeDrink = timeDrink;
     }
 
-    public int getSymbol() {
-        return symbol;
+    public int getSymbolPosition() {
+        return symbolPosition;
     }
 
-    public void setSymbol(int symbol) {
-        this.symbol = symbol;
+    public void setSymbolPosition(int symbolPosition) {
+        this.symbolPosition = symbolPosition;
     }
 
     public String getNameDrink() {

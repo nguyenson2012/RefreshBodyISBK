@@ -2,6 +2,7 @@ package com.example.asus.refreshbody.database;
 
 import com.example.asus.refreshbody.database.model.CupChooseItem;
 import com.example.asus.refreshbody.database.model.DrinkIntakeItem;
+import com.example.asus.refreshbody.database.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,22 @@ public class DBContext {
         }
         return inst;
     }
+    public void createUser(User user){
+        realm.beginTransaction();
+        realm.copyToRealm(user);
+        realm.commitTransaction();
+    }
+
+    public User getUserByUsernameAndPassword(String userEmail, String password) {
+        User user = null;
+        try {
+            user = realm.where(User.class).equalTo(User.EMAIL, userEmail).equalTo(User.PASSWORD, password).findFirst();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
     public void createDrinkIntakeItem(DrinkIntakeItem drinkIntakeItem){
         realm.beginTransaction();
         realm.copyToRealm(drinkIntakeItem);
@@ -53,9 +70,9 @@ public class DBContext {
             }
         });
     }
-    public void updateDrinkIntake(DrinkIntakeItem drinkIntakeItem,int imgRes,String nameDrink,int drinkAmount){
+    public void updateDrinkIntake(DrinkIntakeItem drinkIntakeItem,int symbolPosition,String nameDrink,int drinkAmount){
         realm.beginTransaction();
-        drinkIntakeItem.setSymbol(imgRes);
+        drinkIntakeItem.setSymbolPosition(symbolPosition);
         drinkIntakeItem.setNameDrink(nameDrink);
         drinkIntakeItem.setAmountDrink(drinkAmount);
         realm.commitTransaction();
@@ -71,11 +88,13 @@ public class DBContext {
         return realm.where(CupChooseItem.class).findAll();
     }
 
-    public void updateCupChooseItem(CupChooseItem cupChooseItem,int imgRes,String nameCup,int amountDrink){
+    public void updateCupChooseItem(CupChooseItem cupChooseItem,int imgPos,String nameCup,int amountDrink){
         realm.beginTransaction();
-        cupChooseItem.setSymbol(imgRes);
+        cupChooseItem.setSymbolPosition(imgPos);
         cupChooseItem.setNameCup(nameCup);
         cupChooseItem.setAmountCup(amountDrink);
         realm.commitTransaction();
     }
+
+
 }

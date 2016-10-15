@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.asus.refreshbody.R;
 import com.example.asus.refreshbody.database.DBContext;
 import com.example.asus.refreshbody.database.DefaultData;
+import com.example.asus.refreshbody.database.model.CupChooseItem;
 import com.example.asus.refreshbody.fragment.DrinkLog;
 import com.example.asus.refreshbody.fragment.FragmentChooseCup;
 import com.example.asus.refreshbody.fragment.FragmentDrawer;
@@ -79,11 +80,8 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
     private void intiliazeFragment() {
         fragmentDrinkWater=new FragmentDrinkWater();
         fragmentChooseCup=new FragmentChooseCup();
-<<<<<<< HEAD
         fragmentDrinkLog = new DrinkLog();
-=======
         fragmentReminder = new FragmentReminder();
->>>>>>> 649e1753145d9bc442f5c9d56d97b3ace75de339
     }
 
     private void setUpView() {
@@ -149,5 +147,9 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
 
     public void replaceFragmentCupChoose() {
         screenManager.openFragment(getSupportFragmentManager(),R.id.frame_container,fragmentChooseCup,true);
+    }
+
+    public void addDrinkIntake(CupChooseItem cupChooseItem) {
+
     }
 }
