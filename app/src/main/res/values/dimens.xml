@@ -16,5 +16,8 @@
     <dimen name="list_item_sub_text_size">18sp</dimen>
     <dimen name="list_item_sub_text_size2">14sp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="hight_chart">352dp</dimen>
+    <dimen name="hight_chart1">200dp</dimen>
+    <dimen name="weight_chart">200dp</dimen>
 
 </resources>
