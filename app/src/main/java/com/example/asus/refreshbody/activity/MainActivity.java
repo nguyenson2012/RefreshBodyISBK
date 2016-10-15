@@ -7,6 +7,8 @@ import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +31,7 @@ import com.example.asus.refreshbody.fragment.FragmentDrinkWater;
 import com.example.asus.refreshbody.fragment.FragmentReminder;
 import com.example.asus.refreshbody.fragment.FragmentReminderPlanDetail;
 import com.example.asus.refreshbody.fragment.FragmentSetWeight;
+import com.example.asus.refreshbody.fragment.SettingsFragment;
 import com.example.asus.refreshbody.intef.FragmentDrawerListener;
 import com.example.asus.refreshbody.provider.DefaultDataSqlite;
 import com.example.asus.refreshbody.provider.PlanContract;
@@ -44,7 +47,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity implements FragmentDrawerListener, FragmentReminder.OnListItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements FragmentDrawerListener, FragmentReminder.OnListItemSelectedListener,
+        SharedPreferences.OnSharedPreferenceChangeListener {
     private String TAG = MainActivity.this.getClass().getSimpleName();
 
     private Toolbar mToolbar;
@@ -93,8 +97,10 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
         }
         setUpView();
         intiliazeFragment();
-//        addFragmentDrinkWater();
-        addFragmentSetWeight();
+        if  (sharedPreferences.getBoolean(Constant.PREFERENCE_FIRST_RUNNING, true)) {
+            addFragmentSetWeight();
+            sharedPreferences.edit().putBoolean(Constant.PREFERENCE_FIRST_RUNNING, false).commit();
+        } else addFragmentDrinkWater();
     }
 
     private void addFragmentSetWeight() {
@@ -149,7 +155,11 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
                 Toast.makeText(this,"Reminder",Toast.LENGTH_SHORT).show();
                 screenManager.openFragment(getSupportFragmentManager(), R.id.frame_container, fragmentReminder, false);
                 break;
-
+            case 4: //Settings
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                sharedPreferences.registerOnSharedPreferenceChangeListener(this);
         }
     }
 
@@ -201,5 +211,11 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
 
     public void openNavigationDrawer() {
         drawerFragment.openNavigationDrawer();
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        String weight = sharedPreferences.getString(key, "50");
+        Toast.makeText(this, weight + "",Toast.LENGTH_SHORT);
     }
 }

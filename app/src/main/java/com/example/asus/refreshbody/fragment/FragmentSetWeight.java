@@ -95,7 +95,7 @@ public class FragmentSetWeight extends Fragment implements View.OnClickListener{
     private void saveDrinkTarget(int drinkTarget, int weight) {
         SharedPreferences.Editor editor=sharedPreferences.edit();
         editor.putInt(Constant.DRINK_TARGET,drinkTarget);
-        editor.putInt(Constant.WEIGHT, weight);
+        editor.putInt(SettingsFragment.WEIGHT, weight);
         editor.commit();
     }
 }

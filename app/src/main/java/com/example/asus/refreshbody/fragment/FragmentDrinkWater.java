@@ -3,6 +3,7 @@ package com.example.asus.refreshbody.fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -93,7 +94,8 @@ public class FragmentDrinkWater extends Fragment implements View.OnClickListener
     }
 
     private void getTargetDrink() {
-        targetDrink=sharedPreferences.getInt(Constant.DRINK_TARGET,2000);
+        int weight = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(SettingsFragment.WEIGHT, "60"));
+        targetDrink= weight * Constant.water_rate;
     }
 
     private void setAdapterForRecyclerViewDrinkIntake() {

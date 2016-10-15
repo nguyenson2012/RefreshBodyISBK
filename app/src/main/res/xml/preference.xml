@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/general">
+
+        <EditTextPreference android:title="Weight change"
+            android:key="preference_weight"
+            android:defaultValue="70">
+        </EditTextPreference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/other">
+        <Preference android:title="@string/feedback">
+
+        </Preference>
+
+        <Preference android:title="@string/share">
+
+        </Preference>
+
+        <Preference android:title="@string/rate_us">
+
+        </Preference>
+    </PreferenceCategory>
+
+</PreferenceScreen>
