@@ -1,5 +1,7 @@
 package com.example.asus.refreshbody.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,9 +18,10 @@ import android.widget.Toast;
 import com.example.asus.refreshbody.R;
 import com.example.asus.refreshbody.activity.MainActivity;
 import com.example.asus.refreshbody.adapter.DrinkIntakeAdapter;
-import com.example.asus.refreshbody.database.DBContext;
 import com.example.asus.refreshbody.database.model.DrinkIntakeItem;
+import com.example.asus.refreshbody.intef.ClickListener;
 import com.example.asus.refreshbody.provider.PlanDBHelper;
+import com.example.asus.refreshbody.utils.Constant;
 import com.github.lzyzsd.circleprogress.ArcProgress;
 import com.github.lzyzsd.circleprogress.CircleProgress;
 
@@ -44,16 +47,15 @@ public class FragmentDrinkWater extends Fragment implements View.OnClickListener
 
     private ArrayList<DrinkIntakeItem> drinkIntakeItemArrayList;
 
-    private DBContext dbContext;
-
     private PlanDBHelper planDBHelper;
+
+    private SharedPreferences sharedPreferences;
 
     private Calendar calendar;
 
     private int currentDay;
     private int currentMonth;
     private int currentYear;
-
     private int totalDrinkCurrentDay=0;
     private int targetDrink=2000;
     @Nullable
@@ -77,11 +79,24 @@ public class FragmentDrinkWater extends Fragment implements View.OnClickListener
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         planDBHelper=PlanDBHelper.getInstance(getActivity());
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        sharedPreferences=getActivity().getSharedPreferences(Constant.MY_PREFERENCE, Context.MODE_PRIVATE);
+        getTargetDrink();
         setAdapterForRecyclerViewDrinkIntake();
+//        ((MainActivity)getActivity()).openNavigationDrawer();
+
+    }
+
+    private void getTargetDrink() {
+        targetDrink=sharedPreferences.getInt(Constant.DRINK_TARGET,2000);
     }
 
     private void setAdapterForRecyclerViewDrinkIntake() {
-//        dbContext=DBContext.getInst();
 //        drinkIntakeItemArrayList=dbContext.getDrinkIntakeListByDay(calendar.get(Calendar.DAY_OF_MONTH),calendar.get(Calendar.MONTH),
 //                calendar.get(Calendar.YEAR));
         totalDrinkCurrentDay=0;
@@ -97,6 +112,34 @@ public class FragmentDrinkWater extends Fragment implements View.OnClickListener
             }
         }
         drinkIntakeAdapter=new DrinkIntakeAdapter(drinkIntakeItemArrayList,getActivity());
+        drinkIntakeAdapter.setListener(new ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                totalDrinkCurrentDay-=drinkIntakeItemArrayList.get(position).getAmountDrink();
+                tvDrinkState.setText(totalDrinkCurrentDay+"/"+targetDrink+" ml");
+                tvIntakeLabel.setText("INTAKE TOTAL: "+totalDrinkCurrentDay+" ml");
+                int percent=(int)((totalDrinkCurrentDay*100)/targetDrink);
+                tvPercentAmountDrink.setText(percent+" %");
+                if(percent<30)
+                    imgDrinkState.setImageResource(R.drawable.mascot_bad);
+                if(percent>30&&percent<60)
+                    imgDrinkState.setImageResource(R.drawable.mascot_okay);
+                if(percent>60&&percent<100)
+                    imgDrinkState.setImageResource(R.drawable.mascot_good);
+                if(percent>100)
+                    imgDrinkState.setImageResource(R.drawable.mascot_overfill);
+                circleProgressDrink.setValue(percent);
+                circleProgressDrink.setText("");
+                planDBHelper.deleleDrinkIntake(drinkIntakeItemArrayList.get(position).getIdDrink());
+                drinkIntakeItemArrayList.remove(position);
+                drinkIntakeAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        });
         recyclerViewDrinkIntake.setAdapter(drinkIntakeAdapter);
         recyclerViewDrinkIntake.setLayoutManager(new LinearLayoutManager(getActivity()));
 

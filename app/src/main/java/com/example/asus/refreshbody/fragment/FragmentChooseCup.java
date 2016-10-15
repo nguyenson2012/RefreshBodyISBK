@@ -17,7 +17,6 @@ import com.example.asus.refreshbody.R;
 import com.example.asus.refreshbody.activity.MainActivity;
 import com.example.asus.refreshbody.adapter.CupChooseAdapter;
 import com.example.asus.refreshbody.adapter.CupImageAdapter;
-import com.example.asus.refreshbody.database.DBContext;
 import com.example.asus.refreshbody.database.model.CupChooseItem;
 import com.example.asus.refreshbody.intef.ClickListener;
 import com.example.asus.refreshbody.intef.CupChooseListener;
@@ -157,10 +156,8 @@ public class FragmentChooseCup  extends Fragment implements View.OnClickListener
     }
 
     private void setupDefaultData() {
-        //dbContext=DBContext.getInst();
         arrayListDrinkIntakeItems=new ArrayList<CupChooseItem>();
         arrayListDrinkIntakeItems=planDBHelper.getAllCupChoose();
-        //arrayListDrinkIntakeItems.addAll(dbContext.getAllCupChooseItem());
 
     }
 

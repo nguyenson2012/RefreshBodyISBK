@@ -51,4 +51,29 @@
         <item>Sa</item>
     </string-array>
     <string name="title_activity_drink_report">DrinkReportActivity</string>
+
+    <string-array name="reminder_mode">
+        <item>Drink Reminder</item>
+        <item>Rest Reminder</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="working_time">
+        <item>1 hour</item>
+        <item>2 hours</item>
+        <item>3 hours</item>
+    </string-array>
+
+    <string name="reminder_rest">Rest Reminder</string>
+    <string name="reminder_mode">Reminder mode</string>
+    <string name="label">Label</string>
+    <string name="content">Note</string>
+    <string name="time_job">Working Time</string>
+    <string name="rest_plan">Rest Reminder</string>
+    <string name="other_reminder">Other Reminder</string>
+    <string name="please_fill_info">Please fill info to get started</string>
+    <string name="set_weight">Set Weight</string>
+    <string name="check_credential">Please check your credential</string>
+    <string name="enter_detail">Please enter your detail information</string>
+
 </resources>

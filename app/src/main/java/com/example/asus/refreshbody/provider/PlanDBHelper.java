@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class PlanDBHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "PlanList.db";
 
     private static final String INTEGER_TYPE = " INTEGER";
@@ -32,10 +32,15 @@ public class PlanDBHelper extends SQLiteOpenHelper {
                     PlanContract.PlanEntry.COLUMN_TIME_HOUR + INTEGER_TYPE + COMMA_SEP +
                     PlanContract.PlanEntry.COLUMN_TIME_MINUTE + INTEGER_TYPE + COMMA_SEP +
                     PlanContract.PlanEntry.COLUMN_DAYS + " BLOB NOT NULL" + COMMA_SEP +
+                    PlanContract.PlanEntry.COLUMN_MODE + TEXT_TYPE + COMMA_SEP +
+                    PlanContract.PlanEntry.COLUMN_LABEL + TEXT_TYPE + COMMA_SEP +
+                    PlanContract.PlanEntry.COLUMN_NOTE + TEXT_TYPE + COMMA_SEP +
+                    PlanContract.PlanEntry.COLUMN_WORKINGTIME + INTEGER_TYPE + COMMA_SEP +
                     PlanContract.PlanEntry.COLUMN_SOUND + INTEGER_TYPE + COMMA_SEP +
                     PlanContract.PlanEntry.COLUMN_VIBRATION + INTEGER_TYPE + COMMA_SEP +
                     PlanContract.PlanEntry.COLUMN_ENABLE + INTEGER_TYPE +
                     ")";
+
     private final String SQL_CREATE_CUP_CHOOSE=
             "CREATE TABLE " + CupChooseItem.CUP_CHOOSE_TABLE+ " (" +
                     CupChooseItem.CUP_CHOOSE_ID + " STRING PRIMARY KEY" + COMMA_SEP +
@@ -250,6 +255,21 @@ public class PlanDBHelper extends SQLiteOpenHelper {
             return true;
         else
             return false;
+    }
+
+    public ArrayList<User> getAllUser(){
+        ArrayList<User> allUser = new ArrayList<User>();
+        //hp = new HashMap();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from "+User.USER_TABLE, null );
+        res.moveToFirst();
+
+        while(res.isAfterLast() == false){
+            User drinkIntakeItem=new User(res.getString(res.getColumnIndex(User.EMAIL)),res.getString(res.getColumnIndex(User.PASSWORD)));
+            allUser.add(drinkIntakeItem);
+            res.moveToNext();
+        }
+        return allUser;
     }
 
 }

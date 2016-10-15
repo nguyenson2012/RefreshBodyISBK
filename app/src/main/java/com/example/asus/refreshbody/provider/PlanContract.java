@@ -21,6 +21,10 @@ public final class PlanContract {
         public static final String COLUMN_SOUND = "column_sound";
         public static final String COLUMN_VIBRATION = "column_vibration";
         public static final String COLUMN_ENABLE = "column_enable";
+        public static final String COLUMN_MODE = "column_mode";
+        public static final String COLUMN_LABEL = "column_label";
+        public static final String COLUMN_NOTE = "column_note";
+        public static final String COLUMN_WORKINGTIME = "column_time";
 
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_REMINDER_PLAN).build();

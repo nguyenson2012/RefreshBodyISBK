@@ -1,12 +1,10 @@
 package com.example.asus.refreshbody.database.model;
 
-import io.realm.RealmObject;
-
 /**
  * Created by Asus on 10/14/2016.
  */
 
-public class CupChooseItem extends RealmObject {
+public class CupChooseItem {
     public static final String  CUP_CHOOSE_ID= "idCupChoose";
     public static final String  CUP_CHOOSE_IMG_POS= "symbolPosition";
     public static final String NAME_CUP="nameCup";

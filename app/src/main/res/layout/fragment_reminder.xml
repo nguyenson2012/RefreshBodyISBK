@@ -5,46 +5,86 @@
     android:layout_margin="@dimen/_15sdp"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="@string/Notification"
-            android:textStyle="bold"
-            android:textColor="#000000" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <Switch
-            android:id="@+id/switch_notification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/reminder_plan"
+                android:textColor="#000000"
+                android:textStyle="bold" />
 
-    </RelativeLayout>
+            <ImageButton
+                android:id="@+id/bt_add_plan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="bottom|right"
+                android:src="@drawable/ic_add_white_36dp" />
+        </RelativeLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:text="@string/reminder_plan"
-        android:textStyle="bold"
-        android:textColor="#000000" />
+        <ListView
+            android:id="@+id/list_reminder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <ListView
-        android:id="@+id/list_reminder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        </ListView>
 
-    </ListView>
+    </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/bt_add_plan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:src="@drawable/ic_add_white_36dp" />
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="0dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:orientation="vertical">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:text="@string/rest_plan"-->
+    <!--android:textColor="#000000"-->
+    <!--android:textStyle="bold" />-->
+
+    <!--<ListView-->
+    <!--android:id="@+id/list_rest"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content">-->
+
+    <!--</ListView>-->
+
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="0dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:orientation="vertical">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:text="@string/other_reminder"-->
+    <!--android:textColor="#000000"-->
+    <!--android:textStyle="bold" />-->
+
+    <!--<ListView-->
+    <!--android:id="@+id/list_other_reminder"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content">-->
+
+    <!--</ListView>-->
+
+    <!--</LinearLayout>-->
 
 </LinearLayout>

@@ -1,15 +1,15 @@
 package com.example.asus.refreshbody.database.model;
 
 import java.sql.Time;
-
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Asus on 10/12/2016.
  */
 
-public class DrinkIntakeItem extends RealmObject{
+public class DrinkIntakeItem{
     public static final String ID_DRINK = "idDrink";
     public static final String  DRINK_INTAKE_IMG_POS= "symbolPosition";
     public static final String NAME_DRINK="nameDrink";
@@ -20,12 +20,14 @@ public class DrinkIntakeItem extends RealmObject{
     public static final String DAY_DRINK="dayDrink";
     public static final String HOUR_DRINK="hourDrink";
     public static final String MINUTE_DRINK="minuteDrink";
+    public static final String DATE_STRING="dateString";
     public static final String IS_UPDATE="isUpdated";
     public static final String IS_DELETE="isDeleted";
     private String idDrink;
     private int symbolPosition;
     private String nameDrink;
     private int amountDrink;
+    private String dateString;
     private boolean isUpdated;
     private boolean isDelete;
     private TimeDrink timeDrink;
@@ -47,6 +49,7 @@ public class DrinkIntakeItem extends RealmObject{
         this.timeDrink = timeDrink;
         isDelete=false;
         isUpdated=false;
+        dateString=convertToFormatDateString();
     }
 
     public DrinkIntakeItem(String idDrink, int symbolPosition, String nameDrink, int amountDrink, TimeDrink timeDrink) {
@@ -57,6 +60,21 @@ public class DrinkIntakeItem extends RealmObject{
         this.timeDrink = timeDrink;
         isDelete=false;
         isUpdated=false;
+        dateString=convertToFormatDateString();
+
+    }
+
+    private String convertToFormatDateString(){
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        Date date = new Date();
+        date.setYear(this.timeDrink.getYearDrink());
+        date.setDate(this.timeDrink.getDayDrink());
+        date.setMonth(this.timeDrink.getMonthDrink());
+        date.setHours(this.timeDrink.getHourDrink());
+        date.setMinutes(this.timeDrink.getMinuteDrink());
+        String datetime = dateformat.format(date);
+        return datetime;
+
     }
 
     public int getSymbolPosition() {

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -18,8 +19,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.asus.refreshbody.R;
-import com.example.asus.refreshbody.database.DBContext;
-import com.example.asus.refreshbody.database.DefaultData;
 import com.example.asus.refreshbody.database.model.CupChooseItem;
 import com.example.asus.refreshbody.database.model.DrinkIntakeItem;
 import com.example.asus.refreshbody.database.model.TimeDrink;
@@ -29,6 +28,7 @@ import com.example.asus.refreshbody.fragment.FragmentDrawer;
 import com.example.asus.refreshbody.fragment.FragmentDrinkWater;
 import com.example.asus.refreshbody.fragment.FragmentReminder;
 import com.example.asus.refreshbody.fragment.FragmentReminderPlanDetail;
+import com.example.asus.refreshbody.fragment.FragmentSetWeight;
 import com.example.asus.refreshbody.intef.FragmentDrawerListener;
 import com.example.asus.refreshbody.provider.DefaultDataSqlite;
 import com.example.asus.refreshbody.provider.PlanContract;
@@ -37,6 +37,7 @@ import com.example.asus.refreshbody.service.AlarmServiceReceiver;
 import com.example.asus.refreshbody.utils.Constant;
 import com.example.asus.refreshbody.utils.ScreenManager;
 import com.example.asus.refreshbody.utils.iLog;
+import com.mikepenz.materialdrawer.DrawerBuilder;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
     private FragmentDrawer drawerFragment;
     private FragmentReminder fragmentReminder;
     private FragmentChooseCup fragmentChooseCup;
+    private FragmentSetWeight fragmentSetWeight;
     private DrinkLog fragmentDrinkLog;
 
     private PlanDBHelper planDBHelper;
@@ -91,12 +93,18 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
         }
         setUpView();
         intiliazeFragment();
-        addFragmentDrinkWater();
+//        addFragmentDrinkWater();
+        addFragmentSetWeight();
+    }
+
+    private void addFragmentSetWeight() {
+        screenManager.openFragment(getSupportFragmentManager(),R.id.frame_container,fragmentSetWeight,false);
     }
 
 
-    private void addFragmentDrinkWater() {
+    public void addFragmentDrinkWater() {
         screenManager.openFragment(getSupportFragmentManager(),R.id.frame_container,fragmentDrinkWater,false);
+        openNavigationDrawer();
     }
 
     private void intiliazeFragment() {
@@ -104,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
         fragmentChooseCup=new FragmentChooseCup();
         fragmentDrinkLog = new DrinkLog();
         fragmentReminder = new FragmentReminder();
+        fragmentSetWeight=new FragmentSetWeight();
     }
 
     private void setUpView() {
@@ -117,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
                 getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
         drawerFragment.setDrawerListener(this);
+        //new DrawerBuilder().withActivity(this).build();
 
         screenManager=ScreenManager.getInst();
     }
@@ -155,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
     @Override
     public void onListItemSelected(Uri uri, long id) {
         FragmentReminderPlanDetail fragment = FragmentReminderPlanDetail.newInstance(id);
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, fragment).addToBackStack(null).commit();
+        screenManager.openFragmentWithAnimation(getSupportFragmentManager(), R.id.frame_container, fragment, false);
     }
 
     private ContentObserver mContentObserver = new ContentObserver(new Handler()) {
@@ -183,6 +193,15 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
         int hour=calendar.get(Calendar.HOUR_OF_DAY);
         int minute=calendar.get(Calendar.MINUTE);
         drinkIntakeItem.setTimeDrink(new TimeDrink(year,month,day,hour,minute));
+        drinkIntakeItem.setIdDrink(Math.abs(SystemClock.currentThreadTimeMillis())+year+month+day+hour+minute+"");
         planDBHelper.insertDrinkIntake(drinkIntakeItem);
+    }
+
+    public void closeDrawer() {
+        drawerFragment.closeNavigationDrawer();
+    }
+
+    public void openNavigationDrawer() {
+        drawerFragment.openNavigationDrawer();
     }
 }
