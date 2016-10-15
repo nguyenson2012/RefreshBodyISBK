@@ -3,6 +3,7 @@ package com.example.asus.refreshbody.utils;
 import android.graphics.Color;
 
 import com.example.asus.refreshbody.database.model.DrinkIntakeItem;
+import com.example.asus.refreshbody.database.model.TimeDrink;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 
 public class DrawChart {
     private ArrayList<DrinkIntakeItem> item = new ArrayList<DrinkIntakeItem>();
-    private ArrayList<Entry> entries = new ArrayList<>();
+    ArrayList<Entry> entries = new ArrayList<>();
     private ArrayList<PieEntry> entriesPieChart = new ArrayList<>();
     private ArrayList<String> labelX = new ArrayList<String>();
     LineDataSet dataSet;
@@ -33,6 +34,7 @@ public class DrawChart {
     private PieChart pieChart;
     private PieDataSet pieDataSet;
     private PieData pieData ;
+    private String pieTitle;
 
     public DrawChart(LineChart chart){
 
@@ -43,33 +45,33 @@ public class DrawChart {
 
     public DrawChart(PieChart pieChart) {
         this.pieChart = pieChart;
-        addDataPieChart(null);
-        setupPieChart();
     }
     public DrawChart(LineChart chart, PieChart pieChart) {
         this.pieChart = pieChart;
         this.chart = chart;
         addData(null);
-        addDataPieChart(null);
         setupLineChart();
-        setupPieChart();
     }
 
     public void addData(ArrayList<DrinkIntakeItem> item) {
+        entries = new ArrayList<>();
         entries.add(new Entry(5,6));
         entries.add(new Entry(6,7));
         entries.add(new Entry(7,8));
+
         if(entries != null){
+
             dataSet = new LineDataSet(entries, "Report");
             lineData = new LineData(dataSet);
         }
     }
 
-    public void addDataPieChart(ArrayList<DrinkIntakeItem> item) {
-        entriesPieChart.add(new PieEntry(6,0));
-        entriesPieChart.add(new PieEntry(4,1));
+    public void addDataPieChart(int amountDrank, int constant) {
+        entriesPieChart.add(new PieEntry(amountDrank,0));
+        entriesPieChart.add(new PieEntry((constant - amountDrank),1));
         pieDataSet = new PieDataSet(entriesPieChart, "Report");
         pieData = new PieData(pieDataSet);
+        pieChart.setCenterText((100*amountDrank)/constant + "%");
     }
 
 
@@ -79,8 +81,7 @@ public class DrawChart {
         pieDataSet.setLabel("hehe ");
 
         pieDataSet.setDrawValues(false);
-        pieChart.setCenterText("60%");
-        pieChart.setDescription("Week");
+        pieChart.setDescription(pieTitle);
 
 
     }
@@ -99,8 +100,6 @@ public class DrawChart {
         getYAxist();
         chart.getAxisLeft().setEnabled(true);
         chart.getAxisRight().setEnabled(false);
-
-
 
     }
 
@@ -148,11 +147,20 @@ public class DrawChart {
        }
     }
 
-    public void drawPieChart() {
-        if(pieDataSet != null) {
-            setupPieChart();
-            pieChart.setData(pieData);
-            pieChart.invalidate();
-        }
+    public void drawPieChart(int amountDrank, int constant) {
+
+        addDataPieChart(amountDrank,constant);
+        setupPieChart();
+        pieChart.setData(pieData);
+        pieChart.invalidate();
     }
+
+    public void setPieTitle(String pieTitle){
+        this.pieTitle = pieTitle;
+    }
+
+    /*private class DrinkItem(){
+        TimeDrink timeDrink;
+
+    }*/
 }

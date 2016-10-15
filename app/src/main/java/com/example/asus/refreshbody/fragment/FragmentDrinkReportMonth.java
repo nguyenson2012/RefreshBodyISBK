@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.asus.refreshbody.R;
+import com.example.asus.refreshbody.controller.DrinkReportController;
 import com.example.asus.refreshbody.database.model.DrinkIntakeItem;
 import com.example.asus.refreshbody.utils.DrawChart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -22,6 +23,9 @@ public class FragmentDrinkReportMonth extends Fragment {
     private DrawChart drawChart,drawChartDay;
     private PieChart pieChart;
     private PieChart pieChartDay;
+    private ArrayList<DrinkIntakeItem> arrDrink = new ArrayList<DrinkIntakeItem>();
+    private DrinkReportController drinkReportController;
+
     public FragmentDrinkReportMonth() {
         // Required empty public constructor
     }
@@ -40,14 +44,12 @@ public class FragmentDrinkReportMonth extends Fragment {
       //  LineChart chart = new LineChart(this.getContext());
         chart = (LineChart)fragmentview.findViewById(R.id.chartMonth);
         pieChart = (PieChart) fragmentview.findViewById(R.id.chartMonthPie);
-
-        drawChart = new DrawChart(chart,pieChart);
-        drawChart.drawLineChart();
-        drawChart.drawPieChart();
-
         pieChartDay = (PieChart) fragmentview.findViewById(R.id.chartPieDay) ;
-        drawChartDay = new DrawChart(pieChartDay);
-        drawChartDay.drawPieChart();
+
+        drinkReportController = new DrinkReportController(arrDrink);
+        drinkReportController.drawLine(chart);
+        drinkReportController.drawPieChart(pieChartDay,75,100,"Day");
+        drinkReportController.drawPieChart(pieChart,85,100,"Month");
 
         return fragmentview;
     }

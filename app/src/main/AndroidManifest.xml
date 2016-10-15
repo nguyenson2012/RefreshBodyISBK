@@ -53,6 +53,7 @@
         <service android:name=".service.AlarmService" />
         <service android:name=".controller.SwitchControllerService" />
 
+
     </application>
 
 </manifest>
