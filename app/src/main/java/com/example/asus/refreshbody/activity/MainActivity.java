@@ -20,10 +20,16 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.asus.refreshbody.R;
+import com.example.asus.refreshbody.RefreshBodyApplication;
 import com.example.asus.refreshbody.database.model.CupChooseItem;
 import com.example.asus.refreshbody.database.model.DrinkIntakeItem;
 import com.example.asus.refreshbody.database.model.TimeDrink;
+import com.example.asus.refreshbody.database.model.User;
 import com.example.asus.refreshbody.fragment.DrinkLog;
 import com.example.asus.refreshbody.fragment.FragmentChooseCup;
 import com.example.asus.refreshbody.fragment.FragmentDrawer;
@@ -42,10 +48,16 @@ import com.example.asus.refreshbody.utils.ScreenManager;
 import com.example.asus.refreshbody.utils.iLog;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements FragmentDrawerListener, FragmentReminder.OnListItemSelectedListener {
     private String TAG = MainActivity.this.getClass().getSimpleName();
@@ -149,6 +161,8 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
                 break;
             case 2://Drink record
                 Toast.makeText(this,"Drink Record",Toast.LENGTH_SHORT).show();
+                Intent intentRecord = new Intent(MainActivity.this, DrinkReportActivity.class);
+                startActivity(intentRecord);
                 break;
             case 3://Reminder
                 Toast.makeText(this,"Reminder",Toast.LENGTH_SHORT).show();
@@ -201,6 +215,11 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
         drinkIntakeItem.setTimeDrink(new TimeDrink(year,month,day,hour,minute));
         drinkIntakeItem.setIdDrink(Math.abs(SystemClock.currentThreadTimeMillis())+year+month+day+hour+minute+"");
         planDBHelper.insertDrinkIntake(drinkIntakeItem);
+    }
+
+    private void insertDrinkIntakeToServer(DrinkIntakeItem drinkIntakeItem) {
+        // Tag used to cancel the request
+        String tag_string_req = "req_login";
     }
 
     public void closeDrawer() {

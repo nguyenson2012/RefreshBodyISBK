@@ -154,7 +154,7 @@ public class FragmentSignUp extends Fragment implements View.OnClickListener {
                         // Inserting row in users table
                         planDBHelper.insertUser(new User(email,password));
                         saveIdUser(userId);
-                        getActivity().onBackPressed();
+                    openMainActivity();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

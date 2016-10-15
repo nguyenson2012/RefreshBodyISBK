@@ -203,6 +203,10 @@ public class PlanDBHelper extends SQLiteOpenHelper {
                 DrinkIntakeItem.ID_DRINK+" = ? ",
                 new String[] { drinkId });
     }
+    public void deleleAllDrinkIntake(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from "+ DrinkIntakeItem.DRINK_ITAKE_TABLE);
+    }
     public ArrayList<DrinkIntakeItem> getAllDrinkIntake(){
         ArrayList<DrinkIntakeItem> cupChooseItemArrayList = new ArrayList<DrinkIntakeItem>();
         //hp = new HashMap();

@@ -22,17 +22,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/hight_chart1"
                 android:orientation="horizontal">
+
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/chartPieDay"
-                    android:layout_width="@dimen/weight_chart"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="left"/>
+                    android:layout_width="@dimen/_130sdp"
+                    android:layout_height="@dimen/_130sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_gravity="left|top"/>
+
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/chartMonthPie"
-                    android:layout_width="@dimen/weight_chart"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="right"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_width="@dimen/_130sdp"
+                    android:layout_height="@dimen/_130sdp"
+                    android:layout_gravity="right|top"
+                    android:layout_marginLeft="@dimen/_10sdp"/>
             </LinearLayout>
         </LinearLayout>
 

@@ -46,13 +46,11 @@ public class FragmentDrawer extends Fragment {
     }
 
     public void closeNavigationDrawer(){
-        mDrawerLayout.closeDrawer(Gravity.LEFT);
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         mDrawerToggle.setDrawerIndicatorEnabled(false);
     }
 
     public void openNavigationDrawer(){
-        mDrawerLayout.openDrawer(Gravity.LEFT);
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         mDrawerToggle.setDrawerIndicatorEnabled(true);
     }

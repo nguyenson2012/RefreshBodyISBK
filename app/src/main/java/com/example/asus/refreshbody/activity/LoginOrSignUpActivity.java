@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.example.asus.refreshbody.R;
 import com.example.asus.refreshbody.fragment.FragmentLogin;
 import com.example.asus.refreshbody.fragment.FragmentSignUp;
+import com.example.asus.refreshbody.provider.PlanDBHelper;
 import com.example.asus.refreshbody.utils.ScreenManager;
 
 /**
@@ -18,11 +19,15 @@ public class LoginOrSignUpActivity extends AppCompatActivity {
     private FragmentSignUp fragmentSignUp;
 
     private ScreenManager screenManager;
+
+    private PlanDBHelper planDBHelper;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_signup_activity);
         screenManager=ScreenManager.getInst();
+        planDBHelper=PlanDBHelper.getInstance(this);
+        planDBHelper.deleleAllDrinkIntake();
         intiliazeFragment();
         addFragmentLogin();
     }

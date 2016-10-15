@@ -104,7 +104,7 @@ public class FragmentDrinkWater extends Fragment implements View.OnClickListener
         totalDrinkCurrentDay=0;
         drinkIntakeItemArrayList=new ArrayList<DrinkIntakeItem>();
         ArrayList<DrinkIntakeItem> arrDrinkitemClone=planDBHelper.getAllDrinkIntake();
-        for(int i=arrDrinkitemClone.size()-1;i>0;i--) {
+        for(int i=0;i<arrDrinkitemClone.size();i++) {
             DrinkIntakeItem drinkIntakeItem = arrDrinkitemClone.get(i);
             if (drinkIntakeItem.getTimeDrink().getYearDrink() == currentYear &&
                     drinkIntakeItem.getTimeDrink().getMonthDrink() == currentMonth &&

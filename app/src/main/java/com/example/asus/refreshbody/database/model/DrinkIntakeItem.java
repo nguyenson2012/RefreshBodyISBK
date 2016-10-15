@@ -3,6 +3,7 @@ package com.example.asus.refreshbody.database.model;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -66,12 +67,13 @@ public class DrinkIntakeItem{
 
     private String convertToFormatDateString(){
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        Date date = new Date();
-        date.setYear(this.timeDrink.getYearDrink());
-        date.setDate(this.timeDrink.getDayDrink());
-        date.setMonth(this.timeDrink.getMonthDrink());
-        date.setHours(this.timeDrink.getHourDrink());
-        date.setMinutes(this.timeDrink.getMinuteDrink());
+        Calendar calendar=Calendar.getInstance();
+        calendar.set(Calendar.YEAR,this.timeDrink.getYearDrink());
+        calendar.set(Calendar.MONTH,this.timeDrink.getMonthDrink());
+        calendar.set(Calendar.DAY_OF_MONTH,this.timeDrink.getDayDrink());
+        calendar.set(Calendar.HOUR,this.timeDrink.getHourDrink());
+        calendar.set(Calendar.MINUTE,this.timeDrink.getMinuteDrink());
+        Date date = calendar.getTime();
         String datetime = dateformat.format(date);
         return datetime;
 
@@ -99,6 +101,22 @@ public class DrinkIntakeItem{
 
     public void setAmountDrink(int amountDrink) {
         this.amountDrink = amountDrink;
+    }
+
+    public String getDateString() {
+        return dateString;
+    }
+
+    public void setDateString(String dateString) {
+        this.dateString = dateString;
+        try {
+            SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            Date date = dateformat.parse(dateString);
+            this.setTimeDrink(new TimeDrink(date.getYear()+1900,date.getMonth(),date.getDate(),date.getHours(),date.getMinutes()));
+            } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public TimeDrink getTimeDrink() {

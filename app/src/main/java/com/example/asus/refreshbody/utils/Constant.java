@@ -9,10 +9,17 @@ public class Constant {
     public static final String USERNAME = "username";
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";
-    public static final String ID_USER = "_id";
+    public static final String ID_USER = "userId";
+    public static final String SYMBOL_POSITION = "symbol_position";
+    public static final String AMOUNT_DRINK = "amount_drink";
+    public static final String TIME_DRINK = "time_drink";
 
     public static final int water_rate=33;
     public static final String DRINK_TARGET = "drink_target";
+    public static final String WEIGHT = "weight";
+    public static final String HISTORIES = "histories";
+    public static final String ID_DRINK_INTAKE = "id";
+    public static final String NAME_DRINK = "name_drink";
 //    public static final String WEIGHT = "preference_weight";
 
     public static final String PREFERENCE_FIRST_RUNNING = "app_first_running";

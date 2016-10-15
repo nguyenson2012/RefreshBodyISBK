@@ -30,11 +30,14 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.asus.refreshbody.R;
 import com.example.asus.refreshbody.RefreshBodyApplication;
 import com.example.asus.refreshbody.activity.MainActivity;
+import com.example.asus.refreshbody.database.model.DrinkIntakeItem;
+import com.example.asus.refreshbody.database.model.TimeDrink;
 import com.example.asus.refreshbody.database.model.User;
 import com.example.asus.refreshbody.provider.PlanDBHelper;
 import com.example.asus.refreshbody.utils.Constant;
 import com.example.asus.refreshbody.utils.ScreenManager;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -226,15 +229,22 @@ public class FragmentLogin extends Fragment implements View.OnClickListener {
 
                 try {
                     JSONObject jObj = new JSONObject(response);
-                    String name = jObj.getString(Constant.USERNAME);
-                    String email = jObj.getString(Constant.EMAIL);
-                    String password=jObj.getString(Constant.PASSWORD);
                     String idUser=jObj.getString(Constant.ID_USER);
+                    JSONArray histories=jObj.getJSONArray(Constant.HISTORIES);
+                    for(int i=0;i<histories.length();i++){
+                        JSONObject jsonObject=histories.getJSONObject(i);
+                        DrinkIntakeItem drinkIntakeItem=new DrinkIntakeItem();
+                        drinkIntakeItem.setIdDrink(jsonObject.getString(Constant.ID_DRINK_INTAKE));
+                        drinkIntakeItem.setSymbolPosition(Integer.parseInt(jsonObject.getString(Constant.SYMBOL_POSITION)));
+                        drinkIntakeItem.setAmountDrink(Integer.parseInt(jsonObject.getString(Constant.AMOUNT_DRINK)));
+                        drinkIntakeItem.setNameDrink(jsonObject.getString(Constant.NAME_DRINK));
+                        drinkIntakeItem.setDateString(jsonObject.getString(Constant.TIME_DRINK));
+                        planDBHelper.insertDrinkIntake(drinkIntakeItem);
+                    }
                     saveIdUser(idUser);
 
                     // Inserting row in users table
-                    planDBHelper.insertUser(new User(name, email));
-
+                    planDBHelper.insertUser(new User(userEmail, password));
                     // Launch main activity
                     doActivityAfterLogin();
 

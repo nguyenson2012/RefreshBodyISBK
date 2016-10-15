@@ -25,17 +25,17 @@
                 android:orientation="horizontal">
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/chartPieDay"
-                    android:layout_width="@dimen/weight_chart"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="left"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_width="@dimen/_130sdp"
+                    android:layout_height="@dimen/_130sdp"
+                    android:layout_gravity="left|top"
+                    android:layout_marginRight="@dimen/_7sdp"
+                    android:layout_marginLeft="@dimen/_7sdp"/>
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/chartWeekPie"
-                    android:layout_width="@dimen/weight_chart"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="bottom"
-
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_width="@dimen/_130sdp"
+                    android:layout_height="@dimen/_130sdp"
+                    android:layout_gravity="right|top"
+                    android:layout_marginLeft="@dimen/_10sdp"/>
             </LinearLayout>
         </LinearLayout>
 
