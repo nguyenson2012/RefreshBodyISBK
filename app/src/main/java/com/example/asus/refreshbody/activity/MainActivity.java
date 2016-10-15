@@ -182,6 +182,5 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
         int minute=calendar.get(Calendar.MINUTE);
         drinkIntakeItem.setTimeDrink(new TimeDrink(year,month,day,hour,minute));
         planDBHelper.insertDrinkIntake(drinkIntakeItem);
-        fragmentDrinkWater.addDrinkIntake(drinkIntakeItem);
     }
 }

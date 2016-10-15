@@ -42,7 +42,8 @@ public class DrinkIntakeAdapter extends RecyclerView.Adapter<DrinkIntakeAdapter.
             holder.imgDrink.setImageResource(R.drawable.cup_one);
             holder.tvNameDrink.setText(drinkIntakeItem.getNameDrink());
             holder.tvDrinkAmount.setText(drinkIntakeItem.getAmountDrink() + " ml");
-            holder.tvTimeDrinkWater.setText(drinkIntakeItem.getTimeDrink().getHourDrink() + ":" + drinkIntakeItem.getTimeDrink().getMinuteDrink());
+            holder.tvTimeDrinkWater.setText(convertToTwoNumber(drinkIntakeItem.getTimeDrink().getHourDrink()) + ":" +
+                    convertToTwoNumber(drinkIntakeItem.getTimeDrink().getMinuteDrink()));
             holder.tvTotalDrink.setVisibility(View.GONE);
             holder.tvDay.setVisibility(View.GONE);
         }else {
@@ -56,7 +57,12 @@ public class DrinkIntakeAdapter extends RecyclerView.Adapter<DrinkIntakeAdapter.
 
 
     }
-
+    private String convertToTwoNumber(int hour){
+        if(hour>=10)
+            return hour+"";
+        else
+            return "0"+hour;
+    }
 
     @Override
     public int getItemCount() {
