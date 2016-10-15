@@ -47,8 +47,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity implements FragmentDrawerListener, FragmentReminder.OnListItemSelectedListener,
-        SharedPreferences.OnSharedPreferenceChangeListener {
+public class MainActivity extends AppCompatActivity implements FragmentDrawerListener, FragmentReminder.OnListItemSelectedListener {
     private String TAG = MainActivity.this.getClass().getSimpleName();
 
     private Toolbar mToolbar;
@@ -158,8 +157,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
             case 4: //Settings
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent);
-                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+                break;
         }
     }
 
@@ -211,11 +209,5 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
 
     public void openNavigationDrawer() {
         drawerFragment.openNavigationDrawer();
-    }
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        String weight = sharedPreferences.getString(key, "50");
-        Toast.makeText(this, weight + "",Toast.LENGTH_SHORT);
     }
 }
