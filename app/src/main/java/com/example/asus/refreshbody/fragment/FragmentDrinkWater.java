@@ -79,10 +79,17 @@ public class FragmentDrinkWater extends Fragment implements View.OnClickListener
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         planDBHelper=PlanDBHelper.getInstance(getActivity());
-        setAdapterForRecyclerViewDrinkIntake();
-        ((MainActivity)getActivity()).openNavigationDrawer();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         sharedPreferences=getActivity().getSharedPreferences(Constant.MY_PREFERENCE, Context.MODE_PRIVATE);
         getTargetDrink();
+        setAdapterForRecyclerViewDrinkIntake();
+//        ((MainActivity)getActivity()).openNavigationDrawer();
+
     }
 
     private void getTargetDrink() {

@@ -24,6 +24,7 @@ import android.widget.TimePicker;
 
 import com.example.asus.refreshbody.R;
 import com.example.asus.refreshbody.provider.PlanContract;
+import com.example.asus.refreshbody.utils.ScreenManager;
 import com.example.asus.refreshbody.utils.UiUtils;
 import com.example.asus.refreshbody.utils.view.DayButton;
 
@@ -41,6 +42,7 @@ public class FragmentReminderPlanDetail extends android.support.v4.app.Fragment 
 
     public static final String TAG = FragmentReminderPlanDetail.class.getSimpleName();
 
+    private ScreenManager screenManager;
     // Constants used to saveInstanceState
     private static final String TIME_PICKER_HOUR = "time_picker_hour";
     private static final String TIME_PICKER_MINUTE = "time_picker_minute";
@@ -174,6 +176,7 @@ public class FragmentReminderPlanDetail extends android.support.v4.app.Fragment 
         }
 
         mSpinnerMode.setOnItemSelectedListener(mOnItemSelectedListener);
+        screenManager = ScreenManager.getInst();
     }
 
     private Spinner.OnItemSelectedListener mOnItemSelectedListener = new AdapterView.OnItemSelectedListener() {
@@ -310,9 +313,7 @@ public class FragmentReminderPlanDetail extends android.support.v4.app.Fragment 
                 }
             case R.id.action_cancel:
                 FragmentReminder fragment = new FragmentReminder();
-                this.getFragmentManager().beginTransaction()
-                        .replace(R.id.frame_container, fragment)
-                        .commit();
+                screenManager.openFragmentWithAnimation(getFragmentManager(), R.id.frame_container, fragment, false);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

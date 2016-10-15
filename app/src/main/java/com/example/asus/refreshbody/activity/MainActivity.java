@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
         }
         setUpView();
         intiliazeFragment();
-        //addFragmentDrinkWater();
+//        addFragmentDrinkWater();
         addFragmentSetWeight();
     }
 
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
     @Override
     public void onListItemSelected(Uri uri, long id) {
         FragmentReminderPlanDetail fragment = FragmentReminderPlanDetail.newInstance(id);
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, fragment).addToBackStack(null).commit();
+        screenManager.openFragmentWithAnimation(getSupportFragmentManager(), R.id.frame_container, fragment, false);
     }
 
     private ContentObserver mContentObserver = new ContentObserver(new Handler()) {

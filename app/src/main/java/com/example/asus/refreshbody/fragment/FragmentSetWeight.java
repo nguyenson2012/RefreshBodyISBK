@@ -85,15 +85,17 @@ public class FragmentSetWeight extends Fragment implements View.OnClickListener{
                 ((MainActivity)getActivity()).addFragmentDrinkWater();
                 break;
             case R.id.tv_ok_welcome:
-                saveDrinkTarget(Integer.parseInt(editTextWeight.getText()+""));
+                int weight = Integer.parseInt(editTextWeight.getText() + "");
+                saveDrinkTarget(weight*Constant.water_rate, weight);
                 ((MainActivity)getActivity()).addFragmentDrinkWater();
                 break;
         }
     }
 
-    private void saveDrinkTarget(int drinkTarget) {
+    private void saveDrinkTarget(int drinkTarget, int weight) {
         SharedPreferences.Editor editor=sharedPreferences.edit();
         editor.putInt(Constant.DRINK_TARGET,drinkTarget);
+        editor.putInt(Constant.WEIGHT, weight);
         editor.commit();
     }
 }

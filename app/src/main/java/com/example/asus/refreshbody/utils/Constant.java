@@ -13,6 +13,7 @@ public class Constant {
 
     public static final int water_rate=33;
     public static final String DRINK_TARGET = "drink_target";
+    public static final String WEIGHT = "weight";
     // Server user login url
     public static String URL_LOGIN = "http://10.64.1.68:3000/api/login";
 

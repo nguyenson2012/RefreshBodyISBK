@@ -28,6 +28,7 @@ import com.example.asus.refreshbody.R;
 import com.example.asus.refreshbody.adapter.ReminderCursorAdapter;
 import com.example.asus.refreshbody.provider.PlanContract;
 import com.example.asus.refreshbody.provider.ReminderPlan;
+import com.example.asus.refreshbody.utils.ScreenManager;
 import com.example.asus.refreshbody.utils.UiUtils;
 import com.example.asus.refreshbody.utils.iLog;
 
@@ -47,6 +48,8 @@ public class FragmentReminder extends Fragment implements View.OnClickListener, 
     private ListView listReminderDrink;
     private ListView listRestReminder;
     private ListView lisOtherReminder;
+
+    private ScreenManager screenManager;
 
     private ArrayList<ReminderPlan> arrayListReminder, arrayListRest, arrayListOther;
 
@@ -195,6 +198,7 @@ public class FragmentReminder extends Fragment implements View.OnClickListener, 
         });
 
         addListViewBottomPadding(listReminderDrink);
+        screenManager = ScreenManager.getInst();
     }
 
     private void addListViewBottomPadding(ListView listView) {
@@ -214,10 +218,7 @@ public class FragmentReminder extends Fragment implements View.OnClickListener, 
             case R.id.bt_add_plan:
                 Toast.makeText(getActivity(), "add plan", Toast.LENGTH_SHORT).show();
                 FragmentReminderPlanDetail fragment = FragmentReminderPlanDetail.newInstance(-1);
-                this.getFragmentManager().beginTransaction()
-                        .replace(R.id.frame_container, fragment)
-                        .addToBackStack(null)
-                        .commit();
+                screenManager.openFragmentWithAnimation(getFragmentManager(), R.id.frame_container, fragment, false);
                 break;
         }
     }
