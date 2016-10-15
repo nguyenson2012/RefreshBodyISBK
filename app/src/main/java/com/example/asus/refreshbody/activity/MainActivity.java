@@ -19,6 +19,7 @@ import com.example.asus.refreshbody.R;
 import com.example.asus.refreshbody.adapter.ViewPagerAdapter;
 import com.example.asus.refreshbody.database.DBContext;
 import com.example.asus.refreshbody.database.DefaultData;
+import com.example.asus.refreshbody.database.model.CupChooseItem;
 import com.example.asus.refreshbody.fragment.DrinkLog;
 import com.example.asus.refreshbody.fragment.FragmentChooseCup;
 import com.example.asus.refreshbody.fragment.FragmentDrawer;
@@ -156,9 +157,9 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
         screenManager.openFragment(getSupportFragmentManager(),R.id.frame_container,fragmentChooseCup,true);
     }
 
-    public void setupSlidingTabs(){
+    public void setupSlidingTabs() {
 
-        vAdapter = new ViewPagerAdapter(getSupportFragmentManager(),titles,numOftabs);
+        vAdapter = new ViewPagerAdapter(getSupportFragmentManager(), titles, numOftabs);
 
         pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(vAdapter);
@@ -166,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
         tabs = (SlidingTabLayout) findViewById(R.id.tabs);
         tabs.setDistributeEvenly(true);
 
-        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer(){
+        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
             @Override
             public int getIndicatorColor(int position) {
                 return getResources().getColor(R.color.tabsScrollColor);
@@ -174,6 +175,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
         });
 
         tabs.setViewPager(pager);
-
+    }
+    public void addDrinkIntake(CupChooseItem cupChooseItem) {
     }
 }

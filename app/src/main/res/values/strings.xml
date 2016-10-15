@@ -11,7 +11,6 @@
     <string name="ok">OK</string>
     <string name="custom_cup">Custom Cup</string>
     <string name="validate_add_cup">The amount should be greater than 0</string>
-
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="Notification">Notification</string>
@@ -33,6 +32,13 @@
 
     <string name="every_day">Every Day</string>
     <string name="once_time">Once Time</string>
+    <string name="select_cup">Select Cup</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="log_in">Log In</string>
+    <string name="new_here_create_account">Create new account</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="validate_name_cup">Please check your cup name</string>
 
     <string-array name="day_name">
         <item>Su</item>

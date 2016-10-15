@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.asus.refreshbody.R;
+import com.example.asus.refreshbody.activity.MainActivity;
 import com.example.asus.refreshbody.adapter.CupChooseAdapter;
 import com.example.asus.refreshbody.adapter.CupImageAdapter;
 import com.example.asus.refreshbody.database.DBContext;
@@ -67,6 +68,8 @@ public class FragmentChooseCup  extends Fragment implements View.OnClickListener
             @Override
             public void clickOnItem(int position) {
                 Toast.makeText(getActivity(),"Click on cup choose "+position,Toast.LENGTH_SHORT).show();
+                ((MainActivity)getActivity()).addDrinkIntake(arrayListDrinkIntakeItems.get(position));
+                ((MainActivity)getActivity()).onBackPressed();
             }
 
             @Override
@@ -109,10 +112,13 @@ public class FragmentChooseCup  extends Fragment implements View.OnClickListener
         tvOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Integer.parseInt(editTextDrinkAmount.getText() + "")==0){
-                    Toast.makeText(getActivity(),getResources().getString(R.string.validate_add_cup),Toast.LENGTH_SHORT).show();
+                if(Integer.parseInt(editTextDrinkAmount.getText() + "")==0|| editTextNameDrink.getText().length()==0){
+                    if(Integer.parseInt(editTextDrinkAmount.getText() + "")==0)
+                        Toast.makeText(getActivity(),getResources().getString(R.string.validate_add_cup),Toast.LENGTH_SHORT).show();
+                    if(editTextNameDrink.getText().length()==0)
+                        Toast.makeText(getActivity(),getResources().getString(R.string.validate_name_cup),Toast.LENGTH_SHORT).show();
                 } else if(!isAddNewCup) {
-                    dbContext.updateCupChooseItem(drinkIntakeItem,drinkIntakeItem.getSymbol(),editTextNameDrink.getText() + "",
+                    dbContext.updateCupChooseItem(drinkIntakeItem,drinkIntakeItem.getSymbolPosition(),editTextNameDrink.getText() + "",
                             Integer.parseInt(editTextDrinkAmount.getText() + ""));
                     cupChooseAdapter.notifyDataSetChanged();
                 }else {

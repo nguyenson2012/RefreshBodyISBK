@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.asus.refreshbody.R;
-import com.example.asus.refreshbody.database.model.DrinkIntakeItem;
 import com.example.asus.refreshbody.intef.ClickListener;
 import com.example.asus.refreshbody.model.CupImage;
 

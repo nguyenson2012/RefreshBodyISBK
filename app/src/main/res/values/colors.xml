@@ -10,6 +10,8 @@
 
     <color name="ripple_effect">#80deea</color>
     <color name="ripple_mask">#b2ebf2</color>
+    <color name="white">#faf8f8</color>
+    <color name="background_grey">#b4b3b3</color>
 
     <color name="tabsScrollColor">#8a140e</color>
     <color name="tabSelectColor">#33FF33</color>
