@@ -38,14 +38,31 @@ public class DrinkIntakeAdapter extends RecyclerView.Adapter<DrinkIntakeAdapter.
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         DrinkIntakeItem drinkIntakeItem=drinkIntakeItemArrayList.get(position);
-        holder.imgDrink.setImageResource(drinkIntakeItem.getSymbolPosition());
-        holder.tvNameDrink.setText(drinkIntakeItem.getNameDrink());
-        holder.tvDrinkAmount.setText(drinkIntakeItem.getAmountDrink()+" ml");
-        holder.tvTimeDrinkWater.setText(drinkIntakeItem.getTimeDrink().getHourDrink()+":"+drinkIntakeItem.getTimeDrink().getMinuteDrink());
+        if(drinkIntakeItem.getAmountDrink()!=0) {
+            holder.imgDrink.setImageResource(R.drawable.cup_one);
+            holder.tvNameDrink.setText(drinkIntakeItem.getNameDrink());
+            holder.tvDrinkAmount.setText(drinkIntakeItem.getAmountDrink() + " ml");
+            holder.tvTimeDrinkWater.setText(convertToTwoNumber(drinkIntakeItem.getTimeDrink().getHourDrink()) + ":" +
+                    convertToTwoNumber(drinkIntakeItem.getTimeDrink().getMinuteDrink()));
+            holder.tvTotalDrink.setVisibility(View.GONE);
+            holder.tvDay.setVisibility(View.GONE);
+        }else {
+            holder.imgDrink.setVisibility(View.GONE);
+            holder.tvNameDrink.setVisibility(View.GONE);
+            holder.tvDrinkAmount.setVisibility(View.GONE);
+            holder.tvTimeDrinkWater.setVisibility(View.GONE);
+            holder.tvTotalDrink.setVisibility(View.VISIBLE);
+            holder.tvDay.setVisibility(View.VISIBLE);
+        }
 
 
     }
-
+    private String convertToTwoNumber(int hour){
+        if(hour>=10)
+            return hour+"";
+        else
+            return "0"+hour;
+    }
 
     @Override
     public int getItemCount() {
@@ -57,12 +74,16 @@ public class DrinkIntakeAdapter extends RecyclerView.Adapter<DrinkIntakeAdapter.
         TextView tvDrinkAmount;
         ImageView imgDrink;
         TextView tvTimeDrinkWater;
+        TextView tvDay;
+        TextView tvTotalDrink;
         public MyViewHolder(View itemView) {
             super(itemView);
             tvNameDrink=(TextView)itemView.findViewById(R.id.tv_name_drink_item);
             imgDrink=(ImageView)itemView.findViewById(R.id.img_drink_intake_item);
             tvTimeDrinkWater=(TextView) itemView.findViewById(R.id.tv_time_drink_water);
             tvDrinkAmount=(TextView)itemView.findViewById(R.id.tv_drink_amount_item);
+            tvDay=(TextView)itemView.findViewById(R.id.tv_day_drink_intake_item);
+            tvTotalDrink=(TextView)itemView.findViewById(R.id.tv_total_drink);
         }
     }
 }

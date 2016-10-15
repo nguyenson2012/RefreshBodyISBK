@@ -13,7 +13,6 @@ public class RefreshBodyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        initRealm();
     }
 
     private void initRealm() {

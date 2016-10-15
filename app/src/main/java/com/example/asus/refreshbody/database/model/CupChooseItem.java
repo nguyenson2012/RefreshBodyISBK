@@ -8,6 +8,10 @@ import io.realm.RealmObject;
 
 public class CupChooseItem extends RealmObject {
     public static final String  CUP_CHOOSE_ID= "idCupChoose";
+    public static final String  CUP_CHOOSE_IMG_POS= "symbolPosition";
+    public static final String NAME_CUP="nameCup";
+    public static final String AMOUNT_CUP="amountCup";
+    public static final String CUP_CHOOSE_TABLE="cup_choose_table";
     private String idCupChoose;
     private int symbolPosition;
     private String nameCup;

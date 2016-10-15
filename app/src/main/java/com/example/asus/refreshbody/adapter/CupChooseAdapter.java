@@ -46,7 +46,7 @@ public class CupChooseAdapter extends RecyclerView.Adapter<CupChooseAdapter.MyVi
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         CupChooseItem cupChooseItem=cupChooseItemArrayList.get(position);
-        holder.imgDrink.setImageResource(cupChooseItem.getSymbolPosition());
+        //holder.imgDrink.setImageResource(cupChooseItem.getSymbol());
         holder.tvNameDrink.setText(cupChooseItem.getNameCup());
         holder.tvDrinkAmount.setText(cupChooseItem.getAmountCup()+" ml");
     }

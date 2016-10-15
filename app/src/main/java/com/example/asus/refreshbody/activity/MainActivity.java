@@ -2,53 +2,51 @@ package com.example.asus.refreshbody.activity;
 
 import android.app.Fragment;
 import android.content.Intent;
-import android.content.res.Configuration;
+import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.asus.refreshbody.R;
-import com.example.asus.refreshbody.adapter.ViewPagerAdapter;
 import com.example.asus.refreshbody.database.DBContext;
 import com.example.asus.refreshbody.database.DefaultData;
 import com.example.asus.refreshbody.database.model.CupChooseItem;
+import com.example.asus.refreshbody.database.model.DrinkIntakeItem;
+import com.example.asus.refreshbody.database.model.TimeDrink;
 import com.example.asus.refreshbody.fragment.DrinkLog;
 import com.example.asus.refreshbody.fragment.FragmentChooseCup;
 import com.example.asus.refreshbody.fragment.FragmentDrawer;
-import com.example.asus.refreshbody.fragment.FragmentDrinkReportMonth;
-import com.example.asus.refreshbody.fragment.FragmentDrinkReportWeek;
 import com.example.asus.refreshbody.fragment.FragmentDrinkWater;
 import com.example.asus.refreshbody.fragment.FragmentReminder;
 import com.example.asus.refreshbody.fragment.FragmentReminderPlanDetail;
 import com.example.asus.refreshbody.intef.FragmentDrawerListener;
+import com.example.asus.refreshbody.provider.DefaultDataSqlite;
 import com.example.asus.refreshbody.provider.PlanContract;
+import com.example.asus.refreshbody.provider.PlanDBHelper;
 import com.example.asus.refreshbody.service.AlarmServiceReceiver;
+import com.example.asus.refreshbody.utils.Constant;
 import com.example.asus.refreshbody.utils.ScreenManager;
 import com.example.asus.refreshbody.utils.iLog;
-import com.example.asus.refreshbody.SlidingTabLayout;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements FragmentDrawerListener, FragmentReminder.OnListItemSelectedListener{
     private String TAG = MainActivity.this.getClass().getSimpleName();
 
     private Toolbar mToolbar;
-    private DrawerLayout mDrawer;
-    private ActionBarDrawerToggle drawerToggle;
 
 
     private ScreenManager screenManager;
@@ -58,12 +56,13 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
     private FragmentReminder fragmentReminder;
     private FragmentChooseCup fragmentChooseCup;
     private DrinkLog fragmentDrinkLog;
-    private FragmentDrinkReportWeek fragmentDrinkReportWeek;
-    private FragmentDrinkReportMonth fragmentDrinkReportMonth;
 
+    private PlanDBHelper planDBHelper;
+    private DefaultDataSqlite defaultDataSqlite;
 
+    private SharedPreferences sharedPreferences;
 
-    private DBContext dbContext;
+    private boolean isDatabaseAlready;
 
     @Override
     protected void onDestroy() {
@@ -76,21 +75,25 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sharedPreferences=getSharedPreferences(Constant.MY_PREFERENCE,MODE_PRIVATE);
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        String date = df.format(Calendar.getInstance().getTime());
+        Log.d("Date",date);
         getContentResolver().registerContentObserver(PlanContract.PlanEntry.CONTENT_URI, true, mContentObserver);
-
-        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
+        planDBHelper=PlanDBHelper.getInstance(this);
+        isDatabaseAlready=sharedPreferences.getBoolean(Constant.DATABASE_ALREADY,false);
+        if(!isDatabaseAlready) {
+            defaultDataSqlite = DefaultDataSqlite.getInst(planDBHelper);
+            defaultDataSqlite.setDefaultData();
+            SharedPreferences.Editor editor=sharedPreferences.edit();
+            editor.putBoolean(Constant.DATABASE_ALREADY,true);
+            editor.commit();
+        }
         setUpView();
         intiliazeFragment();
         addFragmentDrinkWater();
-        setDefaultCupChoose();
     }
 
-    private void setDefaultCupChoose() {
-        dbContext=DBContext.getInst();
-        if(dbContext.getAllCupChooseItem().size()==0)
-            DefaultData.getInst(dbContext).setDefaultCupChooseItem();
-    }
 
     private void addFragmentDrinkWater() {
         screenManager.openFragment(getSupportFragmentManager(),R.id.frame_container,fragmentDrinkWater,false);
@@ -106,28 +109,13 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
     private void setUpView() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-
-        drawerToggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.drawer_open, R.string.drawer_close) {
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-            }
-        };
-
-        mDrawer.addDrawerListener(drawerToggle);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Menu");
 
         drawerFragment = (FragmentDrawer)
                 getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
-        drawerFragment.setUp(R.id.fragment_navigation_drawer,mDrawer, mToolbar);
+        drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
         drawerFragment.setDrawerListener(this);
 
         screenManager=ScreenManager.getInst();
@@ -135,8 +123,6 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
 
     @Override
     public void onDrawerItemSelected(View view, int position) {
-        //detachViewpager();
-
         switch (position){
             case 0://Drink water
                 Toast.makeText(this,"Drink Water",Toast.LENGTH_SHORT).show();
@@ -146,14 +132,14 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
                 Toast.makeText(this,"Drink Log",Toast.LENGTH_SHORT).show();
                 screenManager.openFragment(getSupportFragmentManager(),R.id.frame_container,fragmentDrinkLog,false);
                 break;
-            case 2://Drink recordx
+            case 2://Drink record
                 Toast.makeText(this,"Drink Record",Toast.LENGTH_SHORT).show();
-                onChooseReport();
                 break;
             case 3://Reminder
                 Toast.makeText(this,"Reminder",Toast.LENGTH_SHORT).show();
                 screenManager.openFragment(getSupportFragmentManager(), R.id.frame_container, fragmentReminder, false);
                 break;
+
         }
     }
 
@@ -185,36 +171,16 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
         screenManager.openFragment(getSupportFragmentManager(),R.id.frame_container,fragmentChooseCup,true);
     }
 
-    public void onChooseReport(){
-        Intent intent = new Intent(this,DrinkReportActivity.class);
-        startActivity(intent);
-    }
     public void addDrinkIntake(CupChooseItem cupChooseItem) {
+        DrinkIntakeItem drinkIntakeItem=new DrinkIntakeItem(cupChooseItem.getSymbolPosition(),cupChooseItem.getNameCup(),
+                cupChooseItem.getAmountCup());
+        Calendar calendar=Calendar.getInstance();
+        int year=calendar.get(Calendar.YEAR);
+        int month=calendar.get(Calendar.MONTH);
+        int day=calendar.get(Calendar.DAY_OF_MONTH);
+        int hour=calendar.get(Calendar.HOUR_OF_DAY);
+        int minute=calendar.get(Calendar.MINUTE);
+        drinkIntakeItem.setTimeDrink(new TimeDrink(year,month,day,hour,minute));
+        planDBHelper.insertDrinkIntake(drinkIntakeItem);
     }
-
-    @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        drawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        drawerToggle.onConfigurationChanged(newConfig);
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Pass the event to ActionBarDrawerToggle, if it returns
-        // true, then it has handled the app icon touch event
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        // Handle your other action bar items...
-
-        return super.onOptionsItemSelected(item);
-    }
-
 }
