@@ -65,7 +65,7 @@ public class DBContext {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                RealmResults<DrinkIntakeItem> rows = realm.where(DrinkIntakeItem.class).equalTo(DrinkIntakeItem.USER_ID,drinkId).findAll();
+                RealmResults<DrinkIntakeItem> rows = realm.where(DrinkIntakeItem.class).equalTo(DrinkIntakeItem.ID_DRINK,drinkId).findAll();
                 rows.clear();
             }
         });

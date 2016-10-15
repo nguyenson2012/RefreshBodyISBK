@@ -23,6 +23,7 @@ import com.example.asus.refreshbody.intef.ClickListener;
 import com.example.asus.refreshbody.intef.CupChooseListener;
 import com.example.asus.refreshbody.database.model.DrinkIntakeItem;
 import com.example.asus.refreshbody.model.CupImage;
+import com.example.asus.refreshbody.provider.PlanDBHelper;
 
 import java.util.ArrayList;
 
@@ -42,16 +43,16 @@ public class FragmentChooseCup  extends Fragment implements View.OnClickListener
 
     private boolean isAddNewCup;
 
-    private DBContext dbContext;
-
+    private PlanDBHelper planDBHelper;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View layout=inflater.inflate(R.layout.fragment_choose_cup,container,false);
+
         setupView(layout);
-        setupDefaultData();
+
 
         return layout;
     }
@@ -59,6 +60,8 @@ public class FragmentChooseCup  extends Fragment implements View.OnClickListener
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        planDBHelper=PlanDBHelper.getInstance(getActivity());
+        setupDefaultData();
         setAdapterForRecyclerview();
     }
 
@@ -118,16 +121,17 @@ public class FragmentChooseCup  extends Fragment implements View.OnClickListener
                     if(editTextNameDrink.getText().length()==0)
                         Toast.makeText(getActivity(),getResources().getString(R.string.validate_name_cup),Toast.LENGTH_SHORT).show();
                 } else if(!isAddNewCup) {
-                    dbContext.updateCupChooseItem(drinkIntakeItem,drinkIntakeItem.getSymbolPosition(),editTextNameDrink.getText() + "",
-                            Integer.parseInt(editTextDrinkAmount.getText() + ""));
+                    drinkIntakeItem.setNameCup(editTextNameDrink.getText()+"");
+                    drinkIntakeItem.setAmountCup(Integer.parseInt(editTextDrinkAmount.getText() + ""));
+                    planDBHelper.updateCupChoose(drinkIntakeItem);
                     cupChooseAdapter.notifyDataSetChanged();
                 }else {
                     drinkIntakeItem.setAmountCup(Integer.parseInt(editTextDrinkAmount.getText() + ""));
                     drinkIntakeItem.setNameCup(editTextNameDrink.getText() + "");
                     drinkIntakeItem.setIdCupChoose(arrayListDrinkIntakeItems.size()+1+"");
                     arrayListDrinkIntakeItems.add(drinkIntakeItem);
+                    planDBHelper.insertCupChoose(drinkIntakeItem);
                     cupChooseAdapter.notifyDataSetChanged();
-                    dbContext.createCupChooseItem(drinkIntakeItem);
                 }
                 alertDialog.dismiss();
             }
@@ -153,9 +157,10 @@ public class FragmentChooseCup  extends Fragment implements View.OnClickListener
     }
 
     private void setupDefaultData() {
-        dbContext=DBContext.getInst();
+        //dbContext=DBContext.getInst();
         arrayListDrinkIntakeItems=new ArrayList<CupChooseItem>();
-        arrayListDrinkIntakeItems.addAll(dbContext.getAllCupChooseItem());
+        arrayListDrinkIntakeItems=planDBHelper.getAllCupChoose();
+        //arrayListDrinkIntakeItems.addAll(dbContext.getAllCupChooseItem());
 
     }
 

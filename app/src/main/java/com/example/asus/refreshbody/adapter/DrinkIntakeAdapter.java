@@ -38,7 +38,7 @@ public class DrinkIntakeAdapter extends RecyclerView.Adapter<DrinkIntakeAdapter.
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         DrinkIntakeItem drinkIntakeItem=drinkIntakeItemArrayList.get(position);
-        holder.imgDrink.setImageResource(drinkIntakeItem.getSymbol());
+        holder.imgDrink.setImageResource(R.drawable.cup_one);
         holder.tvNameDrink.setText(drinkIntakeItem.getNameDrink());
         holder.tvDrinkAmount.setText(drinkIntakeItem.getAmountDrink()+" ml");
         holder.tvTimeDrinkWater.setText(drinkIntakeItem.getTimeDrink().getHourDrink()+":"+drinkIntakeItem.getTimeDrink().getMinuteDrink());

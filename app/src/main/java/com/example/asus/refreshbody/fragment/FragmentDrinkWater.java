@@ -17,6 +17,7 @@ import com.example.asus.refreshbody.activity.MainActivity;
 import com.example.asus.refreshbody.adapter.DrinkIntakeAdapter;
 import com.example.asus.refreshbody.database.DBContext;
 import com.example.asus.refreshbody.database.model.DrinkIntakeItem;
+import com.example.asus.refreshbody.provider.PlanDBHelper;
 import com.github.lzyzsd.circleprogress.CircleProgress;
 
 import java.util.ArrayList;
@@ -39,6 +40,8 @@ public class FragmentDrinkWater extends Fragment implements View.OnClickListener
 
     private DBContext dbContext;
 
+    private PlanDBHelper planDBHelper;
+
     private Calendar calendar;
     @Nullable
     @Override
@@ -53,13 +56,16 @@ public class FragmentDrinkWater extends Fragment implements View.OnClickListener
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        planDBHelper=PlanDBHelper.getInstance(getActivity());
         setAdapterForRecyclerViewDrinkIntake();
     }
 
     private void setAdapterForRecyclerViewDrinkIntake() {
-        dbContext=DBContext.getInst();
-        drinkIntakeItemArrayList=dbContext.getDrinkIntakeListByDay(calendar.get(Calendar.DAY_OF_MONTH),calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.YEAR));
+//        dbContext=DBContext.getInst();
+//        drinkIntakeItemArrayList=dbContext.getDrinkIntakeListByDay(calendar.get(Calendar.DAY_OF_MONTH),calendar.get(Calendar.MONTH),
+//                calendar.get(Calendar.YEAR));
+        drinkIntakeItemArrayList=new ArrayList<DrinkIntakeItem>();
+        drinkIntakeItemArrayList=planDBHelper.getAllDrinkIntake();
         drinkIntakeAdapter=new DrinkIntakeAdapter(drinkIntakeItemArrayList,getActivity());
         recyclerViewDrinkIntake.setAdapter(drinkIntakeAdapter);
         recyclerViewDrinkIntake.setLayoutManager(new LinearLayoutManager(getActivity()));

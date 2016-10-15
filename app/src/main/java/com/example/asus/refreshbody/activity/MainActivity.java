@@ -2,6 +2,7 @@ package com.example.asus.refreshbody.activity;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Handler;
@@ -10,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -19,6 +21,8 @@ import com.example.asus.refreshbody.R;
 import com.example.asus.refreshbody.database.DBContext;
 import com.example.asus.refreshbody.database.DefaultData;
 import com.example.asus.refreshbody.database.model.CupChooseItem;
+import com.example.asus.refreshbody.database.model.DrinkIntakeItem;
+import com.example.asus.refreshbody.database.model.TimeDrink;
 import com.example.asus.refreshbody.fragment.DrinkLog;
 import com.example.asus.refreshbody.fragment.FragmentChooseCup;
 import com.example.asus.refreshbody.fragment.FragmentDrawer;
@@ -26,12 +30,18 @@ import com.example.asus.refreshbody.fragment.FragmentDrinkWater;
 import com.example.asus.refreshbody.fragment.FragmentReminder;
 import com.example.asus.refreshbody.fragment.FragmentReminderPlanDetail;
 import com.example.asus.refreshbody.intef.FragmentDrawerListener;
+import com.example.asus.refreshbody.provider.DefaultDataSqlite;
 import com.example.asus.refreshbody.provider.PlanContract;
+import com.example.asus.refreshbody.provider.PlanDBHelper;
 import com.example.asus.refreshbody.service.AlarmServiceReceiver;
+import com.example.asus.refreshbody.utils.Constant;
 import com.example.asus.refreshbody.utils.ScreenManager;
 import com.example.asus.refreshbody.utils.iLog;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements FragmentDrawerListener, FragmentReminder.OnListItemSelectedListener{
     private String TAG = MainActivity.this.getClass().getSimpleName();
@@ -47,7 +57,12 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
     private FragmentChooseCup fragmentChooseCup;
     private DrinkLog fragmentDrinkLog;
 
-    private DBContext dbContext;
+    private PlanDBHelper planDBHelper;
+    private DefaultDataSqlite defaultDataSqlite;
+
+    private SharedPreferences sharedPreferences;
+
+    private boolean isDatabaseAlready;
 
     @Override
     protected void onDestroy() {
@@ -60,18 +75,25 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sharedPreferences=getSharedPreferences(Constant.MY_PREFERENCE,MODE_PRIVATE);
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        String date = df.format(Calendar.getInstance().getTime());
+        Log.d("Date",date);
         getContentResolver().registerContentObserver(PlanContract.PlanEntry.CONTENT_URI, true, mContentObserver);
+        planDBHelper=PlanDBHelper.getInstance(this);
+        isDatabaseAlready=sharedPreferences.getBoolean(Constant.DATABASE_ALREADY,false);
+        if(!isDatabaseAlready) {
+            defaultDataSqlite = DefaultDataSqlite.getInst(planDBHelper);
+            defaultDataSqlite.setDefaultData();
+            SharedPreferences.Editor editor=sharedPreferences.edit();
+            editor.putBoolean(Constant.DATABASE_ALREADY,true);
+            editor.commit();
+        }
         setUpView();
         intiliazeFragment();
         addFragmentDrinkWater();
-        setDefaultCupChoose();
     }
 
-    private void setDefaultCupChoose() {
-        dbContext=DBContext.getInst();
-        if(dbContext.getAllCupChooseItem().size()==0)
-            DefaultData.getInst(dbContext).setDefaultCupChooseItem();
-    }
 
     private void addFragmentDrinkWater() {
         screenManager.openFragment(getSupportFragmentManager(),R.id.frame_container,fragmentDrinkWater,false);
@@ -150,6 +172,16 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
     }
 
     public void addDrinkIntake(CupChooseItem cupChooseItem) {
-
+        DrinkIntakeItem drinkIntakeItem=new DrinkIntakeItem(cupChooseItem.getSymbolPosition(),cupChooseItem.getNameCup(),
+                cupChooseItem.getAmountCup());
+        Calendar calendar=Calendar.getInstance();
+        int year=calendar.get(Calendar.YEAR);
+        int month=calendar.get(Calendar.MONTH);
+        int day=calendar.get(Calendar.DAY_OF_MONTH);
+        int hour=calendar.get(Calendar.HOUR_OF_DAY);
+        int minute=calendar.get(Calendar.MINUTE);
+        drinkIntakeItem.setTimeDrink(new TimeDrink(year,month,day,hour,minute));
+        planDBHelper.insertDrinkIntake(drinkIntakeItem);
+        fragmentDrinkWater.addDrinkIntake(drinkIntakeItem);
     }
 }

@@ -9,6 +9,7 @@ import io.realm.RealmObject;
 public class User extends RealmObject {
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";
+    public static final String USER_TABLE="user_table";
     private String email;
     private String password;
 
