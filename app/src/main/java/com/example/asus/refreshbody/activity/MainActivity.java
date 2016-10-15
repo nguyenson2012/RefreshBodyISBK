@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.asus.refreshbody.R;
+import com.example.asus.refreshbody.adapter.ViewPagerAdapter;
 import com.example.asus.refreshbody.database.DBContext;
 import com.example.asus.refreshbody.database.DefaultData;
 import com.example.asus.refreshbody.fragment.DrinkLog;
@@ -29,6 +30,7 @@ import com.example.asus.refreshbody.provider.PlanContract;
 import com.example.asus.refreshbody.service.AlarmServiceReceiver;
 import com.example.asus.refreshbody.utils.ScreenManager;
 import com.example.asus.refreshbody.utils.iLog;
+import com.example.asus.refreshbody.SlidingTabLayout;
 
 import java.util.ArrayList;
 
@@ -45,6 +47,12 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
     private FragmentReminder fragmentReminder;
     private FragmentChooseCup fragmentChooseCup;
     private DrinkLog fragmentDrinkLog;
+
+    private ViewPager pager;
+    private ViewPagerAdapter vAdapter;
+    private CharSequence titles[] = {"Bộ lọc","Tín hiệu kiểm tra"};
+    private SlidingTabLayout tabs;
+    int numOftabs = 2;
 
     private DBContext dbContext;
 
@@ -79,11 +87,8 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
     private void intiliazeFragment() {
         fragmentDrinkWater=new FragmentDrinkWater();
         fragmentChooseCup=new FragmentChooseCup();
-<<<<<<< HEAD
         fragmentDrinkLog = new DrinkLog();
-=======
         fragmentReminder = new FragmentReminder();
->>>>>>> 649e1753145d9bc442f5c9d56d97b3ace75de339
     }
 
     private void setUpView() {
@@ -149,5 +154,26 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
 
     public void replaceFragmentCupChoose() {
         screenManager.openFragment(getSupportFragmentManager(),R.id.frame_container,fragmentChooseCup,true);
+    }
+
+    public void setupSlidingTabs(){
+
+        vAdapter = new ViewPagerAdapter(getSupportFragmentManager(),titles,numOftabs);
+
+        pager = (ViewPager) findViewById(R.id.pager);
+        pager.setAdapter(vAdapter);
+
+        tabs = (SlidingTabLayout) findViewById(R.id.tabs);
+        tabs.setDistributeEvenly(true);
+
+        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer(){
+            @Override
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.tabsScrollColor);
+            }
+        });
+
+        tabs.setViewPager(pager);
+
     }
 }

@@ -15,7 +15,7 @@ public class DrinkIntakeItem extends RealmObject{
     private int symbol;
     private String nameDrink;
     private int amountDrink;
-    private TimeDrink timeDrink;
+    private TimeDrink timeDrink = new TimeDrink();
 
     public DrinkIntakeItem(){}
 

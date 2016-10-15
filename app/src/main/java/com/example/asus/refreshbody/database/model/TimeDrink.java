@@ -7,11 +7,11 @@ import io.realm.RealmObject;
  */
 
 public class TimeDrink extends RealmObject {
-    private int yearDrink;
-    private int monthDrink;
-    private int dayDrink;
-    private int hourDrink;
-    private int minuteDrink;
+    private int yearDrink = 0;
+    private int monthDrink = 0;
+    private int dayDrink = 0;
+    private int hourDrink = 0;
+    private int minuteDrink = 0;
 
     public TimeDrink(){}
 

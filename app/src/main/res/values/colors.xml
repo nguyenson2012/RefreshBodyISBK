@@ -11,4 +11,7 @@
     <color name="ripple_effect">#80deea</color>
     <color name="ripple_mask">#b2ebf2</color>
 
+    <color name="tabsScrollColor">#8a140e</color>
+    <color name="tabSelectColor">#33FF33</color>
+
 </resources>
