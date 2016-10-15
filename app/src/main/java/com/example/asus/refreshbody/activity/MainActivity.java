@@ -37,6 +37,7 @@ import com.example.asus.refreshbody.service.AlarmServiceReceiver;
 import com.example.asus.refreshbody.utils.Constant;
 import com.example.asus.refreshbody.utils.ScreenManager;
 import com.example.asus.refreshbody.utils.iLog;
+import com.mikepenz.materialdrawer.DrawerBuilder;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -103,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
 
     public void addFragmentDrinkWater() {
         screenManager.openFragment(getSupportFragmentManager(),R.id.frame_container,fragmentDrinkWater,false);
+        openNavigationDrawer();
     }
 
     private void intiliazeFragment() {
@@ -124,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
                 getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
         drawerFragment.setDrawerListener(this);
+        //new DrawerBuilder().withActivity(this).build();
 
         screenManager=ScreenManager.getInst();
     }

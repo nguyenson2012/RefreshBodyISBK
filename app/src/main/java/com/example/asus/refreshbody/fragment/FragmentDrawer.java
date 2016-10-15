@@ -46,13 +46,11 @@ public class FragmentDrawer extends Fragment {
     }
 
     public void closeNavigationDrawer(){
-        mDrawerLayout.closeDrawer(Gravity.LEFT);
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         mDrawerToggle.setDrawerIndicatorEnabled(false);
     }
 
     public void openNavigationDrawer(){
-        mDrawerLayout.openDrawer(Gravity.LEFT);
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         mDrawerToggle.setDrawerIndicatorEnabled(true);
     }
@@ -81,12 +79,14 @@ public class FragmentDrawer extends Fragment {
         navigationDrawerItemArrayList=new ArrayList<NavigationDrawerItem>();
         NavigationDrawerItem drinkWater=new NavigationDrawerItem(R.drawable.icon_menu_drinkwater,"Drink Water");
         navigationDrawerItemArrayList.add(drinkWater);
-        NavigationDrawerItem drinkLog=new NavigationDrawerItem(R.drawable.icon_menu_drinkwater,"Drink Log");
+        NavigationDrawerItem drinkLog=new NavigationDrawerItem(R.drawable.icon_menu_drinklog,"Drink Log");
         navigationDrawerItemArrayList.add(drinkLog);
-        NavigationDrawerItem drinkReport=new NavigationDrawerItem(R.drawable.icon_menu_drinkwater,"Drink Report");
+        NavigationDrawerItem drinkReport=new NavigationDrawerItem(R.drawable.icon_menu_drinkchart,"Drink Report");
         navigationDrawerItemArrayList.add(drinkReport);
         NavigationDrawerItem reminderItem=new NavigationDrawerItem(R.drawable.icon_menu_notification,"Reminder");
         navigationDrawerItemArrayList.add(reminderItem);
+        NavigationDrawerItem settingItem=new NavigationDrawerItem(R.drawable.icon_menu_setting,"Setting");
+        navigationDrawerItemArrayList.add(settingItem);
         adapter=new NavigationDrawerAdapter(getActivity(),navigationDrawerItemArrayList);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
