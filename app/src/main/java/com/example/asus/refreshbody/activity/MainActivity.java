@@ -133,6 +133,8 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
                 screenManager.openFragment(getSupportFragmentManager(),R.id.frame_container,fragmentDrinkLog,false);
                 break;
             case 2://Drink record
+                Intent intent = new Intent(this,DrinkReportActivity.class);
+                startActivity(intent);
                 Toast.makeText(this,"Drink Record",Toast.LENGTH_SHORT).show();
                 break;
             case 3://Reminder

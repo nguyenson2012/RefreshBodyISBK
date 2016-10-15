@@ -9,18 +9,31 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.asus.refreshbody.R;
+import com.example.asus.refreshbody.controller.DrinkReportController;
 import com.example.asus.refreshbody.database.model.DrinkIntakeItem;
+import com.example.asus.refreshbody.database.model.TimeDrink;
+import com.example.asus.refreshbody.provider.PlanDBHelper;
 import com.example.asus.refreshbody.utils.DrawChart;
+import com.example.asus.refreshbody.utils.DrawWeekChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class FragmentDrinkReportWeek extends Fragment {
     private LineChart chart;
     private DrawChart drawChart, drawChartDay;
+    private DrawWeekChart drawWeekChart;
     private PieChart pieChart;
     private PieChart pieChartDay;
+    private PieChart pieChartWeek;
+    private PlanDBHelper planDBHelper;
+    private ArrayList<DrinkIntakeItem> arrDrink = new ArrayList<DrinkIntakeItem>();
+    private DrinkReportController drinkReportController;
+
     public FragmentDrinkReportWeek() {
         // Required empty public constructor
     }
@@ -43,13 +56,26 @@ public class FragmentDrinkReportWeek extends Fragment {
         chart = (LineChart)fragmentview.findViewById(R.id.chartWeek);
         pieChart = (PieChart) fragmentview.findViewById(R.id.chartWeekPie);
 
-        drawChart = new DrawChart(chart,pieChart);
-        drawChart.drawLineChart();
-        drawChart.drawPieChart();
+        drawWeekChart = new DrawWeekChart(chart);
+        //arrDrink = PlanDBHelper.getInstance(this.getActivity()).getAllDrinkIntake();
+        arrDrink.add(new DrinkIntakeItem(1,"water",100,new TimeDrink(2016,10,11,10,10)));
+        arrDrink.add(new DrinkIntakeItem(1,"water",200,new TimeDrink(2016,10,12,10,10)));
+        arrDrink.add(new DrinkIntakeItem(1,"water",300,new TimeDrink(2016,10,13,10,10)));
+        arrDrink.add(new DrinkIntakeItem(1,"water",100,new TimeDrink(2016,10,14,10,10)));
+        arrDrink.add(new DrinkIntakeItem(1,"water",200,new TimeDrink(2016,10,15,10,10)));
+
+        arrDrink.add(new DrinkIntakeItem(1,"water",300,new TimeDrink(2016,10,16,10,10)));
+        arrDrink.add(new DrinkIntakeItem(1,"water",300,new TimeDrink(2016,10,17,10,10)));
+
+        drinkReportController = new DrinkReportController(arrDrink);
+        drinkReportController.drawWeekLine(chart);
 
         pieChartDay = (PieChart) fragmentview.findViewById(R.id.chartPieDay) ;
         drawChartDay = new DrawChart(pieChartDay);
-        drawChartDay.drawPieChart();
+        drinkReportController.drawPieChart(pieChartDay,60,100,"Day");
+
+        pieChartWeek = (PieChart) fragmentview.findViewById(R.id.chartWeekPie) ;
+        drinkReportController.drawPieChart(pieChartWeek,70,100,"Week");
 
 
         return fragmentview;
