@@ -56,9 +56,17 @@
             android:padding="@dimen/_5sdp"
             android:gravity="center"
             android:background="@android:color/white"/>
+        <View
+            android:id="@+id/divider_drink_intake_label"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_below="@id/tv_intake_label"
+            android:background="@color/gray_light"/>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view_drink_intake"
-            android:layout_below="@id/tv_intake_label"
+            android:layout_below="@id/divider_drink_intake_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_15sdp"

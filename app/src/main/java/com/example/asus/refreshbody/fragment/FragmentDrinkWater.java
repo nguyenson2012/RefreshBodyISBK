@@ -43,14 +43,25 @@ public class FragmentDrinkWater extends Fragment implements View.OnClickListener
     private PlanDBHelper planDBHelper;
 
     private Calendar calendar;
+
+    private int currentDay;
+    private int currentMonth;
+    private int currentYear;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View layout=inflater.inflate(R.layout.fragment_drink_water,container,false);
         calendar=Calendar.getInstance();
+        getCurrentDay();
         setupView(layout);
         registerEvent();
         return layout;
+    }
+
+    private void getCurrentDay() {
+        currentYear=calendar.get(Calendar.YEAR);
+        currentMonth=calendar.get(Calendar.MONTH);
+        currentDay=calendar.get(Calendar.DAY_OF_MONTH);
     }
 
     @Override
@@ -65,7 +76,14 @@ public class FragmentDrinkWater extends Fragment implements View.OnClickListener
 //        drinkIntakeItemArrayList=dbContext.getDrinkIntakeListByDay(calendar.get(Calendar.DAY_OF_MONTH),calendar.get(Calendar.MONTH),
 //                calendar.get(Calendar.YEAR));
         drinkIntakeItemArrayList=new ArrayList<DrinkIntakeItem>();
-        drinkIntakeItemArrayList=planDBHelper.getAllDrinkIntake();
+        ArrayList<DrinkIntakeItem> arrDrinkitemClone=planDBHelper.getAllDrinkIntake();
+        for(int i=arrDrinkitemClone.size()-1;i>0;i--) {
+            DrinkIntakeItem drinkIntakeItem = arrDrinkitemClone.get(i);
+            if (drinkIntakeItem.getTimeDrink().getYearDrink() == currentYear &&
+                    drinkIntakeItem.getTimeDrink().getMonthDrink() == currentMonth &&
+                    drinkIntakeItem.getTimeDrink().getDayDrink() == currentDay)
+                drinkIntakeItemArrayList.add(drinkIntakeItem);
+        }
         drinkIntakeAdapter=new DrinkIntakeAdapter(drinkIntakeItemArrayList,getActivity());
         recyclerViewDrinkIntake.setAdapter(drinkIntakeAdapter);
         recyclerViewDrinkIntake.setLayoutManager(new LinearLayoutManager(getActivity()));
