@@ -21,7 +21,13 @@
         </Preference>
 
         <Preference android:title="@string/share">
-
+            <intent android:action="android.intent.action.SEND"
+                android:data="@string/contact_developer_uri">
+                <extra android:name="android.intent.extra.TEXT"
+                    android:value="What can I help you with?" />
+                <extra android:name="android.intent.extra.SUBJECT"
+                    android:value="Feedback about refresh body ISBK app" />
+            </intent>
 
         </Preference>
 

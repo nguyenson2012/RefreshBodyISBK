@@ -37,6 +37,7 @@ import com.example.asus.refreshbody.fragment.FragmentDrinkWater;
 import com.example.asus.refreshbody.fragment.FragmentReminder;
 import com.example.asus.refreshbody.fragment.FragmentReminderPlanDetail;
 import com.example.asus.refreshbody.fragment.FragmentSetWeight;
+import com.example.asus.refreshbody.fragment.FragmentSetting;
 import com.example.asus.refreshbody.fragment.SettingsFragment;
 import com.example.asus.refreshbody.intef.FragmentDrawerListener;
 import com.example.asus.refreshbody.provider.DefaultDataSqlite;
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
 
     private boolean isDatabaseAlready;
     private String userId;
+    private FragmentSetting fragmentSetting;
 
     @Override
     protected void onDestroy() {
@@ -131,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
         fragmentDrinkLog = new DrinkLog();
         fragmentReminder = new FragmentReminder();
         fragmentSetWeight=new FragmentSetWeight();
+        fragmentSetting=new FragmentSetting();
     }
 
     private void setUpView() {
@@ -170,8 +173,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
                 screenManager.openFragment(getSupportFragmentManager(), R.id.frame_container, fragmentReminder, false);
                 break;
             case 4: //Settings
-                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(intent);
+                screenManager.openFragment(getSupportFragmentManager(), R.id.frame_container, fragmentSetting, false);
                 break;
         }
     }
