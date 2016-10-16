@@ -37,16 +37,8 @@ public class DrinkLog extends Fragment {
     private ArrayList<DrinkIntakeItem> arrDrinkitem;
 
     private DrinkIntakeAdapter drinkIntakeAdapterOne;
-    private DrinkIntakeAdapter drinkIntakeAdapterTwo;
-    private DrinkIntakeAdapter drinkIntakeAdapterThree;
 
     private RecyclerView recyclerViewOne = null;
-    private TextView tvOne;
-    private RecyclerView recyclerViewTwo = null;
-    private TextView tvTwo;
-    private RecyclerView recyclerViewThree = null;
-    private TextView tvThree;
-
     private PlanDBHelper planDBHelper;
 
     private Calendar calendar;
@@ -90,11 +82,18 @@ public class DrinkLog extends Fragment {
 
     private void setAdapterForRecyclerView() {
         arrDrinkitem = new ArrayList<DrinkIntakeItem>();
-        ArrayList<DrinkIntakeItem> arrayOne=new ArrayList<DrinkIntakeItem>();
-        ArrayList<DrinkIntakeItem> arrayTwo=new ArrayList<DrinkIntakeItem>();
-        ArrayList<DrinkIntakeItem> arrayThree=new ArrayList<DrinkIntakeItem>();
         ArrayList<DrinkIntakeItem> arrDrinkitemClone=planDBHelper.getAllDrinkIntake();
-        drinkIntakeAdapterOne=new DrinkIntakeAdapter(arrDrinkitemClone,getActivity(),true);
+        int day=arrDrinkitemClone.get(0).getTimeDrink().getDayDrink();
+        arrDrinkitem.add(new DrinkIntakeItem(1,"",0,arrDrinkitemClone.get(0).getTimeDrink()));
+        for(DrinkIntakeItem drinkIntakeItem:arrDrinkitemClone){
+            if(drinkIntakeItem.getTimeDrink().getDayDrink()!=day) {
+                arrDrinkitem.add(new DrinkIntakeItem(1,"",0,drinkIntakeItem.getTimeDrink()));
+                day=drinkIntakeItem.getTimeDrink().getDayDrink();
+            }
+            arrDrinkitem.add(drinkIntakeItem);
+
+        }
+        drinkIntakeAdapterOne=new DrinkIntakeAdapter(arrDrinkitem,getActivity(),true);
         recyclerViewOne.setAdapter(drinkIntakeAdapterOne);
         recyclerViewOne.setLayoutManager(new LinearLayoutManager(getActivity()));
     }

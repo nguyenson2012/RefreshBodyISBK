@@ -80,8 +80,9 @@ public class DrinkIntakeAdapter extends RecyclerView.Adapter<DrinkIntakeAdapter.
             holder.tvDrinkAmount.setVisibility(View.GONE);
             holder.tvTimeDrinkWater.setVisibility(View.GONE);
             holder.imgDeleteDrinkIntake.setVisibility(View.GONE);
-            holder.tvTotalDrink.setVisibility(View.VISIBLE);
             holder.tvDay.setVisibility(View.VISIBLE);
+            holder.tvDay.setText(drinkIntakeItem.getTimeDrink().getDayDrink()+"-"+drinkIntakeItem.getTimeDrink().getMonthDrink()+"-"+
+            drinkIntakeItem.getTimeDrink().getYearDrink());
         }
 
 
