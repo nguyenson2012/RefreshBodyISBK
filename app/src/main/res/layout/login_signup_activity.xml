@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:wheel="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <com.pnikosis.materialishprogress.ProgressWheel
+        android:id="@+id/progress_load_data"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        wheel:matProg_barColor="@color/pink"
+        wheel:matProg_progressIndeterminate="true" />
     <FrameLayout
         android:id="@+id/container_login_or_signup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></FrameLayout>
-</LinearLayout>
+</RelativeLayout>

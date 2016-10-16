@@ -94,7 +94,7 @@ public class FragmentDrinkWater extends Fragment implements View.OnClickListener
     }
 
     private void getTargetDrink() {
-        int weight = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(SettingsFragment.WEIGHT, "60"));
+        int weight = sharedPreferences.getInt(Constant.WEIGHT,65);
         targetDrink= weight * Constant.water_rate;
     }
 

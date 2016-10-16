@@ -29,6 +29,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.asus.refreshbody.R;
 import com.example.asus.refreshbody.RefreshBodyApplication;
+import com.example.asus.refreshbody.activity.LoginOrSignUpActivity;
 import com.example.asus.refreshbody.activity.MainActivity;
 import com.example.asus.refreshbody.database.model.DrinkIntakeItem;
 import com.example.asus.refreshbody.database.model.TimeDrink;
@@ -164,6 +165,7 @@ public class FragmentLogin extends Fragment implements View.OnClickListener {
                 doActivityAfterLogin();
                 break;
             case R.id.btn_login:
+                ((LoginOrSignUpActivity)getActivity()).startProgressWheel();
                 checkUserAuthentication();
                 break;
             case R.id.tv_create_account_new_here:
@@ -249,8 +251,8 @@ public class FragmentLogin extends Fragment implements View.OnClickListener {
                         drinkIntakeItem.setUpdated(true);
                         planDBHelper.insertDrinkIntake(drinkIntakeItem);
                     }
+                    ((LoginOrSignUpActivity)getActivity()).stopProgressWheel();
                     saveIdUser(idUser);
-
                     // Inserting row in users table
                     planDBHelper.insertUser(new User(userEmail, password));
                     saveSessionUser();

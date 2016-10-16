@@ -1,4 +1,4 @@
-package com.example.asus.refreshbody;
+package com.example.asus.refreshbody.utils.view;
 
 /**
  * Created by nguyenvanthinh on 15/10/2016.

@@ -41,6 +41,7 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textColor="@color/white"
+                android:textCursorDrawable="@drawable/color_cursor"
                 android:textColorHint="@color/white"
                 android:textSize="@dimen/_13sdp" />
 
@@ -79,6 +80,7 @@
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:cursorVisible="true"
+                android:textCursorDrawable="@drawable/color_cursor"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
                 android:textSize="@dimen/_13sdp" />

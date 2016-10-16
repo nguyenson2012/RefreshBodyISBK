@@ -15,5 +15,6 @@
 
     <color name="tabsScrollColor">#8a140e</color>
     <color name="tabSelectColor">#33FF33</color>
+    <color name="pink">#edf13fb3</color>
 
 </resources>

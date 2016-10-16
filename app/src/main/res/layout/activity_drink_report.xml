@@ -21,7 +21,7 @@
             app:theme="@style/ThemeOverlay.AppCompat.Dark">
 
         </android.support.v7.widget.Toolbar>
-        <com.example.asus.refreshbody.SlidingTabLayout
+        <com.example.asus.refreshbody.utils.view.SlidingTabLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:id="@+id/tabs"

@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -159,9 +160,11 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
     public void onDrawerItemSelected(View view, int position) {
         switch (position){
             case 0://Drink water
+                getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 screenManager.openFragmentWithAnimation(getSupportFragmentManager(),R.id.frame_container,fragmentDrinkWater,false);
                 break;
             case 1://Drink log
+                getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 screenManager.openFragmentWithAnimation(getSupportFragmentManager(),R.id.frame_container,fragmentDrinkLog,false);
                 break;
             case 2://Drink record
@@ -169,9 +172,11 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
                 startActivity(intentRecord);
                 break;
             case 3://Reminder
+                getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 screenManager.openFragmentWithAnimation(getSupportFragmentManager(), R.id.frame_container, fragmentReminder, false);
                 break;
             case 4: //Settings
+                getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 screenManager.openFragmentWithAnimation(getSupportFragmentManager(), R.id.frame_container, fragmentSetting, false);
                 break;
         }
