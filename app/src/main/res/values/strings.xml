@@ -85,5 +85,6 @@
     <string name="uri_app_store">http://play.google.com/</string>
     <string name="backup">Backup Record</string>
     <string name="restore_record">Restore Record</string>
+    <string name="go_to_main">Go To MainActivity</string>
 
 </resources>

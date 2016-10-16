@@ -54,6 +54,7 @@ public class FragmentLogin extends Fragment implements View.OnClickListener {
     private EditText editTextEmail;
     private EditText editTextPassword;
     private Button btnLogin;
+    private Button btGoToMain;
     private TextView btnCreateAccount;
     private TextView txtWrongAcc;
     private CoordinatorLayout coordinatorLayout;
@@ -110,6 +111,7 @@ public class FragmentLogin extends Fragment implements View.OnClickListener {
     private void addListener() {
         btnLogin.setOnClickListener(this);
         btnCreateAccount.setOnClickListener(this);
+        btGoToMain.setOnClickListener(this);
     }
 
     private void fillLogin(){
@@ -127,6 +129,7 @@ public class FragmentLogin extends Fragment implements View.OnClickListener {
         btnCreateAccount = (TextView) view.findViewById(R.id.tv_create_account_new_here);
         txtWrongAcc = (TextView) view.findViewById(R.id.txt_wrong_acc_login);
         coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.coordinator_layout_login);
+        btGoToMain=(Button)view.findViewById(R.id.btn_go_to_main);
 
         //
         context = view.getContext();
@@ -157,6 +160,9 @@ public class FragmentLogin extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.btn_go_to_main:
+                doActivityAfterLogin();
+                break;
             case R.id.btn_login:
                 checkUserAuthentication();
                 break;
