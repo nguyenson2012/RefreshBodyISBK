@@ -27,7 +27,6 @@ public class LoginOrSignUpActivity extends AppCompatActivity {
         setContentView(R.layout.login_signup_activity);
         screenManager=ScreenManager.getInst();
         planDBHelper=PlanDBHelper.getInstance(this);
-        planDBHelper.deleleAllDrinkIntake();
         intiliazeFragment();
         addFragmentLogin();
     }
