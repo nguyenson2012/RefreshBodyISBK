@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
     private SharedPreferences sharedPreferences;
 
     private boolean isDatabaseAlready;
+    private String userId;
 
     @Override
     protected void onDestroy() {
@@ -215,11 +216,66 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
         drinkIntakeItem.setTimeDrink(new TimeDrink(year,month,day,hour,minute));
         drinkIntakeItem.setIdDrink(Math.abs(SystemClock.currentThreadTimeMillis())+year+month+day+hour+minute+"");
         planDBHelper.insertDrinkIntake(drinkIntakeItem);
+        insertDrinkIntakeToServer(drinkIntakeItem);
+        //insertDrinkIntakeHttp(drinkIntakeItem);
     }
 
-    private void insertDrinkIntakeToServer(DrinkIntakeItem drinkIntakeItem) {
+    private void insertDrinkIntakeHttp(DrinkIntakeItem drinkIntakeItem) {
+        JSONObject params = new JSONObject();
+        try {
+            params.put(Constant.ID_DRINK_INTAKE,drinkIntakeItem.getIdDrink());
+            params.put(Constant.ID_USER,userId);
+            params.put(Constant.SYMBOL_POSITION,drinkIntakeItem.getSymbolPosition()+"");
+            params.put(Constant.AMOUNT_DRINK,drinkIntakeItem.getAmountDrink()+"");
+            params.put(Constant.NAME_DRINK,drinkIntakeItem.getNameDrink());
+            params.put(Constant.TIME_DRINK,drinkIntakeItem.getDateString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void insertDrinkIntakeToServer(final DrinkIntakeItem drinkIntakeItem) {
         // Tag used to cancel the request
         String tag_string_req = "req_login";
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                Constant.URL_UPLOAD_HISTORIES, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.e("respond:", response);
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("register error", "Registration Error: " + error.getMessage());
+                Toast.makeText(MainActivity.this,
+                        error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting params to register url
+                Map<String, String> params = new HashMap<String, String>();
+                getUserId();
+                params.put(Constant.ID_DRINK_INTAKE,drinkIntakeItem.getIdDrink());
+                params.put(Constant.ID_USER,userId);
+                params.put(Constant.SYMBOL_POSITION,drinkIntakeItem.getSymbolPosition()+"");
+                params.put(Constant.AMOUNT_DRINK,drinkIntakeItem.getAmountDrink()+"");
+                params.put(Constant.NAME_DRINK,drinkIntakeItem.getNameDrink());
+                params.put(Constant.TIME_DRINK,drinkIntakeItem.getDateString());
+                return params;
+            }
+
+        };
+
+        // Adding request to request queue
+        RefreshBodyApplication.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+
+    private void getUserId() {
+        userId=sharedPreferences.getString(Constant.ID_USER,"");
     }
 
     public void closeDrawer() {

@@ -29,6 +29,8 @@ public class Constant {
     // Server user register url
     public static String URL_REGISTER = "http://10.64.1.68:3000/api/register";
 
+    public static String URL_UPLOAD_HISTORIES = "http://10.64.1.68:3000/api/histories";
+
     public static final String MY_PREFERENCE = "my_pref";
     public static final String CHECK_USER_LOGGED_IN = "check_user_login";
     public static final String LOGGED_IN_USER_EMAIL = "logged_in_user_email";

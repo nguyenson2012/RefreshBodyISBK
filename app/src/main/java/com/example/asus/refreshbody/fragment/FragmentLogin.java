@@ -91,8 +91,7 @@ public class FragmentLogin extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        //
-        //checkUserLoggedIn();
+        checkUserLoggedIn();
     }
 
     @Override
@@ -105,7 +104,7 @@ public class FragmentLogin extends Fragment implements View.OnClickListener {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        planDBHelper=PlanDBHelper.getInstance(getActivity());
+
     }
 
     private void addListener() {
@@ -114,6 +113,8 @@ public class FragmentLogin extends Fragment implements View.OnClickListener {
     }
 
     private void fillLogin(){
+        planDBHelper=PlanDBHelper.getInstance(getActivity());
+        planDBHelper.deleleAllDrinkIntake();
         editTextEmail.setText("admin@gmail.com");
         editTextPassword.setText("123456");
     }
@@ -245,6 +246,7 @@ public class FragmentLogin extends Fragment implements View.OnClickListener {
 
                     // Inserting row in users table
                     planDBHelper.insertUser(new User(userEmail, password));
+                    saveSessionUser();
                     // Launch main activity
                     doActivityAfterLogin();
 
@@ -280,6 +282,12 @@ public class FragmentLogin extends Fragment implements View.OnClickListener {
         // Adding request to request queue
         RefreshBodyApplication.getInstance().addToRequestQueue(strReq, tag_string_req);
 
+    }
+
+    private void saveSessionUser() {
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putBoolean(Constant.CHECK_USER_LOGGED_IN,true);
+        editor.commit();
     }
 
     private void saveIdUser(String idUser) {

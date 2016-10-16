@@ -125,6 +125,7 @@ public class DrinkIntakeItem{
 
     public void setTimeDrink(TimeDrink timeDrink) {
         this.timeDrink = timeDrink;
+        this.dateString=convertToFormatDateString();
     }
 
     public String getIdDrink() {
