@@ -240,6 +240,7 @@ public class FragmentLogin extends Fragment implements View.OnClickListener {
                         drinkIntakeItem.setAmountDrink(Integer.parseInt(jsonObject.getString(Constant.AMOUNT_DRINK)));
                         drinkIntakeItem.setNameDrink(jsonObject.getString(Constant.NAME_DRINK));
                         drinkIntakeItem.setDateString(jsonObject.getString(Constant.TIME_DRINK));
+                        drinkIntakeItem.setUpdated(true);
                         planDBHelper.insertDrinkIntake(drinkIntakeItem);
                     }
                     saveIdUser(idUser);

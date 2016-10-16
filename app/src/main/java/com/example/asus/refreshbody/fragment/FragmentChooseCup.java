@@ -76,7 +76,6 @@ public class FragmentChooseCup  extends Fragment implements View.OnClickListener
 
             @Override
             public void clickEdit(int position) {
-                Toast.makeText(getActivity(),"Click on cup edit "+position,Toast.LENGTH_SHORT).show();
                 openDialogEditCup(arrayListDrinkIntakeItems.get(position));
             }
         });

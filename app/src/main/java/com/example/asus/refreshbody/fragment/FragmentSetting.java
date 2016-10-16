@@ -19,7 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.asus.refreshbody.R;
+import com.example.asus.refreshbody.activity.MainActivity;
 import com.example.asus.refreshbody.utils.Constant;
+import com.example.asus.refreshbody.utils.ScreenManager;
 
 /**
  * Created by Asus on 10/16/2016.
@@ -77,6 +79,8 @@ public class FragmentSetting extends Fragment {
                     case 0:
                         openDialogChangeWeight();
                         break;
+                    case 1:
+                        ((MainActivity)getActivity()).openFragmentBackUp();
                 }
             }
         });
@@ -136,7 +140,7 @@ public class FragmentSetting extends Fragment {
     }
 
     private void setAdapterForListView() {
-        arrayAdapterGeneral=new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,new String[]{"Weight"});
+        arrayAdapterGeneral=new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,new String[]{"Weight","Backup & Restore"});
         lvGeneral.setAdapter(arrayAdapterGeneral);
         arrayAdapterOther=new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,new String[]{"Feedback","Share With Friend","Rate Us"});
         lvOther.setAdapter(arrayAdapterOther);
