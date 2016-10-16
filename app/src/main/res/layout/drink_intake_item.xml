@@ -52,20 +52,20 @@
         android:visibility="gone"
         android:layout_marginRight="@dimen/_10sdp"/>
     <ImageView
-        android:id="@+id/img_delete_drink_intake"
+        android:id="@+id/img_delete"
         android:layout_width="@dimen/_15sdp"
         android:layout_height="@dimen/_15sdp"
         android:src="@drawable/ic_close_blue"
         android:background="?selectableItemBackground"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/_10sdp"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true" />
     <TextView
         android:id="@+id/tv_time_drink_water"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/_10sdp"
-        android:layout_toLeftOf="@id/img_delete_drink_intake"
+        android:layout_toLeftOf="@id/img_delete"
         android:textColor="@color/colorPrimary"
         android:layout_centerVertical="true"/>
     <View

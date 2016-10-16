@@ -113,7 +113,7 @@ public class FragmentDrinkWater extends Fragment implements View.OnClickListener
                 totalDrinkCurrentDay+=drinkIntakeItem.getAmountDrink();
             }
         }
-        drinkIntakeAdapter=new DrinkIntakeAdapter(drinkIntakeItemArrayList,getActivity());
+        drinkIntakeAdapter=new DrinkIntakeAdapter(drinkIntakeItemArrayList,getActivity(),false);
         drinkIntakeAdapter.setListener(new ClickListener() {
             @Override
             public void onClick(View view, int position) {

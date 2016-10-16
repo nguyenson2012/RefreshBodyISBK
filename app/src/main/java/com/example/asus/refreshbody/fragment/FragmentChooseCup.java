@@ -76,7 +76,6 @@ public class FragmentChooseCup  extends Fragment implements View.OnClickListener
 
             @Override
             public void clickEdit(int position) {
-                Toast.makeText(getActivity(),"Click on cup edit "+position,Toast.LENGTH_SHORT).show();
                 openDialogEditCup(arrayListDrinkIntakeItems.get(position));
             }
         });
@@ -99,7 +98,7 @@ public class FragmentChooseCup  extends Fragment implements View.OnClickListener
         final EditText editTextDrinkAmount=(EditText)layout.findViewById(R.id.edittext_choose_cup_amount);
         TextView tvCancel=(TextView)layout.findViewById(R.id.tv_cancel_choose_cup);
         TextView tvOk=(TextView)layout.findViewById(R.id.tv_ok_choose_cup);
-        RecyclerView recyclerViewCupImage= (RecyclerView) layout.findViewById(R.id.recyclerview_cup_image);
+        final RecyclerView recyclerViewCupImage= (RecyclerView) layout.findViewById(R.id.recyclerview_cup_image);
         setDefaultAdapterForRecyclerviewCup(recyclerViewCupImage);
 
         editTextDrinkAmount.setText(drinkIntakeItem.getAmountCup()+"");
@@ -120,11 +119,20 @@ public class FragmentChooseCup  extends Fragment implements View.OnClickListener
                     if(editTextNameDrink.getText().length()==0)
                         Toast.makeText(getActivity(),getResources().getString(R.string.validate_name_cup),Toast.LENGTH_SHORT).show();
                 } else if(!isAddNewCup) {
+                    for(int i=0;i<arrayDefault.size();i++){
+                        if(arrayDefault.get(i).isChoose())
+                            drinkIntakeItem.setSymbolPosition(i+1);
+                    }
                     drinkIntakeItem.setNameCup(editTextNameDrink.getText()+"");
                     drinkIntakeItem.setAmountCup(Integer.parseInt(editTextDrinkAmount.getText() + ""));
                     planDBHelper.updateCupChoose(drinkIntakeItem);
                     cupChooseAdapter.notifyDataSetChanged();
                 }else {
+                    drinkIntakeItem.setSymbolPosition(0);
+                    for(int i=0;i<arrayDefault.size();i++){
+                        if(arrayDefault.get(i).isChoose())
+                            drinkIntakeItem.setSymbolPosition(i+1);
+                    }
                     drinkIntakeItem.setAmountCup(Integer.parseInt(editTextDrinkAmount.getText() + ""));
                     drinkIntakeItem.setNameCup(editTextNameDrink.getText() + "");
                     drinkIntakeItem.setIdCupChoose(arrayListDrinkIntakeItems.size()+1+"");
@@ -141,12 +149,16 @@ public class FragmentChooseCup  extends Fragment implements View.OnClickListener
 
     private void setDefaultAdapterForRecyclerviewCup(RecyclerView recyclerViewCupImage) {
         arrayDefault=new ArrayList<CupImage>();
-        CupImage water100=new CupImage(R.drawable.cup_one,false);
+        CupImage water100=new CupImage(R.drawable.cup1,false);
         arrayDefault.add(water100);
-        CupImage water200=new CupImage(R.drawable.cup_one,false);
+        CupImage water200=new CupImage(R.drawable.cup2,false);
         arrayDefault.add(water200);
-        CupImage water300=new CupImage(R.drawable.cup_one,false);
+        CupImage water300=new CupImage(R.drawable.cup3,false);
         arrayDefault.add(water300);
+        CupImage water400=new CupImage(R.drawable.cup4,false);
+        arrayDefault.add(water400);
+        CupImage water500=new CupImage(R.drawable.cup5,false);
+        arrayDefault.add(water500);
         cupImageAdapter=new CupImageAdapter(arrayDefault,getActivity());
         recyclerViewCupImage.setAdapter(cupImageAdapter);
         cupImageAdapter.setListener(this);

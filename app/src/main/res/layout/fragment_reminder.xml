@@ -23,13 +23,13 @@
                 android:textColor="#000000"
                 android:textStyle="bold" />
 
-            <ImageButton
+            <Button
                 android:id="@+id/bt_add_plan"
+                android:text="Add plan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_gravity="bottom|right"
-                android:src="@drawable/ic_add_white_36dp" />
+                android:layout_gravity="bottom|right"/>
         </RelativeLayout>
 
         <ListView

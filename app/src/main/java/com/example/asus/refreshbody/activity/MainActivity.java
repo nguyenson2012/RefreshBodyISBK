@@ -31,12 +31,14 @@ import com.example.asus.refreshbody.database.model.DrinkIntakeItem;
 import com.example.asus.refreshbody.database.model.TimeDrink;
 import com.example.asus.refreshbody.database.model.User;
 import com.example.asus.refreshbody.fragment.DrinkLog;
+import com.example.asus.refreshbody.fragment.FragmentBackUp;
 import com.example.asus.refreshbody.fragment.FragmentChooseCup;
 import com.example.asus.refreshbody.fragment.FragmentDrawer;
 import com.example.asus.refreshbody.fragment.FragmentDrinkWater;
 import com.example.asus.refreshbody.fragment.FragmentReminder;
 import com.example.asus.refreshbody.fragment.FragmentReminderPlanDetail;
 import com.example.asus.refreshbody.fragment.FragmentSetWeight;
+import com.example.asus.refreshbody.fragment.FragmentSetting;
 import com.example.asus.refreshbody.fragment.SettingsFragment;
 import com.example.asus.refreshbody.intef.FragmentDrawerListener;
 import com.example.asus.refreshbody.provider.DefaultDataSqlite;
@@ -81,6 +83,8 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
 
     private boolean isDatabaseAlready;
     private String userId;
+    private FragmentSetting fragmentSetting;
+    private FragmentBackUp fragmentBackup;
 
     @Override
     protected void onDestroy() {
@@ -116,12 +120,12 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
     }
 
     private void addFragmentSetWeight() {
-        screenManager.openFragment(getSupportFragmentManager(),R.id.frame_container,fragmentSetWeight,false);
+        screenManager.openFragmentWithAnimation(getSupportFragmentManager(),R.id.frame_container,fragmentSetWeight,false);
     }
 
 
     public void addFragmentDrinkWater() {
-        screenManager.openFragment(getSupportFragmentManager(),R.id.frame_container,fragmentDrinkWater,false);
+        screenManager.openFragmentWithAnimation(getSupportFragmentManager(),R.id.frame_container,fragmentDrinkWater,false);
         openNavigationDrawer();
     }
 
@@ -131,6 +135,8 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
         fragmentDrinkLog = new DrinkLog();
         fragmentReminder = new FragmentReminder();
         fragmentSetWeight=new FragmentSetWeight();
+        fragmentSetting=new FragmentSetting();
+        fragmentBackup=new FragmentBackUp();
     }
 
     private void setUpView() {
@@ -154,11 +160,11 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
         switch (position){
             case 0://Drink water
                 Toast.makeText(this,"Drink Water",Toast.LENGTH_SHORT).show();
-                screenManager.openFragment(getSupportFragmentManager(),R.id.frame_container,fragmentDrinkWater,false);
+                screenManager.openFragmentWithAnimation(getSupportFragmentManager(),R.id.frame_container,fragmentDrinkWater,false);
                 break;
             case 1://Drink log
                 Toast.makeText(this,"Drink Log",Toast.LENGTH_SHORT).show();
-                screenManager.openFragment(getSupportFragmentManager(),R.id.frame_container,fragmentDrinkLog,false);
+                screenManager.openFragmentWithAnimation(getSupportFragmentManager(),R.id.frame_container,fragmentDrinkLog,false);
                 break;
             case 2://Drink record
                 Toast.makeText(this,"Drink Record",Toast.LENGTH_SHORT).show();
@@ -167,11 +173,10 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
                 break;
             case 3://Reminder
                 Toast.makeText(this,"Reminder",Toast.LENGTH_SHORT).show();
-                screenManager.openFragment(getSupportFragmentManager(), R.id.frame_container, fragmentReminder, false);
+                screenManager.openFragmentWithAnimation(getSupportFragmentManager(), R.id.frame_container, fragmentReminder, false);
                 break;
             case 4: //Settings
-                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(intent);
+                screenManager.openFragmentWithAnimation(getSupportFragmentManager(), R.id.frame_container, fragmentSetting, false);
                 break;
         }
     }
@@ -201,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
     };
 
     public void replaceFragmentCupChoose() {
-        screenManager.openFragment(getSupportFragmentManager(),R.id.frame_container,fragmentChooseCup,true);
+        screenManager.openFragmentWithAnimation(getSupportFragmentManager(),R.id.frame_container,fragmentChooseCup,true);
     }
 
     public void addDrinkIntake(CupChooseItem cupChooseItem) {
@@ -215,8 +220,9 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
         int minute=calendar.get(Calendar.MINUTE);
         drinkIntakeItem.setTimeDrink(new TimeDrink(year,month,day,hour,minute));
         drinkIntakeItem.setIdDrink(Math.abs(SystemClock.currentThreadTimeMillis())+year+month+day+hour+minute+"");
+        drinkIntakeItem.setUpdated(false);
         planDBHelper.insertDrinkIntake(drinkIntakeItem);
-        insertDrinkIntakeToServer(drinkIntakeItem);
+        //insertDrinkIntakeToServer(drinkIntakeItem);
         //insertDrinkIntakeHttp(drinkIntakeItem);
     }
 
@@ -234,45 +240,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
         }
     }
 
-    private void insertDrinkIntakeToServer(final DrinkIntakeItem drinkIntakeItem) {
-        // Tag used to cancel the request
-        String tag_string_req = "req_login";
-        StringRequest strReq = new StringRequest(Request.Method.POST,
-                Constant.URL_UPLOAD_HISTORIES, new Response.Listener<String>() {
 
-            @Override
-            public void onResponse(String response) {
-                Log.e("respond:", response);
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("register error", "Registration Error: " + error.getMessage());
-                Toast.makeText(MainActivity.this,
-                        error.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                // Posting params to register url
-                Map<String, String> params = new HashMap<String, String>();
-                getUserId();
-                params.put(Constant.ID_DRINK_INTAKE,drinkIntakeItem.getIdDrink());
-                params.put(Constant.ID_USER,userId);
-                params.put(Constant.SYMBOL_POSITION,drinkIntakeItem.getSymbolPosition()+"");
-                params.put(Constant.AMOUNT_DRINK,drinkIntakeItem.getAmountDrink()+"");
-                params.put(Constant.NAME_DRINK,drinkIntakeItem.getNameDrink());
-                params.put(Constant.TIME_DRINK,drinkIntakeItem.getDateString());
-                return params;
-            }
-
-        };
-
-        // Adding request to request queue
-        RefreshBodyApplication.getInstance().addToRequestQueue(strReq, tag_string_req);
-    }
 
     private void getUserId() {
         userId=sharedPreferences.getString(Constant.ID_USER,"");
@@ -284,5 +252,9 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
 
     public void openNavigationDrawer() {
         drawerFragment.openNavigationDrawer();
+    }
+
+    public void openFragmentBackUp() {
+        screenManager.openFragmentWithAnimation(getSupportFragmentManager(),R.id.frame_container,fragmentBackup,true);
     }
 }

@@ -25,10 +25,13 @@ public class DrinkIntakeAdapter extends RecyclerView.Adapter<DrinkIntakeAdapter.
 
     private ClickListener listener;
 
-    public DrinkIntakeAdapter(ArrayList<DrinkIntakeItem> data,Context context) {
+    private boolean isLogDrink;
+
+    public DrinkIntakeAdapter(ArrayList<DrinkIntakeItem> data,Context context,boolean isLogDrink) {
         this.drinkIntakeItemArrayList = data;
         this.context = context;
         inflater=LayoutInflater.from(this.context);
+        this.isLogDrink=isLogDrink;
     }
 
     @Override
@@ -45,8 +48,26 @@ public class DrinkIntakeAdapter extends RecyclerView.Adapter<DrinkIntakeAdapter.
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         DrinkIntakeItem drinkIntakeItem=drinkIntakeItemArrayList.get(position);
+        if(isLogDrink)
+            holder.imgDeleteDrinkIntake.setVisibility(View.INVISIBLE);
         if(drinkIntakeItem.getAmountDrink()!=0) {
-            holder.imgDrink.setImageResource(R.drawable.cup_one);
+            switch (drinkIntakeItem.getSymbolPosition()){
+                case 1:
+                    holder.imgDrink.setImageResource(R.drawable.cup1);
+                    break;
+                case 2:
+                    holder.imgDrink.setImageResource(R.drawable.cup2);
+                    break;
+                case 3:
+                    holder.imgDrink.setImageResource(R.drawable.cup3);
+                    break;
+                case 4:
+                    holder.imgDrink.setImageResource(R.drawable.cup4);
+                    break;
+                case 5:
+                    holder.imgDrink.setImageResource(R.drawable.cup5);
+                    break;
+            }
             holder.tvNameDrink.setText(drinkIntakeItem.getNameDrink());
             holder.tvDrinkAmount.setText(drinkIntakeItem.getAmountDrink() + " ml");
             holder.tvTimeDrinkWater.setText(convertToTwoNumber(drinkIntakeItem.getTimeDrink().getHourDrink()) + ":" +
@@ -59,8 +80,9 @@ public class DrinkIntakeAdapter extends RecyclerView.Adapter<DrinkIntakeAdapter.
             holder.tvDrinkAmount.setVisibility(View.GONE);
             holder.tvTimeDrinkWater.setVisibility(View.GONE);
             holder.imgDeleteDrinkIntake.setVisibility(View.GONE);
-            holder.tvTotalDrink.setVisibility(View.VISIBLE);
             holder.tvDay.setVisibility(View.VISIBLE);
+            holder.tvDay.setText(drinkIntakeItem.getTimeDrink().getDayDrink()+"-"+drinkIntakeItem.getTimeDrink().getMonthDrink()+"-"+
+            drinkIntakeItem.getTimeDrink().getYearDrink());
         }
 
 
@@ -93,7 +115,7 @@ public class DrinkIntakeAdapter extends RecyclerView.Adapter<DrinkIntakeAdapter.
             tvDrinkAmount=(TextView)itemView.findViewById(R.id.tv_drink_amount_item);
             tvDay=(TextView)itemView.findViewById(R.id.tv_day_drink_intake_item);
             tvTotalDrink=(TextView)itemView.findViewById(R.id.tv_total_drink);
-            imgDeleteDrinkIntake=(ImageView)itemView.findViewById(R.id.img_delete_drink_intake);
+            imgDeleteDrinkIntake=(ImageView)itemView.findViewById(R.id.img_delete);
             imgDeleteDrinkIntake.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

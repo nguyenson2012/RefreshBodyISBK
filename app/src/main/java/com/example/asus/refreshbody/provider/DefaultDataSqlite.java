@@ -26,8 +26,10 @@ public class DefaultDataSqlite {
     public void setDefaultData(){
         //insert cup choose
         planDBHelper.insertCupChoose(new CupChooseItem("1",1,"water",100));
-        planDBHelper.insertCupChoose(new CupChooseItem("2",1,"water",200));
-        planDBHelper.insertCupChoose(new CupChooseItem("3",1,"water",300));
+        planDBHelper.insertCupChoose(new CupChooseItem("2",2,"water",200));
+        planDBHelper.insertCupChoose(new CupChooseItem("3",3,"water",300));
+        planDBHelper.insertCupChoose(new CupChooseItem("4",4,"water",400));
+        planDBHelper.insertCupChoose(new CupChooseItem("5",5,"water",500));
 
     }
 }
