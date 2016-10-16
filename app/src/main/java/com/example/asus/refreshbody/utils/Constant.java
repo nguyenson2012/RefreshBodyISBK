@@ -24,7 +24,7 @@ public class Constant {
 
     public static final String PREFERENCE_FIRST_RUNNING = "app_first_running";
     // Server user login url
-    public static String URL_LOGIN = "http://10.64.1.68:3000/api/login";
+    public static String URL_LOGIN = "http://10.64.1.126:3000/api/login";
 
     // Server user register url
     public static String URL_REGISTER = "http://10.64.1.126:3000/api/register";
