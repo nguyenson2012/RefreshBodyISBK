@@ -52,10 +52,10 @@ public class DrawWeekChart extends DrawChart {
         for (DrinkIntakeItem item : arrDrink
              ) {
             Calendar c = Calendar.getInstance();
-            c.set(Calendar.YEAR,item.getTimeDrink().getYearDrink());
-            c.set(Calendar.MONTH,item.getTimeDrink().getMonthDrink()-1);
-            c.set(Calendar.DAY_OF_MONTH,item.getTimeDrink().getDayDrink());
-            //c.set(item.getTimeDrink().getYearDrink() ,item.getTimeDrink().getMonthDrink()  - 1, item.getTimeDrink().getDayDrink());
+            //c.set(Calendar.YEAR,item.getTimeDrink().getYearDrink());
+            //c.set(Calendar.MONTH,item.getTimeDrink().getMonthDrink()-1);
+           // c.set(Calendar.DAY_OF_MONTH,item.getTimeDrink().getDayDrink());
+            c.set(item.getTimeDrink().getYearDrink() ,item.getTimeDrink().getMonthDrink()  - 1, item.getTimeDrink().getDayDrink());
             int day = c.get(Calendar.DAY_OF_WEEK);
             for (Entry itemEntry: entries
                  ) {
@@ -64,7 +64,7 @@ public class DrawWeekChart extends DrawChart {
                     break;
                 }
             }
-            if (!checkContainEntry(day)) {
+            if ((!checkContainEntry(day)) ) {
                 entries.add(new Entry(5*(day-1),item.getAmountDrink()));
             }
 

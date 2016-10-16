@@ -57,6 +57,7 @@ public class FragmentDrinkReportMonth extends Fragment {
 
         arrDrink.add(new DrinkIntakeItem(1,"water",300,new TimeDrink(2016,10,16,10,10)));
         arrDrink.add(new DrinkIntakeItem(1,"water",300,new TimeDrink(2016,10,17,10,10)));
+        arrDrink.add(new DrinkIntakeItem(1,"water",100,new TimeDrink(2016,10,18,10,10)));
         //arrDrink = PlanDBHelper.getInstance(this.getActivity()).getAllDrinkIntake();
 
         drinkReportController = new DrinkReportController(arrDrink);
