@@ -11,15 +11,23 @@
 
     <PreferenceCategory android:title="@string/other">
         <Preference android:title="@string/feedback">
-
+            <intent android:action="android.intent.action.VIEW"
+                android:data="@string/contact_developer_uri">
+                <extra android:name="android.intent.extra.TEXT"
+                    android:value="What can I help you with?" />
+                <extra android:name="android.intent.extra.SUBJECT"
+                    android:value="Feedback about refresh body ISBK app" />
+            </intent>
         </Preference>
 
         <Preference android:title="@string/share">
 
+
         </Preference>
 
         <Preference android:title="@string/rate_us">
-
+            <intent android:action="android.intent.action.VIEW"
+                android:data="@string/uri_app_store"/>
         </Preference>
     </PreferenceCategory>
 
