@@ -69,6 +69,7 @@ public class FragmentBackUp extends Fragment {
                     if(!drinkIntakeItem.isUpdated())
                         insertDrinkIntakeToServer(drinkIntakeItem);
                 }
+                Toast.makeText(getActivity(),"Back Up Success",Toast.LENGTH_SHORT).show();
             }
         });
     }
