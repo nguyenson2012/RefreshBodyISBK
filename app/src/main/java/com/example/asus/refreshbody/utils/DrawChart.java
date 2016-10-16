@@ -17,6 +17,7 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by nguyenvanthinh on 15/10/2016.
@@ -39,8 +40,6 @@ public class DrawChart {
     public DrawChart(LineChart chart){
 
         this.chart = chart;
-        addData(null);
-        setupLineChart();
     }
 
     public DrawChart(PieChart pieChart) {
@@ -49,15 +48,45 @@ public class DrawChart {
     public DrawChart(LineChart chart, PieChart pieChart) {
         this.pieChart = pieChart;
         this.chart = chart;
-        addData(null);
-        setupLineChart();
     }
 
-    public void addData(ArrayList<DrinkIntakeItem> item) {
+    private boolean checkContainEntry(DrinkIntakeItem item){
+        for (Entry entryItem : entries
+                ) {
+            if(item.getTimeDrink().getDayDrink() == (int) entryItem.getX()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void addData(ArrayList<DrinkIntakeItem> arrDrink) {
         entries = new ArrayList<>();
-        entries.add(new Entry(5,6));
-        entries.add(new Entry(6,7));
-        entries.add(new Entry(7,8));
+        Date day = new Date();
+
+        if(arrDrink == null ) {
+            return;
+        }
+        for (DrinkIntakeItem item : arrDrink
+             ) {
+
+            int mon = item.getTimeDrink().getMonthDrink();
+            int yea = item.getTimeDrink().getYearDrink();
+            int daymon = day.getMonth();
+            int dayyear = day.getYear();
+            if( (day.getMonth()+1) == item.getTimeDrink().getMonthDrink() && (day.getYear() + 1900) == item.getTimeDrink().getYearDrink()) {
+                for (Entry entryItem : entries
+                     ) {
+                    if(item.getTimeDrink().getDayDrink() == (int) entryItem.getX()){
+                        entryItem.setY(entryItem.getY() + item.getAmountDrink());
+                        break;
+                    }
+                }
+                if(!checkContainEntry(item)) {
+                    entries.add(new Entry(item.getTimeDrink().getDayDrink(),item.getAmountDrink()));
+                }
+            }
+        }
 
         if(entries != null){
 

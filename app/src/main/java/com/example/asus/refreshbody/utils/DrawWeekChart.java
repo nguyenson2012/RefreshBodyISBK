@@ -37,8 +37,15 @@ public class DrawWeekChart extends DrawChart {
         super(chart, pieChart);
     }
 
-
-
+    private boolean checkContainEntry(int day){
+        for (Entry entryItem : entries
+                ) {
+            if((5*(day-1)) == (int) entryItem.getX()){
+                return true;
+            }
+        }
+        return false;
+    }
 
     public void addDataWeek(ArrayList<DrinkIntakeItem> arrDrink) {
         entries = new ArrayList<>();
@@ -50,7 +57,16 @@ public class DrawWeekChart extends DrawChart {
             c.set(Calendar.DAY_OF_MONTH,item.getTimeDrink().getDayDrink());
             //c.set(item.getTimeDrink().getYearDrink() ,item.getTimeDrink().getMonthDrink()  - 1, item.getTimeDrink().getDayDrink());
             int day = c.get(Calendar.DAY_OF_WEEK);
-            entries.add(new Entry(5*(day-1),item.getAmountDrink()));
+            for (Entry itemEntry: entries
+                 ) {
+                if(itemEntry.getX() == 5*(day-1)) {
+                    itemEntry.setY(itemEntry.getY() + item.getAmountDrink());
+                    break;
+                }
+            }
+            if (!checkContainEntry(day)) {
+                entries.add(new Entry(5*(day-1),item.getAmountDrink()));
+            }
 
         }
 

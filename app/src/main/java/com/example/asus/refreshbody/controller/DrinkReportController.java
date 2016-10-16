@@ -41,6 +41,8 @@ public class DrinkReportController {
             c1.setTime(previousDay);
             int thisday = c.get(Calendar.DAY_OF_WEEK);
             int beforeday = c1.get(Calendar.DAY_OF_WEEK);
+            int k = date.getDate();
+            int l = previousDay.getDate();
             if(beforeday <= thisday) {
                 currentArrDrink.add(item);
             }

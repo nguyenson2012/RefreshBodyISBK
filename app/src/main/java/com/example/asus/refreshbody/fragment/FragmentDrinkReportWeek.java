@@ -57,28 +57,54 @@ public class FragmentDrinkReportWeek extends Fragment {
         pieChart = (PieChart) fragmentview.findViewById(R.id.chartWeekPie);
 
         drawWeekChart = new DrawWeekChart(chart);
-        arrDrink = PlanDBHelper.getInstance(this.getActivity()).getAllDrinkIntake();
-//        arrDrink.add(new DrinkIntakeItem(1,"water",100,new TimeDrink(2016,10,11,10,10)));
-//        arrDrink.add(new DrinkIntakeItem(1,"water",200,new TimeDrink(2016,10,12,10,10)));
-//        arrDrink.add(new DrinkIntakeItem(1,"water",300,new TimeDrink(2016,10,13,10,10)));
-//        arrDrink.add(new DrinkIntakeItem(1,"water",100,new TimeDrink(2016,10,14,10,10)));
-//        arrDrink.add(new DrinkIntakeItem(1,"water",200,new TimeDrink(2016,10,15,10,10)));
-//
-//        arrDrink.add(new DrinkIntakeItem(1,"water",300,new TimeDrink(2016,10,16,10,10)));
-//        arrDrink.add(new DrinkIntakeItem(1,"water",300,new TimeDrink(2016,10,17,10,10)));
+  //      arrDrink = PlanDBHelper.getInstance(this.getActivity()).getAllDrinkIntake();
+        arrDrink.add(new DrinkIntakeItem(1,"water",100,new TimeDrink(2016,10,11,10,10)));
+        arrDrink.add(new DrinkIntakeItem(1,"water",200,new TimeDrink(2016,10,12,10,10)));
+        arrDrink.add(new DrinkIntakeItem(1,"water",300,new TimeDrink(2016,10,13,10,10)));
+        arrDrink.add(new DrinkIntakeItem(1,"water",100,new TimeDrink(2016,10,14,10,10)));
+        arrDrink.add(new DrinkIntakeItem(1,"water",200,new TimeDrink(2016,10,15,10,10)));
+
+        arrDrink.add(new DrinkIntakeItem(1,"water",300,new TimeDrink(2016,10,16,10,10)));
+        arrDrink.add(new DrinkIntakeItem(1,"water",300,new TimeDrink(2016,10,17,10,10)));
 
         drinkReportController = new DrinkReportController(arrDrink);
         drinkReportController.drawWeekLine(chart);
 
         pieChartDay = (PieChart) fragmentview.findViewById(R.id.chartPieDay) ;
         drawChartDay = new DrawChart(pieChartDay);
-        drinkReportController.drawPieChart(pieChartDay,60,100,"Day");
+        drinkReportController.drawPieChart(pieChartDay,totalDrinkDay(arrDrink),2000,"Day");
 
         pieChartWeek = (PieChart) fragmentview.findViewById(R.id.chartWeekPie) ;
-        drinkReportController.drawPieChart(pieChartWeek,70,100,"Week");
+        drinkReportController.drawPieChart(pieChartWeek,totalDrinkWeek(arrDrink),14000,"Week");
 
 
         return fragmentview;
+    }
+    public int totalDrinkDay(ArrayList<DrinkIntakeItem> arrDrink) {
+        Date day = new Date();
+        int total = 0;
+        for (DrinkIntakeItem item: arrDrink
+             ) {
+            if(day.getDate() == item.getTimeDrink().getDayDrink() && (day.getMonth() + 1) == item.getTimeDrink().getMonthDrink()) {
+                total = total + item.getAmountDrink();
+            }
+
+        }
+        return total;
+    }
+
+
+    public int totalDrinkWeek(ArrayList<DrinkIntakeItem> arrDrink){
+        int total = 0;
+        Date day = new Date();
+        for (DrinkIntakeItem item: arrDrink
+                ) {
+            if((day.getDate() - item.getTimeDrink().getDayDrink()) <7) {
+                total = total + item.getAmountDrink();
+            }
+        }
+
+        return total;
     }
 
     public void onButtonPressed(Uri uri) {

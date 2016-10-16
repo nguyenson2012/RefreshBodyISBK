@@ -29,9 +29,9 @@ public class FragmentNewspaper extends Fragment {
                              Bundle savedInstanceState) {
         final View fragmentview = inflater.inflate(R.layout.fragment_fragment_newspaper, container, false);
         // Inflate the layout for this fragment
-        webView =(WebView) fragmentview.findViewById(R.id.idNewspaper);
+       /* webView =(WebView) fragmentview.findViewById(R.id.idNewspaper);
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl("http://www.goclaptrinh.com");
+        webView.loadUrl("http://www.goclaptrinh.com");*/
         return fragmentview;
     }
 

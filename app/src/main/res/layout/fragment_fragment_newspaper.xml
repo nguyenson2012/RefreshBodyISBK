@@ -11,12 +11,11 @@
         android:text="@string/hello_blank_fragment" />
 
 
-    <WebView
+    <!--<WebView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/idNewspaper">
-    </WebView>
-
+    </WebView>-->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -24,16 +23,27 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
-            <FrameLayout
+            android:orientation="vertical">
+            <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <TableLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                android:layout_height="200dp">
+                <TableRow
+                    android:id="@+id/tableRow1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left" >
+                    <ImageView
+                        android:layout_width="@dimen/_150sdp"
+                        android:layout_height="@dimen/_150sdp"
+                        android:src="@drawable/ic_add_white_36dp"
+                        android:background="@android:color/background_dark"/>
+                    <TextView
+                        android:layout_width="@dimen/_150sdp"
+                        android:layout_height="@dimen/_150sdp"
+                        android:text="Xin chao moi nguoi \n anh dep trai that ma"/>
+                </TableRow>
 
-                </TableLayout>
-            </FrameLayout>
+            </TableLayout>
 
         </LinearLayout>
     </ScrollView>
