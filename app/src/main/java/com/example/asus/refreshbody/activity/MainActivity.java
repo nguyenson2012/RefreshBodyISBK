@@ -159,20 +159,16 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawerLis
     public void onDrawerItemSelected(View view, int position) {
         switch (position){
             case 0://Drink water
-                Toast.makeText(this,"Drink Water",Toast.LENGTH_SHORT).show();
                 screenManager.openFragmentWithAnimation(getSupportFragmentManager(),R.id.frame_container,fragmentDrinkWater,false);
                 break;
             case 1://Drink log
-                Toast.makeText(this,"Drink Log",Toast.LENGTH_SHORT).show();
                 screenManager.openFragmentWithAnimation(getSupportFragmentManager(),R.id.frame_container,fragmentDrinkLog,false);
                 break;
             case 2://Drink record
-                Toast.makeText(this,"Drink Record",Toast.LENGTH_SHORT).show();
                 Intent intentRecord = new Intent(MainActivity.this, DrinkReportActivity.class);
                 startActivity(intentRecord);
                 break;
             case 3://Reminder
-                Toast.makeText(this,"Reminder",Toast.LENGTH_SHORT).show();
                 screenManager.openFragmentWithAnimation(getSupportFragmentManager(), R.id.frame_container, fragmentReminder, false);
                 break;
             case 4: //Settings
