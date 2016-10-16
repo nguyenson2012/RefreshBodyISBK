@@ -36,7 +36,8 @@ public class DrinkReportController {
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
         for (DrinkIntakeItem item : arrDrink
              ) {
-            Date previousDay = new Date(item.getTimeDrink().getYearDrink(),item.getTimeDrink().getMonthDrink() - 1,item.getTimeDrink().getDayDrink());
+            int mon = item.getTimeDrink().getMonthDrink();
+            Date previousDay = new Date(item.getTimeDrink().getYearDrink() - 1900,item.getTimeDrink().getMonthDrink() - 1,item.getTimeDrink().getDayDrink());
             Calendar c1 = Calendar.getInstance();
             c1.setTime(previousDay);
             int thisday = c.get(Calendar.DAY_OF_WEEK);

@@ -57,7 +57,7 @@ public class FragmentDrinkReportWeek extends Fragment {
         pieChart = (PieChart) fragmentview.findViewById(R.id.chartWeekPie);
 
         drawWeekChart = new DrawWeekChart(chart);
-  //      arrDrink = PlanDBHelper.getInstance(this.getActivity()).getAllDrinkIntake();
+        //arrDrink = PlanDBHelper.getInstance(this.getActivity()).getAllDrinkIntake();
         arrDrink.add(new DrinkIntakeItem(1,"water",100,new TimeDrink(2016,10,11,10,10)));
         arrDrink.add(new DrinkIntakeItem(1,"water",200,new TimeDrink(2016,10,12,10,10)));
         arrDrink.add(new DrinkIntakeItem(1,"water",300,new TimeDrink(2016,10,13,10,10)));
@@ -66,6 +66,7 @@ public class FragmentDrinkReportWeek extends Fragment {
 
         arrDrink.add(new DrinkIntakeItem(1,"water",300,new TimeDrink(2016,10,16,10,10)));
         arrDrink.add(new DrinkIntakeItem(1,"water",300,new TimeDrink(2016,10,17,10,10)));
+        arrDrink.add(new DrinkIntakeItem(1,"water",100,new TimeDrink(2016,10,18,10,10)));
 
         drinkReportController = new DrinkReportController(arrDrink);
         drinkReportController.drawWeekLine(chart);
