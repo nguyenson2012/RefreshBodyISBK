@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Switch;
@@ -44,7 +45,7 @@ public class FragmentReminder extends Fragment implements View.OnClickListener, 
 
     private String TAG = FragmentReminder.this.getClass().getSimpleName();
 
-    private ImageButton addReminderButton;
+    private Button addReminderButton;
     private ListView listReminderDrink;
     private ListView listRestReminder;
     private ListView lisOtherReminder;
@@ -179,7 +180,7 @@ public class FragmentReminder extends Fragment implements View.OnClickListener, 
     }
 
     private void setupView(View layout) {
-        addReminderButton = (ImageButton) layout.findViewById(R.id.bt_add_plan);
+        addReminderButton = (Button) layout.findViewById(R.id.bt_add_plan);
         listReminderDrink = (ListView) layout.findViewById(R.id.list_reminder);
 //        listRestReminder = (ListView) layout.findViewById(R.id.list_rest);
 //        lisOtherReminder = (ListView) layout.findViewById(R.id.list_other_reminder);
